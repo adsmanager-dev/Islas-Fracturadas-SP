@@ -1,19 +1,71 @@
-# Sistema económico y logístico de campaña
+# Economía, logística, recursos y suministro
 
-> **Estado:** contrato rector previo a implementación.  
-> **Motor:** Arma 3 2.18.  
-> **Ámbito:** Altis, Stratis y rutas exteriores.  
-> **Territorio:** [TERRITORIAL_SECTOR_FRONT_AND_CONSTRUCTION_SYSTEM.md](TERRITORIAL_SECTOR_FRONT_AND_CONSTRUCTION_SYSTEM.md).  
-> **Fuerzas:** [MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md](MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md).  
-> **Estado autoritativo:** [PERSISTENT_CAMPAIGN_DATA_MODEL.md](PERSISTENT_CAMPAIGN_DATA_MODEL.md).
+> **Estado:** diseño confirmado y diseño en desarrollo
+> **Fuente de verdad para:** economía, recursos, logística y suministro
+> **Relacionados:** [11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md](11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md); [13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md](13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
+> **Última consolidación:** 2026-07-24
 
-## 1. Propósito
+## Propósito
+
+Centralizar economía, recursos, logística y suministro sin perder requisitos, decisiones, variantes ni trazabilidad de las fuentes anteriores.
+
+## Alcance
+
+Este documento reúne las fuentes enumeradas en su tabla de contenido. Las áreas cuya fuente de verdad pertenece a otro documento se conservan solo como contexto y remiten al índice documental.
+
+## Tabla de contenido
+
+- [ECONOMIC AND LOGISTICS SYSTEM](#fuente-economic-and-logistics-system)
+
+## Principios
+
+Rigen las [convenciones de canon](00_INDEX_AND_DOCUMENTATION_MAP.md#convenciones-de-canon). En el ámbito de 12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY, ninguna mención contextual desplaza la fuente principal ni convierte diseño previsto en implementación.
+
+## Reglas obligatorias
+
+Son obligatorias las reglas detalladas en las fuentes integradas de 12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY, junto con la conservación de etiquetas, granularidad de requisitos y separación entre conocimiento de autor, personajes, facciones y jugador.
+
+## Dependencias
+
+El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md#mapa-de-fuentes-de-verdad). Las referencias internas migradas incluyen un ancla de procedencia para mantener la trazabilidad hasta la sección de la fuente original.
+
+## Conflictos o decisiones pendientes
+
+Fuentes auditadas: `ECONOMIC_AND_LOGISTICS_SYSTEM.md`. No se identificó una pareja explícita de cánones mutuamente excluyentes. Las alternativas, hipótesis, cifras por calibrar y decisiones pendientes conservadas en esas fuentes requieren confirmación humana; su fecha no resuelve su autoridad.
+
+## Criterios de validación
+
+- Las fuentes declaradas para 12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY mantienen reglas, estados, secretos y pendientes.
+- Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
+- El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+## Contenido consolidado
+
+<a id="fuente-economic-and-logistics-system"></a>
+## Fuente integrada: `ECONOMIC_AND_LOGISTICS_SYSTEM.md`
+
+> **Procedencia:** contenido migrado de `ECONOMIC_AND_LOGISTICS_SYSTEM.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+
+<a id="src-economic-and-logistics-system--sistema-económico-y-logístico-de-campaña"></a>
+### Sistema económico y logístico de campaña
+
+> **Estado:** contrato rector previo a implementación.
+> **Motor:** Arma 3 2.18.
+> **Ámbito:** Altis, Stratis y rutas exteriores.
+> **Territorio:** [TERRITORIAL_SECTOR_FRONT_AND_CONSTRUCTION_SYSTEM.md](11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md#fuente-territorial-sector-front-and-construction-system).
+> **Fuerzas:** [MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md](13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md#fuente-military-system-order-of-battle-and-force-catalog).
+> **Estado autoritativo:** [PERSISTENT_CAMPAIGN_DATA_MODEL.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md#fuente-persistent-campaign-data-model).
+> **Presentación al jugador:** [STRATEGIC_UI_AND_PLAYER_EXPERIENCE_SYSTEM.md](15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md#fuente-strategic-ui-and-player-experience-system).
+
+<a id="src-economic-and-logistics-system--1-propósito"></a>
+#### 1. Propósito
 
 La economía y la logística determinan qué operaciones pueden ocurrir y cuánto pueden durar. No obligan al jugador a administrar cajas individuales.
 
 > Cada ejército depende de recursos, trabajadores, depósitos, vehículos e infraestructura que pueden protegerse, perderse, capturarse o destruirse.
 
-## 2. Decisión principal
+<a id="src-economic-and-logistics-system--2-decisión-principal"></a>
+#### 2. Decisión principal
 
 No existe una moneda universal que sustituya combustible, munición, medicina, alimentos, repuestos, materiales o personal.
 
@@ -26,7 +78,8 @@ Toda necesidad responde:
 
 Los recursos pertenecen a una facción o actor, pero también a una ubicación, una ruta y, a veces, un propietario legal diferente.
 
-## 3. Cuatro economías
+<a id="src-economic-and-logistics-system--3-cuatro-economías"></a>
+#### 3. Cuatro economías
 
 | Economía | Contenido | Finalidad |
 |---|---|---|
@@ -37,7 +90,8 @@ Los recursos pertenecen a una facción o actor, pero también a una ubicación, 
 
 Una misma ruta puede servir a varias economías y generar conflicto entre ellas.
 
-## 4. Recursos físicos
+<a id="src-economic-and-logistics-system--4-recursos-físicos"></a>
+#### 4. Recursos físicos
 
 ```text
 FOOD WATER FUEL
@@ -49,7 +103,8 @@ AVIATION_SUPPLIES NAVAL_SUPPLIES
 
 No hay conversión automática entre categorías.
 
-## 5. Recursos humanos
+<a id="src-economic-and-logistics-system--5-recursos-humanos"></a>
+#### 5. Recursos humanos
 
 ```text
 AVAILABLE_PERSONNEL TRAINED_INFANTRY VEHICLE_CREWS PILOTS
@@ -59,7 +114,8 @@ ADMINISTRATORS LOCAL_WORKERS
 
 Un trabajador portuario no se convierte inmediatamente en piloto, cirujano, técnico Helios o tripulante de carro.
 
-## 6. Capacidades operacionales
+<a id="src-economic-and-logistics-system--6-capacidades-operacionales"></a>
+#### 6. Capacidades operacionales
 
 ```text
 TRANSPORT_CAPACITY STORAGE_CAPACITY PORT_THROUGHPUT
@@ -69,7 +125,8 @@ MEDICAL_CAPACITY CONSTRUCTION_CAPACITY COMMAND_CAPACITY
 
 Tener el recurso no implica poder moverlo, almacenarlo o utilizarlo.
 
-## 7. Recursos políticos y sociales
+<a id="src-economic-and-logistics-system--7-recursos-políticos-y-sociales"></a>
+#### 7. Recursos políticos y sociales
 
 ```text
 POLITICAL_CAPITAL MUNICIPAL_COOPERATION CIVILIAN_TRUST
@@ -78,7 +135,8 @@ LABOR_COOPERATION INTERNATIONAL_SUPPORT BLACK_MARKET_ACCESS
 
 Modifican acceso, velocidad, legitimidad, sabotaje y coste político, pero no son materiales físicos.
 
-## 8. Unidad estratégica
+<a id="src-economic-and-logistics-system--8-unidad-estratégica"></a>
+#### 8. Unidad estratégica
 
 Las cantidades representan paquetes normalizados, no litros, balas o kilogramos exactos.
 
@@ -93,7 +151,8 @@ Las cantidades representan paquetes normalizados, no litros, balas o kilogramos 
 
 La interfaz prioriza suficiente, reducido y crítico; el balance interno conserva cantidades.
 
-## 9. Estado de existencias
+<a id="src-economic-and-logistics-system--9-estado-de-existencias"></a>
+#### 9. Estado de existencias
 
 ```text
 SURPLUS FULL ADEQUATE LOW CRITICAL EMPTY
@@ -101,7 +160,8 @@ SURPLUS FULL ADEQUATE LOW CRITICAL EMPTY
 
 `LOW` reduce consumo y actividad; `CRITICAL` reserva para funciones esenciales; `EMPTY` detiene la función dependiente.
 
-## 10. Localización y propiedad
+<a id="src-economic-and-logistics-system--10-localización-y-propiedad"></a>
+#### 10. Localización y propiedad
 
 Una existencia puede estar en reserva exterior, puerto, aeródromo, depósito, sector, convoy, vehículo, caché, instalación, mercado o red clandestina.
 
@@ -113,7 +173,8 @@ compatibilityProfile
 
 Control militar no elimina propiedad civil ni consecuencias de requisición.
 
-## 11. Producción regional
+<a id="src-economic-and-logistics-system--11-producción-regional"></a>
+#### 11. Producción regional
 
 | Tipo | Salidas |
 |---|---|
@@ -125,7 +186,8 @@ Control militar no elimina propiedad civil ni consecuencias de requisición.
 | Aeroportuario | transporte, mantenimiento, evacuación y logística aérea |
 | Técnico | electrónica, comunicaciones, Helios e inteligencia |
 
-## 12. Producción efectiva
+<a id="src-economic-and-logistics-system--12-producción-efectiva"></a>
+#### 12. Producción efectiva
 
 ```text
 actualOutput =
@@ -146,7 +208,8 @@ securityLevel inputResources outputResources
 
 Controlar una instalación no equivale a operarla.
 
-## 13. Cadenas productivas
+<a id="src-economic-and-logistics-system--13-cadenas-productivas"></a>
+#### 13. Cadenas productivas
 
 | Función | Inputs obligatorios |
 |---|---|
@@ -158,7 +221,8 @@ Controlar una instalación no equivale a operarla.
 
 Las reservas de arranque y la canibalización evitan dependencias circulares imposibles.
 
-## 14. Trabajo y movilización
+<a id="src-economic-and-logistics-system--14-trabajo-y-movilización"></a>
+#### 14. Trabajo y movilización
 
 ```text
 population workingPopulation availableWorkers displacedWorkers
@@ -169,7 +233,8 @@ Desplazamiento, reclutamiento, miedo, detenciones, bajas, huelgas y bloqueo redu
 
 Movilizar reservistas aumenta fuerza y reduce agricultura, transporte, reparación y administración.
 
-## 15. Red logística
+<a id="src-economic-and-logistics-system--15-red-logística"></a>
+#### 15. Red logística
 
 Nodos: puertos, aeropuertos, depósitos, centros, sectores, bases y cachés.
 
@@ -183,7 +248,8 @@ effectiveCapacity =
 
 Cada conexión conserva capacidad, estado, amenaza, clima, tráfico, uso civil y prioridad militar.
 
-## 16. Carreteras y cuellos de botella
+<a id="src-economic-and-logistics-system--16-carreteras-y-cuellos-de-botella"></a>
+#### 16. Carreteras y cuellos de botella
 
 ```text
 OPEN DEGRADED RESTRICTED BLOCKED DESTROYED MINED
@@ -191,7 +257,8 @@ OPEN DEGRADED RESTRICTED BLOCKED DESTROYED MINED
 
 Daño reduce capacidad y velocidad, aumenta consumo, averías y desvíos. Puentes, cruces y estrechamientos pueden limitar una ruta completa y requieren ingeniería, materiales, tiempo y seguridad.
 
-## 17. Puertos
+<a id="src-economic-and-logistics-system--17-puertos"></a>
+#### 17. Puertos
 
 ```text
 berthCapacity unloadingCapacity storageCapacity fuelHandling
@@ -206,7 +273,8 @@ CLOSED BLOCKADED CONTESTED LIMITED OPERATIONAL FULL_CAPACITY
 
 Capturar un puerto no crea estibadores, operadores, conductores, mecánicos, administración ni seguridad. Coerción puede recuperar parte del trabajo a cambio de sabotaje, accidentes y agravios.
 
-## 18. Perfiles portuarios
+<a id="src-economic-and-logistics-system--18-perfiles-portuarios"></a>
+#### 18. Perfiles portuarios
 
 | Puerto | Perfil |
 |---|---|
@@ -215,7 +283,8 @@ Capturar un puerto no crea estibadores, operadores, conductores, mecánicos, adm
 | Molos | menor capacidad, función militar y entrada Roja |
 | Puertos menores | poco volumen, infiltración y apoyo local |
 
-## 19. Aeropuertos
+<a id="src-economic-and-logistics-system--19-aeropuertos"></a>
+#### 19. Aeropuertos
 
 ```text
 runwayCondition airTrafficControl fuelAvailability
@@ -231,7 +300,8 @@ DESTROYED UNUSABLE EMERGENCY_ONLY LIMITED OPERATIONAL FULL
 
 AAC funciona como dispersión y apoyo avanzado. Molos sostiene la cabeza Roja y operaciones regionales.
 
-## 20. Cabeza de playa
+<a id="src-economic-and-logistics-system--20-cabeza-de-playa"></a>
+#### 20. Cabeza de playa
 
 | Nivel | Capacidad |
 |---:|---|
@@ -242,7 +312,8 @@ AAC funciona como dispersión y apoyo avanzado. Molos sostiene la cabeza Roja y 
 
 Pierde valor relativo cuando un puerto o aeropuerto superior entra en servicio.
 
-## 21. Centros logísticos
+<a id="src-economic-and-logistics-system--21-centros-logísticos"></a>
+#### 21. Centros logísticos
 
 | Centro | Escala |
 |---|---|
@@ -259,7 +330,8 @@ hazardousCapacity securedCapacity
 
 Sobreocupación aumenta deterioro, accidente, sabotaje y pérdida.
 
-## 22. Doctrina de almacenamiento
+<a id="src-economic-and-logistics-system--22-doctrina-de-almacenamiento"></a>
+#### 22. Doctrina de almacenamiento
 
 - Azul dispersa depósitos modulares.
 - Rojo utiliza centros protegidos y escalonados.
@@ -267,7 +339,8 @@ Sobreocupación aumenta deterioro, accidente, sabotaje y pérdida.
 - FIA distribuye cachés pequeños sin dependencia única.
 - Meridian mantiene reservas ocultas y redundantes.
 
-## 23. Convoy
+<a id="src-economic-and-logistics-system--23-convoy"></a>
+#### 23. Convoy
 
 ```text
 convoyId ownerFactionId origin destination cargo vehicles escort
@@ -281,7 +354,8 @@ PLANNED ASSEMBLING LOADING READY EN_ROUTE DELAYED DIVERTED
 UNDER_ATTACK BROKEN ARRIVED ABANDONED CAPTURED DESTROYED
 ```
 
-## 24. Tipos y construcción de convoy
+<a id="src-economic-and-logistics-system--24-tipos-y-construcción-de-convoy"></a>
+#### 24. Tipos y construcción de convoy
 
 | Tipo | Función |
 |---|---|
@@ -294,7 +368,8 @@ UNDER_ATTACK BROKEN ARRIVED ABANDONED CAPTURED DESTROYED
 
 El sistema calcula carga, capacidad, vehículos, escolta, ruta, riesgo, horario y prioridad. Combustible, personal, medicina y refugiados usan composiciones distintas.
 
-## 25. Prioridad logística
+<a id="src-economic-and-logistics-system--25-prioridad-logística"></a>
+#### 25. Prioridad logística
 
 ```text
 CRITICAL HIGH NORMAL LOW DEFERRED
@@ -304,19 +379,22 @@ CRITICAL HIGH NORMAL LOW DEFERRED
 
 Escoltar un convoy resta tropas a guarnición, reserva y ofensiva.
 
-## 26. Interdicción
+<a id="src-economic-and-logistics-system--26-interdicción"></a>
+#### 26. Interdicción
 
 Las rutas recuerdan ataques, minas, pérdidas, observación y sabotaje. La respuesta puede aumentar escolta, variar horario, desviar, engañar, despejar, volar o cancelar.
 
 FIA eleva el coste de una carretera sin ocuparla permanentemente.
 
-## 27. Simulación de convoyes
+<a id="src-economic-and-logistics-system--27-simulación-de-convoyes"></a>
+#### 27. Simulación de convoyes
 
 Fuera de pantalla avanzan según ruta, velocidad, seguridad, amenazas y eventos. Se materializan cerca del jugador, bajo ataque, en misión o con personaje/activo crítico.
 
 La pérdida afecta carga, vehículos, personal, confianza, programación y operaciones futuras.
 
-## 28. Consumo militar
+<a id="src-economic-and-logistics-system--28-consumo-militar"></a>
+#### 28. Consumo militar
 
 El consumo depende de personal, vehículos, actividad, combate, clima, distancia y doctrina.
 
@@ -328,7 +406,8 @@ El consumo depende de personal, vehículos, actividad, combate, clima, distancia
 | `COMBAT` | munición, medicina, combustible y desgaste |
 | `REORGANIZING` | piezas, medicina, reemplazos y munición |
 
-## 29. Infantería, vehículos y munición
+<a id="src-economic-and-logistics-system--29-infantería-vehículos-y-munición"></a>
+#### 29. Infantería, vehículos y munición
 
 Infantería consume alimento, agua, munición ligera y medicina. Escasez reduce moral, preparación y patrullas, y aumenta enfermedad o deserción.
 
@@ -343,19 +422,22 @@ ARTILLERY_AMMO EXPLOSIVES
 
 Escasez restringe la capacidad correspondiente; nunca convierte una categoría en otra.
 
-## 30. Conflicto del combustible
+<a id="src-economic-and-logistics-system--30-conflicto-del-combustible"></a>
+#### 30. Conflicto del combustible
 
 Combustible sostiene blindados, convoyes, aviación, generadores, hospitales, Helios y agua.
 
 Requisar reservas civiles puede detener transporte, agricultura y mercados. Una crisis puede obligar a elegir entre hospital, QRF y nodo Helios.
 
-## 31. Medicina y capacidad
+<a id="src-economic-and-logistics-system--31-medicina-y-capacidad"></a>
+#### 31. Medicina y capacidad
 
 Medicina se consume por bajas, civiles, enfermedades, hospitales y desplazados. Requiere médicos, camas, electricidad, agua y evacuación.
 
 Existencias altas con capacidad médica baja no producen tratamiento eficaz.
 
-## 32. Repuestos y mantenimiento
+<a id="src-economic-and-logistics-system--32-repuestos-y-mantenimiento"></a>
+#### 32. Repuestos y mantenimiento
 
 ```text
 LIGHT_PARTS HEAVY_PARTS AVIATION_PARTS ELECTRONIC_PARTS
@@ -370,17 +452,20 @@ LIGHT_PARTS HEAVY_PARTS AVIATION_PARTS ELECTRONIC_PARTS
 
 Un vehículo puede necesitar traslado a otro sector.
 
-## 33. Desgaste y canibalización
+<a id="src-economic-and-logistics-system--33-desgaste-y-canibalización"></a>
+#### 33. Desgaste y canibalización
 
 Distancia, terreno, uso, polvo, sobrecarga, tripulación y mantenimiento modifican desgaste, averías y disponibilidad.
 
 Canibalizar un activo produce piezas, munición, componentes o inteligencia, pero lo destruye definitivamente. FIA y Verde dependen más de esta opción.
 
-## 34. Recuperación
+<a id="src-economic-and-logistics-system--34-recuperación"></a>
+#### 34. Recuperación
 
 Recuperar un vehículo exige acceso, seguridad, ingeniería, remolque/transporte, ruta y taller. Puede generar una misión expuesta a emboscada, artillería o contraataque.
 
-## 35. Materiales, electrónica y energía
+<a id="src-economic-and-logistics-system--35-materiales-electrónica-y-energía"></a>
+#### 35. Materiales, electrónica y energía
 
 Construcción compite con reparación militar, fortificación, puentes, vivienda y hospitales.
 
@@ -394,15 +479,17 @@ BLACKOUT CRITICAL RATIONED STABLE SURPLUS
 
 Prioridad civil inicial: hospitales, agua, comunicaciones, Gobierno, industria, Helios y usos secundarios. Cada facción puede alterarla.
 
-## 36. Agua y alimentos
+<a id="src-economic-and-logistics-system--36-agua-y-alimentos"></a>
+#### 36. Agua y alimentos
 
 Agua necesita fuente, bombeo, electricidad, tratamiento y transporte. Apagón, contaminación, daño o bloqueo pueden crear una crisis equivalente a la falta de munición.
 
 Alimentos proceden de agricultura, pesca, almacenes, importación y ayuda. Guerra, falta de combustible, movilización y rutas cortadas elevan desplazamiento, mercado negro y radicalización.
 
-## 37. Economía civil
+<a id="src-economic-and-logistics-system--37-economía-civil"></a>
+#### 37. Economía civil
 
-La disponibilidad de trabajo, mercados, requisiciones, propiedad, compensación, desplazamiento y retorno modifica la economía según [CIVIL_MUNICIPAL_POLITICAL_STABILITY_SYSTEM.md](CIVIL_MUNICIPAL_POLITICAL_STABILITY_SYSTEM.md). Este documento conserva la autoridad sobre recursos, producción y flujos físicos.
+La disponibilidad de trabajo, mercados, requisiciones, propiedad, compensación, desplazamiento y retorno modifica la economía según [CIVIL_MUNICIPAL_POLITICAL_STABILITY_SYSTEM.md](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md#fuente-civil-municipal-political-stability-system). Este documento conserva la autoridad sobre recursos, producción y flujos físicos.
 
 ```text
 economicActivity marketAvailability employment inflationPressure
@@ -421,7 +508,8 @@ foodAvailability fuelAvailability transportAvailability
 
 No se simulan transacciones individuales.
 
-## 38. Mercado negro y contrabando
+<a id="src-economic-and-logistics-system--38-mercado-negro-y-contrabando"></a>
+#### 38. Mercado negro y contrabando
 
 El mercado negro ofrece combustible, armas, medicina, información, transporte y documentos a cambio de capital político, favores, corrupción y exposición.
 
@@ -429,7 +517,8 @@ Riesgos: infiltración, material defectuoso, delincuencia, Argos y pérdida de l
 
 Contrabandistas usan costa, caminos, documentos, depósitos y trabajadores. Una ruta puede mover armas, medicina o familias en momentos diferentes.
 
-## 39. Requisición
+<a id="src-economic-and-logistics-system--39-requisición"></a>
+#### 39. Requisición
 
 Modalidades:
 
@@ -441,17 +530,20 @@ Puede transferir alimentos, combustible, vehículos, edificios, trabajadores o m
 
 > Requisar traslada recursos desde la economía civil; no los crea.
 
-## 40. Compensación y ayuda
+<a id="src-economic-and-logistics-system--40-compensación-y-ayuda"></a>
+#### 40. Compensación y ayuda
 
 Compensación usa presupuesto, ayuda exterior, vales, contratos, protección o devolución futura. Su credibilidad depende de Gobierno, historial, estabilidad y autoridad.
 
 Ayuda humanitaria necesita puerto/aeropuerto, ruta, protección, distribución y legitimidad. Militarizarla aumenta dependencia y riesgo de ataque.
 
-## 41. Capital político
+<a id="src-economic-and-logistics-system--41-capital-político"></a>
+#### 41. Capital político
 
 Permite solicitar refuerzos, fondos, contratos, ayuda y escalada. Se consume con ocupación, bajas, daño civil, incumplimiento y nuevas oleadas; se recupera con victorias, legitimidad, acuerdos, protección civil y resultados públicos.
 
-## 42. Reconstrucción
+<a id="src-economic-and-logistics-system--42-reconstrucción"></a>
+#### 42. Reconstrucción
 
 ```text
 HOUSING ROADS POWER WATER MEDICAL PORT AIRFIELD
@@ -462,7 +554,8 @@ Requiere materiales, trabajadores, seguridad, administración, tiempo y financia
 
 La población evalúa qué se repara, dónde, quién trabaja y quién se beneficia. Un puerto exclusivamente militar no genera el mismo apoyo que uno comercial.
 
-## 43. Captura y compatibilidad
+<a id="src-economic-and-logistics-system--43-captura-y-compatibilidad"></a>
+#### 43. Captura y compatibilidad
 
 Al capturar se resuelven recursos intactos, evacuados, destruidos, ocultos y saboteados según tiempo, doctrina, trabajadores, inteligencia y velocidad.
 
@@ -473,7 +566,8 @@ Al capturar se resuelven recursos intactos, evacuados, destruidos, ocultos y sab
 | Especializada | misiles, electrónica, aviación y Helios |
 | Desconocida | trampas, seguimiento, sabotaje o archivos |
 
-## 44. Sabotaje
+<a id="src-economic-and-logistics-system--44-sabotaje"></a>
+#### 44. Sabotaje
 
 Visible: explosión, incendio o destrucción.
 
@@ -481,7 +575,8 @@ Oculto: combustible contaminado, piezas defectuosas, inventarios falsos, retraso
 
 Puede afectar depósitos, convoyes, puentes, energía, grúas, registros y talleres.
 
-## 45. Helios y Argos
+<a id="src-economic-and-logistics-system--45-helios-y-argos"></a>
+#### 45. Helios y Argos
 
 Helios mejora predicción, rutas, inventarios, tráfico, mantenimiento y distribución energética. Mayor integración aumenta el daño potencial de desconexión o datos falsos.
 
@@ -491,7 +586,8 @@ Argos no crea combustible, vehículos, trabajadores ni carreteras.
 
 Indicadores: diferencias físico/digitales, convoyes inexistentes, consumo imposible, rutas comprometidas, carga hacia S-26 y mantenimiento de personas muertas.
 
-## 46. Perfiles logísticos
+<a id="src-economic-and-logistics-system--46-perfiles-logísticos"></a>
+#### 46. Perfiles logísticos
 
 | Actor | Ventaja | Debilidad | Prioridad |
 |---|---|---|---|
@@ -501,13 +597,15 @@ Indicadores: diferencias físico/digitales, convoyes inexistentes, consumo impos
 | FIA | bajo consumo, apoyo, rutas y cachés | poca capacidad y reparación | distribución redundante |
 | Meridian | reservas, precisión y acceso oculto | aislamiento y poca producción | energía, técnicos y evacuación |
 
-## 47. Stratis
+<a id="src-economic-and-logistics-system--47-stratis"></a>
+#### 47. Stratis
 
 Stratis no sostiene HELIOS-CORE indefinidamente. Depende de combustible, repuestos, alimentos, medicina y electrónica.
 
 Argos mantiene semanas de reservas para aislamiento, defensa, evacuación y destrucción de archivos. Un bloqueo prolongado provoca racionamiento, reducción de Helios, negociación o evacuación.
 
-## 48. Distribución automática
+<a id="src-economic-and-logistics-system--48-distribución-automática"></a>
+#### 48. Distribución automática
 
 | Prioridad | Contenido |
 |---:|---|
@@ -519,15 +617,17 @@ Argos mantiene semanas de reservas para aislamiento, defensa, evacuación y dest
 
 Cuando demandas incompatibles compiten, el comandante decide según doctrina, autoridad e información.
 
-## 49. Intervención del jugador
+<a id="src-economic-and-logistics-system--49-intervención-del-jugador"></a>
+#### 49. Intervención del jugador
 
 El jugador prioriza frentes, protege rutas, solicita suministros, reasigna transporte, ordena recuperación, acepta requisición, recomienda evacuación e interviene en crisis.
 
 Rango bajo solicita; rango alto modifica prioridades regionales. No administra cada convoy.
 
-## 50. Misiones logísticas
+<a id="src-economic-and-logistics-system--50-misiones-logísticas"></a>
+#### 50. Misiones logísticas
 
-La economía crea necesidades; no crea tareas arbitrarias. Su conversión en escolta, despeje, contraemboscada, recuperación, negociación, transporte alternativo o resolución externa se rige por [DYNAMIC_MISSIONS_AND_EMERGENT_EVENTS.md](DYNAMIC_MISSIONS_AND_EMERGENT_EVENTS.md).
+La economía crea necesidades; no crea tareas arbitrarias. Su conversión en escolta, despeje, contraemboscada, recuperación, negociación, transporte alternativo o resolución externa se rige por [DYNAMIC_MISSIONS_AND_EMERGENT_EVENTS.md](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md#fuente-dynamic-missions-and-emergent-events).
 
 ```text
 ESCORT RECOVERY ROUTE_CLEARANCE PORT_REOPENING HUB_EVACUATION
@@ -535,7 +635,8 @@ FUEL_SABOTAGE HOSPITAL_POWER REQUISITION_NEGOTIATION
 CLANDESTINE_ROUTE PHAROS_CARGO
 ```
 
-## 51. Centro logístico
+<a id="src-economic-and-logistics-system--51-centro-logístico"></a>
+#### 51. Centro logístico
 
 ```sqf
 LOG_HUB_BLUE_NEOCHORI = createHashMapFromArray [
@@ -562,7 +663,8 @@ LOG_HUB_BLUE_NEOCHORI = createHashMapFromArray [
 
 `frontDepth` es un valor calculado y no forma parte de la autoridad persistente del centro.
 
-## 52. Producción
+<a id="src-economic-and-logistics-system--52-producción"></a>
+#### 52. Producción
 
 ```sqf
 PROD_ALT_CW_POLIAKKO = createHashMapFromArray [
@@ -582,7 +684,8 @@ PROD_ALT_CW_POLIAKKO = createHashMapFromArray [
 ];
 ```
 
-## 53. Convoy persistente
+<a id="src-economic-and-logistics-system--53-convoy-persistente"></a>
+#### 53. Convoy persistente
 
 ```sqf
 CONVOY_BLUE_014 = createHashMapFromArray [
@@ -608,7 +711,8 @@ CONVOY_BLUE_014 = createHashMapFromArray [
 ];
 ```
 
-## 54. Ritmos
+<a id="src-economic-and-logistics-system--54-ritmos"></a>
+#### 54. Ritmos
 
 | Intervalo | Proceso |
 |---|---|
@@ -617,7 +721,8 @@ CONVOY_BLUE_014 = createHashMapFromArray [
 | 1 h estratégica | civiles, trabajo, hospitales, energía y mercado |
 | 1 día | cosecha, reemplazos, política, reconstrucción, inflación y desplazamiento |
 
-## 55. Pipeline
+<a id="src-economic-and-logistics-system--55-pipeline"></a>
+#### 55. Pipeline
 
 1. calcular potencial;
 2. validar inputs, infraestructura y trabajadores;
@@ -630,7 +735,8 @@ CONVOY_BLUE_014 = createHashMapFromArray [
 9. transferir existencias;
 10. crear eventos y misiones.
 
-## 56. Transacción autoritativa
+<a id="src-economic-and-logistics-system--56-transacción-autoritativa"></a>
+#### 56. Transacción autoritativa
 
 ```text
 RESERVE LOAD DEPART MOVE ARRIVE UNLOAD COMMIT
@@ -644,7 +750,8 @@ ROLLBACK PARTIAL_LOSS CAPTURE DESTROY
 
 Toda transferencia posee ID idempotente y se ejecuta en el servidor. Materialización, guardado, reconexión o repetición de evento no pueden duplicar recursos.
 
-## 57. Invariantes
+<a id="src-economic-and-logistics-system--57-invariantes"></a>
+#### 57. Invariantes
 
 1. un recurso no existe en dos ubicaciones;
 2. un convoy no supera capacidad;
@@ -662,7 +769,8 @@ Toda transferencia posee ID idempotente y se ejecuta en el servidor. Materializa
 14. clientes no modifican existencias;
 15. convoy físico y virtual nunca se duplican.
 
-## 58. Vertical slice
+<a id="src-economic-and-logistics-system--58-vertical-slice"></a>
+#### 58. Vertical slice
 
 Sectores: Katalaki, Neochori, Stavros–Whiskey, Lakka, AAC, Poliakko–Therisa, Xirolimni–Zaros, Airport West y Airport Terminal.
 
@@ -677,7 +785,8 @@ Centros: cabeza Katalaki, distribución Neochori, depósito Verde Whiskey, agric
 
 Rutas: Katalaki–Neochori, Neochori–Stavros, Stavros–Lakka, Lakka–Airport West, Poliakko–Neochori y AAC–Lakka.
 
-## 59. Pruebas
+<a id="src-economic-and-logistics-system--59-pruebas"></a>
+#### 59. Pruebas
 
 1. agotar fuerzas sin convoyes;
 2. transferir Katalaki–Neochori sin duplicación;
@@ -690,7 +799,8 @@ Rutas: Katalaki–Neochori, Neochori–Stavros, Stavros–Lakka, Lakka–Airport
 9. materializar/reintegrar un convoy atacado;
 10. requisar y medir producción y confianza.
 
-## 60. Orden de implementación
+<a id="src-economic-and-logistics-system--60-orden-de-implementación"></a>
+#### 60. Orden de implementación
 
 1. existencias, depósitos, transferencias y consumo;
 2. convoyes, rutas, escoltas y pérdidas;
@@ -701,7 +811,8 @@ Rutas: Katalaki–Neochori, Neochori–Stavros, Stavros–Lakka, Lakka–Airport
 7. reconstrucción, prioridades y legitimidad;
 8. optimización Helios, manipulación Argos y Stratis.
 
-## 61. Funciones conceptuales
+<a id="src-economic-and-logistics-system--61-funciones-conceptuales"></a>
+#### 61. Funciones conceptuales
 
 ```text
 IF_fnc_economyTick
@@ -718,11 +829,13 @@ IF_fnc_requisitionResolve IF_fnc_reconstructionEvaluate
 IF_fnc_blackMarketResolve
 ```
 
-## 62. Prohibiciones
+<a id="src-economic-and-logistics-system--62-prohibiciones"></a>
+#### 62. Prohibiciones
 
 No se permite moneda universal, recurso sin ubicación, convoy sin vehículos, suministro creado al capturar, puerto sin trabajadores, pista destruida operativa, combustible gratuito, consumo ignorado, reparación pesada en aldeas, construcción sin material, requisición sin civiles, producción plena bajo combate, duplicación al materializar, gran depósito P0, grandes convoyes FIA permanentes, Meridian infinito, Helios creador de recursos, importación instantánea ni movilización sin coste económico.
 
-## 63. Principios vinculantes
+<a id="src-economic-and-logistics-system--63-principios-vinculantes"></a>
+#### 63. Principios vinculantes
 
 1. recursos, depósitos y convoyes tienen ubicación;
 2. rutas y centros tienen capacidad;
@@ -740,7 +853,8 @@ No se permite moneda universal, recurso sin ubicación, convoy sin vehículos, s
 14. el jugador prioriza, no lleva contabilidad unidad por unidad;
 15. el servidor gobierna toda transferencia.
 
-## 64. Definición final
+<a id="src-economic-and-logistics-system--64-definición-final"></a>
+#### 64. Definición final
 
 Una fuerza combate con las armas que posee y continúa combatiendo con los recursos que todavía puede transportar.
 

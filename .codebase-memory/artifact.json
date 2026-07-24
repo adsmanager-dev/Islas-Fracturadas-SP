@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "HEAD",
-    "indexed_at": "2026-07-24T18:53:52Z",
+    "commit": "d0190d7b10fba4eb55160069560911db1a62daff",
+    "indexed_at": "2026-07-24T20:25:18Z",
     "project": "islas-fracturadas-docs",
-    "nodes": 2102,
-    "edges": 2087,
-    "original_size": 3932160,
-    "compressed_size": 270055,
+    "nodes": 4755,
+    "edges": 4730,
+    "original_size": 6619136,
+    "compressed_size": 574852,
     "compression_level": 3
 }
