@@ -1,9 +1,9 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado:** diseño confirmado e implementación parcial
+> **Estado del contenedor:** diseño técnico confirmado; implementación jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -39,6 +39,86 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 - Las fuentes declaradas para 19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="instantanea-autoritativa-del-estado-real"></a>
+## Instantánea autoritativa del estado real
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Fecha de corte:** 2026-07-25
+> **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
+
+| Campo | Estado real |
+| --- | --- |
+| Fase actual | Preimplementación |
+| Subfase | Cierre documental y preparación de Fase 0 |
+| Último gate aprobado | `DOC-GATE-01 — Integridad estructural documental` |
+| Hito técnico aprobado | Ninguno |
+| Próximo hito | `M0 — Esqueleto técnico ejecutable` |
+| Implementación jugable | No iniciada |
+| Entregables presentes | 20 documentos consolidados y estructura vacía de carpetas |
+| Entregables ausentes | `mission.sqm`, `description.ext`, inicializadores, SQF, configuración funcional y pruebas de motor |
+| Pruebas ejecutadas | Integridad de enlaces, anclas, IDs, Markdown y coherencia documental básica |
+| Pruebas de Arma 3 | Ninguna registrada |
+| Bloqueadores canónicos | Ninguno para iniciar Fase 0; Vardis y Verdad Comparada quedaron cerrados por `DEC-003`–`DEC-005` |
+| Bloqueadores técnicos posteriores | Geografía 3DEN, adaptación vanilla y benchmark provisional |
+| Estado de Fase 0 | No iniciada |
+
+<a id="doc-gate-01"></a>
+### DOC-GATE-01 — Integridad estructural documental
+
+> **Estado:** aprobado el 2026-07-25.
+> **Alcance:** integridad de la biblioteca, no implementación, 3DEN ni ejecución dentro de Arma 3.
+
+Evidencia registrada:
+
+- la biblioteca contiene exactamente 20 documentos;
+- no existen enlaces locales a archivos ausentes;
+- no existen anclas explícitas rotas ni IDs explícitos duplicados dentro de un archivo;
+- los bloques de código Markdown están equilibrados;
+- el estado real del repositorio se distingue del diseño previsto;
+- las decisiones `DEC-001`–`DEC-007` tienen fuente, efecto y trazabilidad.
+
+`DOC-GATE-01` no equivale a `M0`. `M0` exige misión iniciable, funciones registradas, bootstrap, logging verificable y un RPT sin errores críticos.
+
+<a id="registro-autoritativo-de-decisiones"></a>
+## Registro autoritativo de decisiones
+
+> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006` y `DEC-007`.
+
+| ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
+| --- | --- | --- | --- | --- |
+| `DEC-001` | El proyecto tiene diseño conceptual y técnico consolidado; la implementación jugable no se ha iniciado. | 18, 19 y README | No se usa `IMPLEMENTADO` hasta existir artefacto funcional y evidencia. | adoptada |
+| `DEC-002` | La V1 es campaña individual; el cooperativo de un solo bando es una ampliación futura preparada arquitectónicamente. | 01, 15, 18 y 19 | Ningún requisito cooperativo bloquea Fase 0 ni la primera campaña SP. | adoptada |
+| `DEC-003` | Una campaña puede demostrar Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y una dirección clandestina; puede inferir a Vardis, pero no autenticar su presencia física ni capturarlo. | 03, 08, 09, 15–19 | `vardisConfirmed == false` durante una campaña aislada. | adoptada |
+| `DEC-004` | Completar ambas campañas desbloquea Verdad Comparada, sala de dirección, confirmación física y desenlaces de captura, muerte, juicio, negociación o fuga de Vardis. | 03, 08, 09, 15–19 | Todo desenlace físico de Vardis exige `dualCampaignCompleted == true` y operación dual desbloqueada. | adoptada |
+| `DEC-005` | No existe “equivalente excepcional” a completar ambas campañas en V1. | 03 y 09 | S4 solo se desbloquea al completar Azul y Rojo. | adoptada |
+| `DEC-006` | Los 38 sectores son arquitectura territorial de diseño hasta validar coordenadas, límites, rutas y anclajes en 3DEN. | 10, 11, 18 y 19 | Ningún dato físico recibe `VALIDADO_3DEN` antes de evidencia de editor y motor. | adoptada |
+| `DEC-007` | AZUR-1 y RUBÍ-1 no pasan a producción sin matriz vanilla completa y sustituciones sin DLC. | 13, 15 y 19 | Los perfiles protagonistas conservan `PROPUESTA` hasta aprobar la matriz. | adoptada |
+
+Toda modificación incompatible requiere actualizar este registro, las fuentes temáticas afectadas y las pruebas correspondientes. Una futura alternativa a la comparación dual requerirá una decisión nueva; no puede reactivar silenciosamente la redacción descartada por `DEC-005`.
+
+<a id="backlog-ejecutable-inicial-de-fase-0"></a>
+## Backlog ejecutable inicial de Fase 0
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Estado global:** no iniciado.
+
+| ID | Tarea | Dependencia | Propietario previsto | Requisito / prueba | Criterio de aceptación | Estado | Evidencia / versión |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | pendiente | — |
+| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | pendiente | — |
+| `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | pendiente | — |
+| `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | pendiente | — |
+| `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | pendiente | — |
+| `F0-006` | Crear bootstrap `preInit`/`postInit` | `F0-005` | `core/bootstrap/` | inicialización 18; prueba de ciclos | Ambos ciclos dejan evidencia diferenciada en RPT | pendiente | — |
+| `F0-007` | Implementar logger mínimo | `F0-006` | `core/logging/` | logging 18; prueba RPT | Cada log incluye nivel, módulo y mensaje | pendiente | — |
+| `F0-008` | Crear configuración y validación de IDs | `F0-004` | `core/ids/` y `data/` | IDs estables 18; prueba negativa | El validador detecta ID vacío o duplicado | pendiente | — |
+| `F0-009` | Crear modo diagnóstico | `F0-006`, `F0-007` | `diagnostics/` | diagnóstico 18; activación/desactivación | Puede activarse sin modificar la lógica normal | pendiente | — |
+| `F0-010` | Crear escenario smoke test | `F0-002`–`F0-009` | `tests/` y misión Altis | inicio, función y logging | Inicio, función registrada y logging pasan en una ejecución | pendiente | — |
+| `F0-011` | Ejecutar gate de RPT | `F0-010` | `tests/` y evidencia externa | criterios de salida de Fase 0 | No hay errores críticos ni funciones ausentes en RPT | pendiente | — |
+| `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | pendiente | — |
+
+Cada tarea conservará ID, archivo o módulo propietario, requisitos relacionados, pruebas, estado, evidencia y versión o commit. Ninguna puede marcarse completada solo porque exista documentación de diseño.
 
 ## Contenido consolidado
 
@@ -1967,7 +2047,10 @@ Verificar que:
 * la información recibida difiere;
 * los tiempos son compatibles;
 * los resultados no se contradicen sin explicación;
-* la verdad comparada funciona.
+* la verdad comparada funciona;
+* una campaña aislada mantiene `vardisConfirmed == false`;
+* solo `dualCampaignCompleted == true` puede desbloquear `dualOperationUnlocked`, confirmar a Vardis y generar sus destinos físicos;
+* snapshots incompatibles con esas precondiciones son rechazados.
 
 ---
 
@@ -6116,7 +6199,7 @@ Requisitos:
 * múltiples rutas;
 * Petrou;
 * PHAROS;
-* Vardis;
+* dirección clandestina e identidad probable de Vardis;
 * Mercer;
 * nodos;
 * decisiones;
@@ -6175,7 +6258,7 @@ Vardis muerto
 Vardis escapa
 ```
 
-Estas familias se combinarán con resultados políticos.
+Las familias físicas de Vardis solo se generan en la variante comparada cuando `dualCampaignCompleted == true` y `dualOperationUnlocked == true`. Una campaña aislada registra `Vardis no confirmado` y resuelve Helios, Argos y Stratis sin asignarle destino físico. Las familias válidas se combinarán con resultados políticos.
 
 ---
 
@@ -6187,7 +6270,8 @@ Después de completar ambas:
 * identificar evidencias compartidas;
 * mostrar contradicciones;
 * desbloquear conclusión S4;
-* presentar epílogo comparado.
+* confirmar físicamente a Vardis y desbloquear la sala de dirección;
+* presentar epílogo comparado y, cuando corresponda, captura, muerte, juicio, negociación o fuga.
 
 <a id="src-master-implementation-and-production-plan--regla-5"></a>
 #### Regla
@@ -7374,6 +7458,8 @@ Islas Fracturadas será técnicamente exitosa cuando:
 <a id="src-master-implementation-and-production-plan--155-primer-backlog-ejecutable"></a>
 ### 155. Primer backlog ejecutable
 
+> **Trazabilidad:** esta lista heredada conserva el alcance maestro. Para Fase 0, su desglose operativo vigente es el [backlog `F0-001`–`F0-012`](#backlog-ejecutable-inicial-de-fase-0), que añade dependencias, propietario, prueba, estado y evidencia.
+
 <a id="src-master-implementation-and-production-plan--bloque-a-repositorio"></a>
 #### Bloque A — Repositorio
 
@@ -7585,4 +7671,4 @@ Se construirá como la consecuencia técnica, logística, política, narrativa e
 <a id="src-master-implementation-and-production-plan--estado-final-de-documentación"></a>
 #### Estado final de documentación
 
-La colección rectora queda completa. El siguiente entregable lógico es convertir el **primer backlog ejecutable del documento 14** en tareas técnicas numeradas y ordenadas para comenzar la Fase 0.
+La colección rectora queda completa, `DOC-GATE-01` está aprobado y el backlog inicial de Fase 0 ya se encuentra numerado como `F0-001`–`F0-012`. El siguiente paso operativo es iniciar `F0-001` sin atribuir a la documentación ningún estado de implementación.

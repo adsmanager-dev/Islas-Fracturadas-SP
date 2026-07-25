@@ -1,9 +1,9 @@
 # Arquitectura técnica, 3DEN, SQF y multijugador
 
-> **Estado:** diseño confirmado e implementación parcial
+> **Estado del contenedor:** diseño técnico confirmado; implementación jugable no iniciada
 > **Fuente de verdad para:** arquitectura técnica, persistencia, 3DEN, SQF, SP y MP futuro
 > **Relacionados:** [17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md); [19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -191,7 +191,7 @@ isValid lastValidationErrors
 ```text
 campaignId campaignSide campaignMode currentWorld currentAct currentPhase
 narrativeDay campaignStarted campaignCompleted stratisUnlocked
-stratisCompleted epilogueUnlocked dualCampaignCompleted
+stratisCompleted epilogueUnlocked dualCampaignCompleted dualOperationUnlocked
 difficultyProfile ironman
 ```
 
@@ -737,8 +737,10 @@ Estado comparado tras completar ambas campañas:
 
 ```text
 sharedEvidence differences decisions survivors endings comparableFiles
-comparisonUnlocked secretSceneUnlocked vardisFullContext
+comparisonUnlocked secretSceneUnlocked vardisFullContext vardisConfirmed
 ```
+
+`comparisonUnlocked`, `dualOperationUnlocked`, `vardisFullContext` y `vardisConfirmed` requieren `dualCampaignCompleted == true`. No existe ruta alternativa de V1 que satisfaga esa precondición.
 
 <a id="src-persistent-campaign-data-model--20-eventos-y-mutaciones"></a>
 #### 20. Eventos y mutaciones
@@ -1078,7 +1080,7 @@ IF_stratisTransfer = createHashMapFromArray [
 ];
 ```
 
-No se transfieren todos los sectores, convoyes, fuerzas o eventos. Tras Stratis se integran Helios, Argos, Vardis, personajes, daños, verdad y decisión en el estado completo de Altis.
+Una transferencia de campaña aislada debe conservar `vardisConfirmed = false`; puede transportar una hipótesis o identidad probable en `knowledgeStates`, nunca una autenticación física. No se transfieren todos los sectores, convoyes, fuerzas o eventos. Tras Stratis se integran Helios, Argos, personajes, daños, verdad y decisión en el estado completo de Altis. Vardis solo se integra como actor físico dentro de la operación dual desbloqueada.
 
 <a id="src-persistent-campaign-data-model--33-estado-final"></a>
 #### 33. Estado final
@@ -1152,6 +1154,8 @@ FLAG_ARGOS_EXPOSED
 ```
 
 Solo representan hechos irreversibles o desbloqueos no cubiertos por otro campo.
+
+`FLAG_VARDIS_ALIVE_CONFIRMED` solo puede emitirse cuando `dualCampaignCompleted == true` y `dualOperationUnlocked == true`. La validación rechaza cualquier snapshot que confirme a Vardis sin ambas precondiciones.
 
 Configuración inmutable vive en `.hpp`, funciones, archivos de datos o `description.ext`. Estado mutable vive en `IF_campaignState`.
 

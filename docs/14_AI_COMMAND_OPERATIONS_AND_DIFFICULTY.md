@@ -1,9 +1,9 @@
 # IA, mando, operaciones y dificultad
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** IA estratégica/táctica, virtualización y dificultad
 > **Relacionados:** [13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md](13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md); [15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md](15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 

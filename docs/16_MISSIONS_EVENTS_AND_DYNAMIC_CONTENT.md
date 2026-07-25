@@ -1,9 +1,9 @@
 # Misiones, eventos y contenido dinámico
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** misiones, eventos y contenido dinámico
 > **Relacionados:** [15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md](15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md); [17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -499,12 +499,12 @@ Unidad, personajes, apoyo, relaciones, estado técnico, documentos, decisiones d
 3. Superficie: puerto, radar, aeródromo, defensas y generadores.
 4. PHAROS: operadores fantasma, retenidos, familias, archivos y pruebas del traslado.
 5. Núcleo Argos: contratos, protocolos, comparación de campañas y validación.
-6. Vardis: presencia no confirmada en una campaña y encuentro integral al completar ambas.
+6. Vardis: identidad probable y presencia no confirmada en una campaña; encuentro físico integral exclusivamente al completar ambas y activar `dualCampaignCompleted == true`.
 
 <a id="src-narrative-acts-and-mission-system--decisiones"></a>
 ##### Decisiones
 
-Activar, destruir, eliminar accesos, entregar localmente, publicar, compartir, desconectar o permitir continuidad. La variante integral añade capturar, juzgar, utilizar, exponer o permitir la fuga de Vardis.
+Activar, destruir, eliminar accesos, entregar localmente, publicar, compartir, desconectar o permitir continuidad. Solo la variante de Verdad Comparada, desbloqueada por ambas campañas, añade capturar, juzgar, utilizar, exponer o permitir la fuga de Vardis.
 
 Las opciones dependen de técnicos, evidencia, nodos, relaciones, integridad y decisiones anteriores.
 

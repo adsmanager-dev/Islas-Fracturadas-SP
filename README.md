@@ -2,7 +2,7 @@
 
 Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto combina guerra territorial, dos campañas independientes, actores nativos, insurgencia, población civil, logística, inteligencia y una conspiración articulada alrededor de Helios, PHAROS y el Comité Argos.
 
-> **Estado actual:** documentación consolidada y esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados.
+> **Estado actual:** `DOC-GATE-01` aprobado; diseño conceptual y técnico consolidado, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Experiencia prevista
 
@@ -29,6 +29,8 @@ La entrada principal es [`docs/00_INDEX_AND_DOCUMENTATION_MAP.md`](docs/00_INDEX
 | Estado, pruebas y hoja de ruta | [`docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md`](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md) |
 
 La carpeta `docs/` contiene exactamente 20 fuentes consolidadas. No deben añadirse documentos nuevos sin integrar o sustituir otro documento dentro de ese límite.
+
+Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad Comparada, se mantienen en el [registro autoritativo](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
 ## Estructura del repositorio
 

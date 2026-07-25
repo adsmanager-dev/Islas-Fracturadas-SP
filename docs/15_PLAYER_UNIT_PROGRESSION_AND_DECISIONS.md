@@ -1,9 +1,9 @@
 # Unidad del jugador, progresión y decisiones
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** unidad del jugador, progresión, autoridad, interfaz y decisiones
 > **Relacionados:** [14_AI_COMMAND_OPERATIONS_AND_DIFFICULTY.md](14_AI_COMMAND_OPERATIONS_AND_DIFFICULTY.md); [16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -63,6 +63,8 @@ Fuentes auditadas: `PLAYER_UNIT_AND_PROGRESSION.md`, `PLAYER_PROGRESSION_AUTHORI
 >
 > Se conecta con la [Biblia Narrativa](02_STORY_BIBLE_AND_WORLD_HISTORY.md#fuente-story-bible), el [sistema estratégico general](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md#fuente-strategic-campaign-system), la [estructura de actos y misiones](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md#fuente-narrative-acts-and-mission-system), las [fuerzas invasoras](04_INVADING_FORCES_BLUE_AND_RED.md#fuente-invading-forces) y el [orden de batalla militar](13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md#fuente-military-system-order-of-battle-and-force-catalog).
 
+> **Decisión `DEC-007`:** esta fuente conserva `PROPUESTA` y no pasa a producción hasta disponer de una matriz completa `rol narrativo → clase vanilla → equipo → vehículo → sustituto sin DLC`, validada contra el catálogo militar.
+
 <a id="src-player-unit-and-progression--1-alcance"></a>
 #### 1. Alcance
 
@@ -109,7 +111,7 @@ Cada partida pertenece por completo a una sola perspectiva.
 
 No habrá jugadores humanos en Azul y Rojo dentro de una misma campaña cooperativa. Las dos fuerzas existen y combaten en la simulación, pero solo una pertenece a los jugadores.
 
-> El modo principal es cooperativo contra una guerra dinámica, no PvP entre Azul y Rojo.
+> **En la futura modalidad cooperativa, el modo principal será cooperativo contra una guerra dinámica y nunca PvP entre Azul y Rojo. La modalidad principal de la primera versión es una campaña individual.**
 
 Una modalidad PvP futura no forma parte de la campaña principal ni condiciona su arquitectura inicial.
 
@@ -2500,6 +2502,8 @@ S3 — Operación integral
 S4 — Verdad comparada
 ```
 
+S4 requiere `dualCampaignCompleted == true`. En V1 no existe equivalente excepcional a completar ambas campañas.
+
 <a id="src-player-progression-authority-and-unlocks-system--desbloquea-3"></a>
 #### Desbloquea
 
@@ -2520,7 +2524,8 @@ Se compone de conclusiones:
 
 * S-26 activa;
 * PHAROS existe;
-* Vardis está vivo;
+* existencia de una dirección clandestina e identidad probable de Vardis en S3;
+* supervivencia y presencia física de Vardis confirmadas exclusivamente en S4;
 * Asterión fue ampliado;
 * Espejo Azul fue manipulado;
 * Verde fue fragmentada;

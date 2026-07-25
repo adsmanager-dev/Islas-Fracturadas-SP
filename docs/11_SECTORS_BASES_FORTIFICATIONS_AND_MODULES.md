@@ -1,9 +1,9 @@
 # Sectores, bases, fortificaciones y módulos
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** sectores, bases, fortificaciones, módulos y construcción automática
 > **Relacionados:** [10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md); [12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY.md](12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -52,6 +52,7 @@ Fuentes auditadas: `TERRITORIAL_SECTOR_FRONT_AND_CONSTRUCTION_SYSTEM.md`, `TECHN
 ### Sistema territorial de sectores, frentes y construcción automática
 
 > **Estado:** documento rector de diseño territorial previo a implementación.
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`; coordenadas, límites, rutas, anclajes y composiciones físicas permanecen `POR_CALIBRAR` hasta obtener `VALIDADO_3DEN`, conforme a `DEC-006`.
 > **Motor:** Arma 3 2.18.
 > **Terrenos:** Altis y Stratis.
 > **Geografía e IDs:** [ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md#fuente-altis-geography-and-sector-map).

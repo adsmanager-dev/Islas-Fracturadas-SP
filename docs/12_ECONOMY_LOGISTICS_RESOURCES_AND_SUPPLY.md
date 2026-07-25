@@ -1,9 +1,9 @@
 # Economía, logística, recursos y suministro
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** economía, recursos, logística y suministro
 > **Relacionados:** [11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md](11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md); [13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md](13_MILITARY_SYSTEM_ORDER_OF_BATTLE_AND_FORCE_CATALOG.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 

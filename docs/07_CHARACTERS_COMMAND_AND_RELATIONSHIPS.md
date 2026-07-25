@@ -1,9 +1,9 @@
 # Personajes, mando y relaciones
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** personajes, mando, relaciones, secretos y lealtades
 > **Relacionados:** [06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md); [08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 

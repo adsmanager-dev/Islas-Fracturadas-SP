@@ -1,9 +1,9 @@
 # Visión del proyecto y pilares de diseño
 
-> **Estado:** canon rector y diseño confirmado
+> **Estado del contenedor:** canon rector y diseño confirmado
 > **Fuente de verdad para:** visión del producto, pilares y restricciones centrales
 > **Relacionados:** [02_STORY_BIBLE_AND_WORLD_HISTORY.md](02_STORY_BIBLE_AND_WORLD_HISTORY.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -45,6 +45,7 @@ Fuentes auditadas: `GAME_DESIGN.md`. No se identificó una pareja explícita de 
 ## Fuente integrada: `GAME_DESIGN.md`
 
 > **Procedencia:** contenido migrado de `GAME_DESIGN.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+> **Clasificación de fuente integrada:** `CANON_RECTOR` para pilares y restricciones; `DISEÑO_CONFIRMADO` para decisiones adoptadas. Ejemplos y ampliaciones futuras no adquieren `IMPLEMENTADO`.
 
 <a id="src-game-design--islas-fracturadas-diseño-general"></a>
 ### Islas Fracturadas — Diseño general
@@ -95,6 +96,8 @@ Fuentes auditadas: `GAME_DESIGN.md`. No se identificó una pareja explícita de 
 
 <a id="src-game-design--serie-rectora-1141414"></a>
 #### Serie rectora 1/14–14/14
+
+> `[x]` significa documento redactado y consolidado. No significa sistema implementado, validado en 3DEN ni probado dentro de Arma 3.
 
 - [x] **1/14 — Arquitectura de campañas Azul y Roja**
 - [x] **2/14 — Revelaciones, evidencias e investigación de Argos**

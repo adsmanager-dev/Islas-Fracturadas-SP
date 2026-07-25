@@ -1,9 +1,9 @@
 # Cronología, inteligencia y revelación
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** cronología, conocimiento, inteligencia, evidencias y revelaciones
 > **Relacionados:** [08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md); [10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 > **Conocimiento:** secreto de autor | clasificado | conocimiento parcial | público
 
 ## Propósito
@@ -33,16 +33,13 @@ Son obligatorias las reglas detalladas en las fuentes integradas de 09_CHRONOLOG
 
 El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md#mapa-de-fuentes-de-verdad). Las referencias internas migradas incluyen un ancla de procedencia para mantener la trazabilidad hasta la sección de la fuente original.
 
-## Conflictos o decisiones pendientes
+## Decisiones adoptadas
+
+> **Clasificación de sección:** `CANON_RECTOR`
 
 Fuentes auditadas: `LAST_72_HOURS_CHRONOLOGY.md`, `INVESTIGATION_REVELATION_MATRIX.md` y `HELIOS_INTELLIGENCE_AND_FOG_OF_WAR_SYSTEM.md`.
 
-| Conflicto | Alternativas conservadas | Estado |
-| --- | --- | --- |
-| Vardis en una sola campaña | La matriz permite demostrar que vive en [Nivel 4](#src-investigation-revelation-matrix--nivel-4-validación-de-la-guerra), alcanzar S3 y habilitar captura; el [dossier rector](03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md#conflictos-o-decisiones-pendientes) y la cronología integrada reservan supervivencia/presencia física para completar ambas campañas. | Pendiente de decidir qué puede confirmar, encontrar o capturar una sola campaña. |
-| Equivalente excepcional | [Nivel 5](#src-investigation-revelation-matrix--nivel-5-verdad-comparada) admite ambas campañas o un equivalente excepcional; el dossier exige combinar campañas para la verdad integral. | Pendiente de confirmar si el equivalente existe y qué desbloquea. |
-
-Hasta resolverlo, los niveles, evidencias y condiciones de captura son especificación alternativa y no autorización para revelar prematuramente la verdad de autor.
+`DEC-003`–`DEC-005` sustituyen las alternativas incompatibles: una campaña demuestra la existencia de la dirección clandestina y permite inferir a Vardis, pero C8, la confirmación física y cualquier captura quedan reservadas a S4 tras completar ambas campañas. El “equivalente excepcional” no existe en V1. Véase el [registro autoritativo](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
 ## Criterios de validación
 
@@ -1197,7 +1194,8 @@ Se demuestra:
 * UMBRAL;
 * perfiles de decisión;
 * manipulación paralela;
-* Vardis vivo;
+* existencia de una dirección clandestina;
+* indicios convergentes compatibles con Vardis, todavía sin autenticación física;
 * HELIOS-CORE.
 
 El jugador comprende que el conflicto fue utilizado como experimento estratégico.
@@ -1207,7 +1205,7 @@ El jugador comprende que el conflicto fue utilizado como experimento estratégic
 <a id="src-investigation-revelation-matrix--nivel-5-verdad-comparada"></a>
 #### Nivel 5 — Verdad comparada
 
-Requiere ambas campañas o un equivalente excepcional.
+Requiere completar ambas campañas. No existe equivalente excepcional en V1.
 
 Se demuestra:
 
@@ -1216,7 +1214,8 @@ Se demuestra:
 * qué sabía cada infiltrado;
 * qué variables modelaba Argos;
 * cuáles decisiones escaparon a sus predicciones;
-* qué partes del conflicto no fueron creadas por Argos.
+* qué partes del conflicto no fueron creadas por Argos;
+* que Vardis sobrevivió y dirige físicamente la continuidad de Stratis.
 
 ---
 
@@ -2555,13 +2554,16 @@ Requiere:
 <a id="src-investigation-revelation-matrix--c8-vardis-está-vivo"></a>
 ### C8 — Vardis está vivo
 
-Puede confirmarse mediante:
+Solo puede confirmarse en S4, después de completar ambas campañas y comparar evidencia Azul y Roja. Antes de S4, los mismos indicios sostienen una hipótesis fuerte sobre identidad y supervivencia, pero no establecen `vardisConfirmed`.
+
+La confirmación dual requiere una combinación de:
 
 * biometría;
 * encuentro;
 * voz autenticada;
 * registro médico;
-* archivo maestro.
+* archivo maestro;
+* evidencia procedente de ambas campañas.
 
 Una grabación aislada no es suficiente.
 
@@ -2624,7 +2626,9 @@ Cada conclusión esencial tendrá:
 ##### Ruta alternativa
 
 * testimonio Damaris;
-* encuentro directo.
+* encuentro directo, disponible solo en la operación dual de S4.
+
+Las rutas Azul y Roja producen inferencias independientes; C8 solo se confirma al compararlas y autenticar la presencia física durante S4.
 
 ---
 
@@ -2638,9 +2642,11 @@ La campaña conservará alguna vía para descubrir:
 
 * Stratis activa;
 * PHAROS;
-* Vardis;
+* una dirección clandestina e indicios de Vardis;
 * Argos;
 * UMBRAL.
+
+Esta garantía no incluye confirmar físicamente a Vardis en una campaña aislada.
 
 <a id="src-investigation-revelation-matrix--perdibles"></a>
 #### Perdibles
@@ -3095,17 +3101,17 @@ Consecuencias:
 Conocimiento:
 
 * Argos;
-* Vardis;
+* existencia de una dirección clandestina;
+* identidad probable de Vardis, no autenticada físicamente;
 * infiltrados;
 * accesos;
 * protocolos.
 
 Consecuencias:
 
-* captura posible;
 * auditoría;
 * separación de HELIOS-CORE;
-* confrontación completa.
+* confrontación con operadores presentes, sin encuentro físico confirmado con Vardis.
 
 ---
 
@@ -3122,6 +3128,8 @@ Consecuencias:
 
 * diálogo completo;
 * identificación de manipulación paralela;
+* Vardis confirmado físicamente;
+* sala de dirección y captura posibles;
 * final secreto;
 * máxima comprensión, no victoria automática.
 
@@ -3134,6 +3142,8 @@ No bastará con llegar físicamente a su sala.
 
 Se requiere una combinación de:
 
+* `dualCampaignCompleted == true`;
+* S4 — Verdad Comparada;
 * operación integral;
 * rutas de escape identificadas;
 * Mercer neutralizado o separado;

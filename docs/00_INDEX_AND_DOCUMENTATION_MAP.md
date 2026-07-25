@@ -1,9 +1,9 @@
 # Índice y mapa documental
 
-> **Estado:** canon rector documental
+> **Estado del contenedor:** canon rector documental
 > **Fuente de verdad para:** navegación, jerarquía documental, trazabilidad y asignación de fuentes principales
 > **Relacionados:** los 19 documentos temáticos de esta biblioteca
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -68,6 +68,22 @@ Este índice es la entrada única a la documentación de **Islas Fracturadas**. 
 4. Secreto de autor, clasificado, conocimiento parcial y público indican quién puede conocer un dato; consolidar no cambia ese acceso.
 5. Ante una divergencia no resuelta, se conservan las alternativas y se remite a Conflictos o decisiones pendientes.
 6. Una mención contextual no desplaza la fuente de verdad temática indicada abajo.
+7. El estado del contenedor documental no uniforma la autoridad de sus secciones internas. Cada fuente integrada conserva su clasificación y una etiqueta más específica prevalece sobre la cabecera.
+
+### Etiquetas de autoridad y madurez
+
+| Etiqueta | Significado |
+| --- | --- |
+| `CANON_RECTOR` | Regla vinculante dentro del alcance de su fuente de verdad. |
+| `DISEÑO_CONFIRMADO` | Decisión adoptada, todavía separada de implementación y prueba. |
+| `PROPUESTA` | Alternativa conservada que no autoriza producción. |
+| `PENDIENTE_DECISIÓN` | Divergencia o elección que requiere cierre explícito. |
+| `POR_CALIBRAR` | Valor provisional que requiere medición o pruebas. |
+| `VALIDADO_3DEN` | Geografía, composición o interacción comprobada dentro del editor y el motor. |
+| `IMPLEMENTADO` | Existe en archivos funcionales del proyecto; no implica que esté probado. |
+| `PROBADO` | Tiene evidencia repetible de prueba y cumple su criterio de aceptación. |
+
+Una etiqueta colocada en una sección `Fuente integrada` gobierna sus subsecciones salvo anulación explícita. `IMPLEMENTADO`, `VALIDADO_3DEN` y `PROBADO` nunca se infieren de un diseño, ejemplo SQF, checklist documental o plan.
 
 ## Mapa de fuentes de verdad
 
@@ -184,14 +200,19 @@ El 2026-07-24 se consolidaron 37 documentos en esta biblioteca estricta de 20 ar
 | `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md` | Estado, implementación, producción, pruebas, rendimiento y riesgos. | Se conserva el contenido no repetido y sus etiquetas | [19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#fuente-master-testing-performance-and-balance-system) | Fuente integrada: MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md | fusionar |
 | `MASTER_IMPLEMENTATION_AND_PRODUCTION_PLAN.md` | Estado, implementación, producción, pruebas, rendimiento y riesgos. | Se conserva el contenido no repetido y sus etiquetas | [19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#fuente-master-implementation-and-production-plan) | Fuente integrada: MASTER_IMPLEMENTATION_AND_PRODUCTION_PLAN.md | fusionar |
 
-## Conflictos o decisiones pendientes
+## Decisiones adoptadas y pendientes
 
-La revisión cruzada posterior a la consolidación detectó dos divergencias de canon/diseño entre el dossier Helios y la matriz de revelaciones. Se conservan ambas versiones y no se resuelven por fecha:
+La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El registro operativo y la evidencia residen en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
-| Tema | Alternativas | Registro principal |
+| ID | Decisión adoptada | Estado |
 | --- | --- | --- |
-| Supervivencia, presencia y captura de Vardis | El dossier reserva la confirmación completa a ambas campañas; la matriz permite demostrar que vive y habilitar captura antes de la comparación dual. | [Dossier Helios — conflictos](03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md#conflictos-o-decisiones-pendientes) |
-| Equivalente excepcional a completar ambas campañas | El dossier exige combinar campañas; la matriz permite un equivalente excepcional sin definirlo. | [Cronología e inteligencia — conflictos](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#conflictos-o-decisiones-pendientes) |
+| `DEC-001` | Diseño conceptual y técnico consolidado; implementación jugable no iniciada. | adoptada |
+| `DEC-002` | V1 individual; cooperativo de un solo bando como ampliación futura. | adoptada |
+| `DEC-003` | Una campaña demuestra la dirección clandestina e infiere a Vardis, pero no autentica su presencia física ni permite capturarlo. | adoptada |
+| `DEC-004` | Ambas campañas desbloquean Verdad Comparada, confirmación física y desenlaces personales de Vardis. | adoptada |
+| `DEC-005` | No existe equivalente excepcional a la campaña dual en V1. | adoptada |
+| `DEC-006` | Los 38 sectores siguen siendo diseño hasta su validación física en 3DEN. | adoptada |
+| `DEC-007` | AZUR-1 y RUBÍ-1 requieren matriz vanilla y sustitutos sin DLC antes de producción. | adoptada |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 
@@ -199,10 +220,10 @@ Requieren revisión humana posterior, sin bloquear esta reorganización:
 
 - cifras y umbrales marcados como hipótesis o sujetos a pruebas;
 - destinos modulares, finales y decisiones narrativas presentados como alternativas;
-- alcance de la revelación de Vardis en una campaña y definición del posible equivalente excepcional;
+- cualquier equivalente futuro a la comparación dual, fuera de V1, que requerirá una nueva decisión explícita;
 - detalles de la migración futura de SP a cooperativo/MP;
 - catálogo físico y geográfico que exige validación dentro de 3DEN;
-- diferencias entre diseño previsto, implementación parcial y estado todavía no medido.
+- diferencias entre diseño previsto, implementación no iniciada y resultados todavía no medidos.
 
 ## Criterios de validación
 

@@ -1,9 +1,9 @@
 # Dossier Helios, PHAROS y Argos
 
-> **Estado:** canon rector y diseño confirmado
+> **Estado del contenedor:** canon rector y diseño confirmado
 > **Fuente de verdad para:** verdad secreta de Helios, PHAROS, Argos, Meridian y Stratis
 > **Relacionados:** [02_STORY_BIBLE_AND_WORLD_HISTORY.md](02_STORY_BIBLE_AND_WORLD_HISTORY.md); [04_INVADING_FORCES_BLUE_AND_RED.md](04_INVADING_FORCES_BLUE_AND_RED.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 > **Conocimiento:** secreto de autor | clasificado | conocimiento parcial | público
 
 ## Propósito
@@ -33,16 +33,19 @@ Son obligatorias las reglas detalladas en las fuentes integradas de 03_HELIOS_PH
 
 El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md#mapa-de-fuentes-de-verdad). Las referencias internas migradas incluyen un ancla de procedencia para mantener la trazabilidad hasta la sección de la fuente original.
 
-## Conflictos o decisiones pendientes
+## Decisiones adoptadas
 
-La revisión cruzada con la matriz de revelaciones detectó dos conflictos que no deben resolverse por fecha:
+> **Clasificación de sección:** `CANON_RECTOR`
 
-| Conflicto | Regla en este dossier | Regla en la matriz de revelaciones | Decisión humana necesaria |
-| --- | --- | --- | --- |
-| Confirmación de Vardis en una campaña | [Descubrimiento por campaña](#src-helios-origin-pharos-and-argos-dossier--21-descubrimiento-por-campaña) y [operación final](#src-helios-origin-pharos-and-argos-dossier--22-operación-final-en-stratis) reservan la demostración de su supervivencia y la confirmación de su presencia física para la comparación de ambas campañas; la [Biblia narrativa](02_STORY_BIBLE_AND_WORLD_HISTORY.md#fuente-story-bible) coincide con esta regla. | [Nivel 4](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#src-investigation-revelation-matrix--nivel-4-validación-de-la-guerra), C8 y S3 permiten demostrar que está vivo y habilitar su captura antes de la verdad comparada. | Decidir si una campaña puede confirmar que Vardis vive, encontrarlo o capturarlo, y qué información queda reservada a completar ambas. |
-| Sustituto excepcional de la campaña dual | El [límite obligatorio 13](#src-helios-origin-pharos-and-argos-dossier--24-límites-obligatorios) establece que la verdad integral solo surge al combinar campañas. | [Nivel 5](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#src-investigation-revelation-matrix--nivel-5-verdad-comparada) admite “ambas campañas o un equivalente excepcional”. | Confirmar si existe ese equivalente, definirlo y decidir si desbloquea la misma verdad o una versión incompleta. |
+Las divergencias con la matriz de revelaciones quedaron resueltas por `DEC-003`, `DEC-004` y `DEC-005`, registradas en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones):
 
-Hasta recibir esa decisión, ninguna misión, briefing, epílogo o condición técnica debe asumir una de las dos versiones.
+| Alcance | Regla vinculante |
+| --- | --- |
+| Una campaña | Demuestra Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y la existencia de una dirección clandestina. La identidad de Vardis puede ser una inferencia fuerte, pero su supervivencia y presencia física no se autentican. |
+| Comparación dual | Completar Azul y Rojo desbloquea Verdad Comparada, sala de dirección, confirmación física de Vardis y desenlaces de captura, muerte, juicio, negociación o fuga. |
+| Equivalente excepcional | No existe en V1. Cualquier alternativa futura requiere una decisión nueva y no desbloquea contenido por omisión. |
+
+Ninguna misión, briefing, epílogo o condición técnica puede marcar `vardisConfirmed`, representar una confrontación física ni resolver un destino personal de Vardis si `dualCampaignCompleted != true`.
 
 ## Criterios de validación
 
@@ -66,7 +69,7 @@ Reglas editoriales:
 1. La sección de verdad de autor es capa A completa.
 2. La síntesis descubrible define lo que *puede* revelarse, no lo que el jugador sabe desde el inicio.
 3. Una sospecha, informe o testimonio no equivale a confirmación.
-4. La identidad física de Vardis permanece bloqueada por el conflicto pendiente anterior.
+4. La identidad física de Vardis permanece bloqueada hasta la Verdad Comparada y `dualCampaignCompleted == true`.
 5. Toda revelación jugable debe enlazar a su evidencia o conclusión en `09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md`.
 
 ## Contenido consolidado
@@ -530,7 +533,7 @@ Las pruebas, intérpretes y umbrales que producen ese descubrimiento se fijan en
 5. **Núcleo Argos:** Azul revela contratistas occidentales; Rojo, patrocinadores orientales y Asterión.
 6. **Vardis:** en una sola campaña su presencia física permanece sin confirmar; completar ambas desbloquea la sala de dirección y confirma que sigue vivo.
 
-Vardis intenta evacuar, negociar, copiar datos, destruir pruebas o convencer al jugador. Puede ser capturado, ejecutado, juzgado, obligado a desconectar Helios, utilizado, expuesto o dejar un señuelo. Su muerte no destruye automáticamente Argos.
+Cuando la comparación dual desbloquea la sala de dirección, Vardis intenta evacuar, negociar, copiar datos, destruir pruebas o convencer al jugador. Solo en esa operación puede ser capturado, ejecutado, juzgado, obligado a desconectar Helios, utilizado, expuesto o dejar un señuelo. Su muerte no destruye automáticamente Argos.
 
 <a id="src-helios-origin-pharos-and-argos-dossier--23-destinos"></a>
 #### 23. Destinos

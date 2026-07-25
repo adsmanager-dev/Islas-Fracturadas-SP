@@ -1,9 +1,9 @@
 # FIA, rebeldes, guerrillas y civiles
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** FIA, insurgencia, población civil, municipios y estabilidad
 > **Relacionados:** [05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md); [07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 

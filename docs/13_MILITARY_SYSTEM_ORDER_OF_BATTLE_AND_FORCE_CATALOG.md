@@ -1,9 +1,9 @@
 # Sistema militar, orden de batalla y catálogo de fuerzas
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** orden de batalla y catálogo militar
 > **Relacionados:** [12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY.md](12_ECONOMY_LOGISTICS_RESOURCES_AND_SUPPLY.md); [14_AI_COMMAND_OPERATIONS_AND_DIFFICULTY.md](14_AI_COMMAND_OPERATIONS_AND_DIFFICULTY.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -176,7 +176,7 @@ La munición no se considera universal. Armas capturadas pueden aumentar potenci
 | Logística, mantenimiento y sanidad | 120 |
 | **Total** | **720** |
 
-Cada compañía ronda 108 efectivos; un pelotón, 32. AZUR-1 conserva ocho integrantes nombrados y se materializa mediante clases oficiales adaptadas a sus funciones.
+Cada compañía ronda 108 efectivos; un pelotón, 32. AZUR-1 conserva ocho integrantes nombrados. Conforme a `DEC-007`, su materialización mediante clases oficiales permanece `PROPUESTA` hasta aprobar una matriz completa de adaptación vanilla y sustituciones sin DLC.
 
 <a id="src-military-system-order-of-battle-and-force-catalog--activos-azul"></a>
 ##### Activos Azul
@@ -213,7 +213,7 @@ La flota mayor permanece abstracta.
 | Logística, mantenimiento y apoyo | 132 |
 | **Total** | **810** |
 
-RUBÍ-1 conserva ocho integrantes nombrados.
+RUBÍ-1 conserva ocho integrantes nombrados. Sus clases, equipo y vehículos permanecen `PROPUESTA` bajo `DEC-007` hasta aprobar la misma matriz vanilla y sus sustituciones sin DLC.
 
 <a id="src-military-system-order-of-battle-and-force-catalog--activos-rojo"></a>
 ##### Activos Rojo

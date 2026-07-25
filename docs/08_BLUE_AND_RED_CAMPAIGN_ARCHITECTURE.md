@@ -1,9 +1,9 @@
 # Arquitectura de las campañas Azul y Roja
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** estructura de campañas, finales y reglas de rejugabilidad
 > **Relacionados:** [07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md); [09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -195,7 +195,7 @@ PNR-7 obliga a seleccionar fuerza, cerrar urgencias, aceptar pendientes y guarda
 | V — El ejército dividido | fractura Verde, alianzas y golpes | órdenes válidas incompatibles |
 | VI — La voz de Stratis | Petrou, Damaris, S-26 y convoyes | HELIOS-CORE sigue activo |
 | VII — Guerra de los nodos | acceso físico/digital, perfiles y Argos | Validación Integral de Teatro |
-| VIII — Regreso a Stratis | Meridian, PHAROS, Vardis y HELIOS-CORE | decisión final |
+| VIII — Regreso a Stratis | Meridian, PHAROS, dirección clandestina y HELIOS-CORE | decisión final de campaña; Vardis físico solo en variante dual |
 | IX — Lo que queda | territorio, Gobierno, Helios, Argos y epílogos | síntesis de campaña |
 
 <a id="src-blue-red-campaign-architecture--12-campaña-azul-por-actos"></a>
@@ -213,7 +213,7 @@ PNR-7 obliga a seleccionar fuerza, cerrar urgencias, aceptar pendientes y guarda
 | VII | nodos y Shaw | Coalición exige apropiación |
 | VIII | Operación Faro Abierto | entrada anfibia, aérea, clandestina o aliada |
 
-El final resuelve Vardis, Mercer, Arendt, HELIOS-CORE, Argos y permanencia Azul.
+El final Azul resuelve Mercer, Arendt, HELIOS-CORE, Argos y permanencia Azul. Puede inferir el papel de Vardis, pero su confirmación y destino personal quedan reservados a la variante dual.
 
 <a id="src-blue-red-campaign-architecture--13-campaña-roja-por-actos"></a>
 #### 13. Campaña Roja por actos
@@ -230,7 +230,7 @@ El final resuelve Vardis, Mercer, Arendt, HELIOS-CORE, Argos y permanencia Azul.
 | VII | comandante como variable | Navid/Vahid disputan mando |
 | VIII | Operación Aurora Negra | asalto, infiltración, Verde, técnica o aire |
 
-El final resuelve alianza/Estado cliente, Helios, Vardis, Argos y Gobierno.
+El final Rojo resuelve alianza/Estado cliente, Helios, Argos y Gobierno. Puede inferir el papel de Vardis, pero su confirmación y destino personal quedan reservados a la variante dual.
 
 <a id="src-blue-red-campaign-architecture--14-eventos-sincronizados"></a>
 #### 14. Eventos sincronizados
@@ -599,10 +599,10 @@ La señal de Petrou siempre existe como recuperada, perdida, clasificada o conoc
 | S0 | asalto ciego |
 | S1 | objetivo técnico |
 | S2 | PHAROS y Meridian conocidos |
-| S3 | Argos, Vardis y accesos comprendidos |
-| S4 | verdad comparada de ambas campañas |
+| S3 | Argos, dirección clandestina, identidad probable de Vardis y accesos comprendidos |
+| S4 | verdad comparada, Vardis confirmado físicamente y sala de dirección |
 
-Modifican rutas, aliados, objetivos, diálogos, decisiones y captura de Vardis. Investigar no es obligatorio para terminar.
+Modifican rutas, aliados, objetivos, diálogos y decisiones. La captura o cualquier otro destino físico de Vardis solo existe en S4 con `dualCampaignCompleted == true`; investigar no es obligatorio para terminar una campaña individual.
 
 <a id="src-blue-red-campaign-architecture--44-vertical-slice-narrativo"></a>
 #### 44. Vertical slice narrativo
@@ -982,7 +982,7 @@ H6 no elimina copias externas. H4 facilita auditoría y también copia o ataque.
 | A4 | Superviviente |
 | A5 | Replicado fuera de las islas |
 
-A1 exige archivos autenticados, infiltrados identificados, Vardis confirmado, accesos eliminados y autoridad investigadora. A5 se reserva para una copia externa completada mediante escape o decisión técnica concreta.
+A1 exige archivos autenticados, infiltrados identificados, Vardis confirmado, accesos eliminados y autoridad investigadora; por tanto, A1 solo está disponible en la comparación dual. A5 se reserva para una copia externa completada mediante escape o decisión técnica concreta.
 
 <a id="src-modular-endings-and-epilogues-matrix--10-presencia-extranjera-y-verdad-pública"></a>
 #### 10. Presencia extranjera y verdad pública
@@ -1072,7 +1072,7 @@ El epílogo selecciona entre ocho y doce personajes:
 2. **Conflictos internos:** Hale, Vahid, Kallas, Koronis, Kouris, Pallis e infiltrados.
 3. **Vínculo personal:** unidad protagonista, enlace de mando, técnicos, Neris, Serafim o Petrou.
 
-Vardis puede ser juzgado, protegido, morir, escapar, borrar su identidad o cooperar sin absolución. Arendt puede descentralizar o cerrar puertas; Nassar testificar o salvar sus modelos; Mercer escapar, vender, destruir o rendir; Damaris dirigir una solución nativa o rechazar custodia extranjera.
+Solo en un epílogo comparado con `dualCampaignCompleted == true`, Vardis puede ser juzgado, protegido, morir, escapar, borrar su identidad o cooperar sin absolución. En epílogos de campaña aislada aparece únicamente como identidad probable o dirección no autenticada. Arendt puede descentralizar o cerrar puertas; Nassar testificar o salvar sus modelos; Mercer escapar, vender, destruir o rendir; Damaris dirigir una solución nativa o rechazar custodia extranjera.
 
 Ward puede dirigir retirada, ocupación, investigación o encubrimiento. Hale puede quedar como héroe, ocupante, acusado o relevado. Navid puede negociar, testificar o ser sustituido. Vahid puede gobernar militarmente, vencer, ser juzgada o caer. Los demás destinos siguen [CHARACTER_RELATIONSHIPS_LOYALTIES_AND_BETRAYALS.md](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md#fuente-character-relationships-loyalties-and-betrayals), incluidas muertes y sustituciones.
 
@@ -1122,6 +1122,8 @@ Duración objetivo: 8–14 minutos. Incluye cinco a siete módulos regionales o 
 #### 18. Comparación de campañas y continuidad
 
 Completar Azul y Rojo desbloquea UMBRAL, informes paralelos de Ward y Navid, decisiones reales, evaluación Argos y el papel confirmado de Vardis. No reemplaza los finales previos.
+
+Esta comparación es la única ruta de V1 hacia la sala de dirección, la confrontación física y los destinos personales de Vardis.
 
 ```text
 IF-BLU-P1-H4-A2-C2-F2-T4
@@ -1210,6 +1212,8 @@ Perfiles dorados mínimos:
 18. Vardis capturado;
 19. Vardis escapado;
 20. ambas campañas.
+
+Los casos 18 y 19 son fixtures exclusivos del caso 20: deben rechazar cualquier estado con `dualCampaignCompleted != true`.
 
 También se prueban los pares vencedor–Helios, Gobierno–presencia, civil–estabilidad, Argos–verdad, personaje–sustituto y región–propietario.
 

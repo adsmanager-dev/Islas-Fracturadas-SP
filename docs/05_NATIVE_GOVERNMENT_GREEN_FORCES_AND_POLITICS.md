@@ -1,9 +1,9 @@
 # Gobierno nativo, Fuerza Verde y política
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** Gobierno de Altis, Fuerza Verde e instituciones nativas
 > **Relacionados:** [04_INVADING_FORCES_BLUE_AND_RED.md](04_INVADING_FORCES_BLUE_AND_RED.md); [06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -703,6 +703,7 @@ Puede evolucionar hacia alianza coordinada entre Navid y Varos, subordinación m
 ## Fuente integrada: `NATIVE_ACTORS_AND_SECTORS.md`
 
 > **Procedencia:** contenido migrado de `NATIVE_ACTORS_AND_SECTORS.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+> **Clasificación de fuente integrada:** `CANON_RECTOR` para identidad narrativa de actores; `DISEÑO_CONFIRMADO` para contratos sistémicos adoptados; cifras o variantes no cerradas permanecen `PROPUESTA` o `POR_CALIBRAR`.
 
 <a id="src-native-actors-and-sectors--actores-nativos-y-estado-de-los-sectores"></a>
 ### Actores nativos y estado de los sectores

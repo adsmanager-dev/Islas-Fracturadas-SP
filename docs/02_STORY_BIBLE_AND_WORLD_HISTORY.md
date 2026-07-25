@@ -1,9 +1,9 @@
 # Biblia narrativa e historia del mundo
 
-> **Estado:** canon rector y diseño confirmado
+> **Estado del contenedor:** canon rector y diseño confirmado
 > **Fuente de verdad para:** historia pública, canon narrativo general y límites del universo
 > **Relacionados:** [01_PROJECT_VISION_AND_DESIGN_PILLARS.md](01_PROJECT_VISION_AND_DESIGN_PILLARS.md); [03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md](03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -46,6 +46,7 @@ Fuentes auditadas: `STORY_BIBLE.md`, `ALTIS_STRATIS_HISTORY_CULTURE_AND_ECONOMY.
 ## Fuente integrada: `STORY_BIBLE.md`
 
 > **Procedencia:** contenido migrado de `STORY_BIBLE.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+> **Clasificación de fuente integrada:** `CANON_RECTOR`; cualquier alternativa identificada dentro de la fuente conserva su etiqueta más restrictiva.
 
 <a id="src-story-bible--islas-fracturadas-biblia-narrativa-revisada"></a>
 ### Islas Fracturadas — Biblia Narrativa (Revisada)
@@ -605,7 +606,7 @@ El jugador debe decidir:
 * eliminar los accesos clandestinos;
 * compartir el control;
 * desconectarlo sin destruir los archivos;
-* capturar, juzgar, utilizar o exponer a Vardis cuando la variante integral esté disponible.
+* capturar, juzgar, utilizar o exponer a Vardis únicamente cuando la Verdad Comparada esté disponible tras completar ambas campañas.
 
 El final político depende también de lo ocurrido en Altis.
 

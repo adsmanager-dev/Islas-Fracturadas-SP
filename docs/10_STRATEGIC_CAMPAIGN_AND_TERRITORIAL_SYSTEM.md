@@ -1,9 +1,9 @@
 # Campaña estratégica y sistema territorial
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** geografía operacional y sistema estratégico territorial
 > **Relacionados:** [09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md); [11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md](11_SECTORS_BASES_FORTIFICATIONS_AND_MODULES.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -46,6 +46,7 @@ Fuentes auditadas: `ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md`, `STRATEGIC_CAMPAIGN_SYST
 ## Fuente integrada: `ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md`
 
 > **Procedencia:** contenido migrado de `ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+> **Clasificación de fuente integrada:** `DISEÑO_CONFIRMADO` para regiones, funciones y arquitectura de 38 sectores; coordenadas, límites, rutas y anclajes permanecen `POR_CALIBRAR` hasta recibir `VALIDADO_3DEN` conforme a `DEC-006`.
 
 <a id="src-altis-geography-and-sector-map--altis-geografía-operacional-y-mapa-inicial-de-sectores"></a>
 ### Altis — Geografía operacional y mapa inicial de sectores
@@ -74,6 +75,8 @@ Se consideran decisiones de diseño adoptadas:
 * el primer vertical slice utiliza el corredor Katalaki–Neochori–AAC–Airport West.
 
 Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA, emplazamientos de composiciones e identificadores de objetos siguen pendientes de validación en 3DEN y mediante `CfgWorlds`.
+
+> **Decisión `DEC-006`:** los 38 sectores son `DISEÑO_CONFIRMADO`, no `VALIDADO_3DEN`. Ninguna coordenada, frontera, ruta o anclaje pasa a configuración definitiva sin evidencia física de editor y motor.
 
 <a id="src-altis-geography-and-sector-map--2-principio-territorial"></a>
 #### 2. Principio territorial

@@ -1,9 +1,9 @@
 # Diálogo, radio, briefings y cinemáticas
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** diálogo, radio, briefings, audio y cinemáticas
 > **Relacionados:** [16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md); [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -2253,6 +2253,8 @@ No convertirlo en portavoz moral infalible.
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--112-elias-vardis"></a>
 ### 112. Elias Vardis
 
+> **Control de acceso narrativo:** la voz directa, presencia física y diálogo interactivo de Vardis solo pueden utilizarse después de `dualCampaignCompleted == true` y del desbloqueo de S4. En una campaña aislada solo se permiten documentos, firmas, referencias indirectas, voz no autenticada o inferencias que no establezcan `vardisConfirmed`.
+
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--voz-15"></a>
 #### Voz
 
@@ -3471,6 +3473,8 @@ Tipos:
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--175-confrontación-con-vardis"></a>
 ### 175. Confrontación con Vardis
 
+> **Precondición obligatoria:** `dualCampaignCompleted == true`, S4 — Verdad Comparada y sala de dirección desbloqueada. Ninguna variante de campaña aislada presenta físicamente a Vardis.
+
 No será un único monólogo.
 
 Estructura:
@@ -3487,6 +3491,8 @@ Estructura:
 
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--176-opciones-ante-vardis"></a>
 ### 176. Opciones ante Vardis
+
+Estas opciones pertenecen exclusivamente a la confrontación dual desbloqueada; no se ofrecen por alcanzar S3 en una sola campaña.
 
 Pueden depender de:
 

@@ -1,9 +1,9 @@
 # Fuerzas invasoras Azul y Roja
 
-> **Estado:** diseño confirmado y diseño en desarrollo
+> **Estado del contenedor:** diseño confirmado y diseño en desarrollo
 > **Fuente de verdad para:** identidad política y doctrinal de las fuerzas Azul y Roja
 > **Relacionados:** [03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md](03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md); [05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-24
+> **Última consolidación:** 2026-07-25
 
 ## Propósito
 
@@ -45,6 +45,7 @@ Fuentes auditadas: `INVADING_FORCES.md`. No se identificó una pareja explícita
 ## Fuente integrada: `INVADING_FORCES.md`
 
 > **Procedencia:** contenido migrado de `INVADING_FORCES.md`. Sus etiquetas de canon, clasificación, propuesta y pendiente conservan el significado original.
+> **Clasificación de fuente integrada:** `DISEÑO_CONFIRMADO` para la identidad y doctrina adoptadas; detalles descritos como “canon narrativo en desarrollo” permanecen `PROPUESTA` hasta confirmación explícita.
 
 <a id="src-invading-forces--fuerzas-invasoras-azul-y-rojo"></a>
 ### Fuerzas invasoras: Azul y Rojo
