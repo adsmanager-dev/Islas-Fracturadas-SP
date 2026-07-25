@@ -9,12 +9,26 @@
 
 Centralizar visión del producto, pilares y restricciones centrales sin perder requisitos, decisiones, variantes ni trazabilidad de las fuentes anteriores.
 
+<a id="intencion-autoral-y-homenaje"></a>
+## Intención autoral y homenaje
+
+> **Clasificación de sección:** `CANON_RECTOR`
+
+**Islas Fracturadas es un proyecto creado como homenaje a Bohemia Interactive y a los equipos que construyeron la saga Arma. Su libertad de edición, sus herramientas y su confianza en la comunidad permitieron que jugadores, modders y creadores imaginaran experiencias que iban mucho más allá de una campaña cerrada. Este proyecto nace de esa libertad: no pretende reemplazar ni competir con la obra original, sino agradecerla creando dentro del espacio que ella hizo posible.**
+
+La intención autoral no es imitar, sustituir ni superar una campaña oficial. El proyecto continúa la filosofía de creación abierta que hizo posible imaginar una guerra propia dentro de Arma y aspira a dejar, a su vez, una puerta abierta para futuros jugadores y creadores.
+
+> **Islas Fracturadas no es una lucha por superar a sus creadores; es una carta de agradecimiento convertida en una campaña jugable.**
+
+Este homenaje no implica afiliación, autorización ni respaldo oficial de Bohemia Interactive.
+
 ## Alcance
 
 Este documento reúne las fuentes enumeradas en su tabla de contenido. Las áreas cuya fuente de verdad pertenece a otro documento se conservan solo como contexto y remiten al índice documental.
 
 ## Tabla de contenido
 
+- [Intención autoral y homenaje](#intencion-autoral-y-homenaje)
 - [GAME DESIGN](#fuente-game-design)
 
 ## Principios
