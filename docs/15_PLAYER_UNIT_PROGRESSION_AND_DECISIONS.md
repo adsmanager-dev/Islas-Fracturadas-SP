@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Progresión como responsabilidad sobre el mundo](#progresion-como-responsabilidad)
 - [PLAYER UNIT AND PROGRESSION](#fuente-player-unit-and-progression)
 - [PLAYER PROGRESSION AUTHORITY AND UNLOCKS SYSTEM](#fuente-player-progression-authority-and-unlocks-system)
 - [STRATEGIC UI AND PLAYER EXPERIENCE SYSTEM](#fuente-strategic-ui-and-player-experience-system)
@@ -40,6 +41,55 @@ Fuentes auditadas: `PLAYER_UNIT_AND_PROGRESSION.md`, `PLAYER_PROGRESSION_AUTHORI
 - Las fuentes declaradas para 15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="progresion-como-responsabilidad"></a>
+## Progresión como responsabilidad sobre el mundo
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Umbrales de desbloqueo:** `POR_CALIBRAR`
+
+La progresión no entrega solo mejores recursos: amplía el alcance de decisiones cuyos daños ya no pueden separarse de sus beneficios. Rango, autoridad, confianza, reputación, cohesión, capacidades e investigación permanecen como ejes distintos. Un ascenso formal no concede automáticamente obediencia, legitimidad ni conocimiento.
+
+| Acto | Qué aprende el jugador | Qué puede ordenar o proponer | A quién puede influir | Responsabilidad nueva | Decisión irreversible representativa |
+| --- | --- | --- | --- | --- | --- |
+| I | supervivencia de unidad y lectura local | prioridades tácticas, rescate, persecución y ruta inmediata | escuadra, enlace y comunidad de contacto | conservar cabeza de playa sin consumir a su unidad o a civiles | quién recibe protección y qué objetivo escapa |
+| II | inteligencia, fiabilidad y autenticación | solicitar verificación, contrastar o actuar con incertidumbre | técnicos y mando inmediato | decidir qué información entra en una orden | explotar, reservar o denunciar una fuente |
+| III | logística regional y sobreextensión | priorizar convoyes, frentes, reservas y servicios | oficiales de sector y logística | decidir qué territorio queda vulnerable | sostener un frente a costa de otro o de una ciudad |
+| IV | administración, seguridad y memoria civil | negociar servicios, uso de fuerza, detenciones y restitución | municipios, FIA, policía y enlaces políticos | asumir consecuencias de ocupación/protección | imponer, compartir o devolver autoridad urbana |
+| V | coaliciones y cadenas de mando incompatibles | proponer pactos, integración, garantías o desarme | Verde, Gobierno, FIA y mandos extranjeros | elegir qué estructura nacional se fortalece | reconocer, subordinar o romper con un bloque |
+| VI | investigación, custodia y riesgo de publicación | clasificar, copiar, distribuir, proteger o destruir evidencia | mandos, técnicos, testigos y actores nativos | decidir quién conoce una verdad peligrosa | entregar una copia o cerrar una ruta de acceso |
+| VII | mando operacional y mediación | coordinar operaciones múltiples, relevar, mediar o asumir autoridad | bloques de poder y unidades regionales | determinar cómo se gana y quién puede ordenar el coste | resolver una crisis de mando |
+| VIII | decisión estratégica y legado | resolver Helios y recomendar/pactar presencia posbélica | nación, aliados, adversarios y unidad | decidir qué sobrevive a la guerra | destino de Helios, Argos, presencia y orden político |
+
+### Contrato de desbloqueo
+
+Toda capacidad de decisión declara:
+
+```text
+eje que la habilita
+experiencia que demuestra competencia
+actor que reconoce la autoridad
+información mínima necesaria
+coste o responsabilidad adquirida
+alternativa si no está disponible
+consecuencia por abuso, fracaso o desobediencia
+forma diegética de comunicarla
+```
+
+La alternativa nunca es bloquear la campaña sin explicación: otro actor decide, la misión se transforma, la opción se delega o el coste aumenta. El jugador debe poder reconocer por qué no controló una decisión.
+
+### Acoplamiento con la transformación del mundo
+
+- Rango permite solicitar y coordinar; autoridad determina si la orden es válida; confianza decide si alguien coopera más allá de lo obligatorio.
+- Reputación es por actor y región. Una decisión puede mejorar legitimidad municipal y deteriorar relación con mando.
+- Cohesión de AZUR-1 o RUBÍ-1 condiciona la ejecución y el legado, no la verdad objetiva de una orden.
+- Capacidades materiales abren soluciones, pero también dependencias y obligaciones logísticas.
+- Investigación permite formular y sostener conclusiones; no entrega omnisciencia ni acceso automático.
+- Cada desbloqueo de nivel de acto debe corresponder a una responsabilidad mostrada antes de exigirse en una misión principal.
+
+### Validación de progresión narrativa
+
+Una prueba por acto debe verificar que el jugador comprende la nueva responsabilidad, puede usarla de dos formas incompatibles, observa una reacción inmediata y recibe una consecuencia diferida. Si el mismo resultado aparece sin importar autoridad, confianza, capacidad o conocimiento, la progresión es cosmética.
 
 ## Contenido consolidado
 

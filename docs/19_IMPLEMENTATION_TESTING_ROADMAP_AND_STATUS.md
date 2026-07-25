@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Criterios de aceptación de dirección narrativa](#criterios-de-aceptacion-de-direccion-narrativa)
 - [MASTER TESTING PERFORMANCE AND BALANCE SYSTEM](#fuente-master-testing-performance-and-balance-system)
 - [MASTER IMPLEMENTATION AND PRODUCTION PLAN](#fuente-master-implementation-and-production-plan)
 
@@ -51,13 +52,13 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 | --- | --- |
 | Fase actual | Preimplementación |
 | Subfase | Cierre documental y preparación de Fase 0 |
-| Último gate aprobado | `DOC-GATE-01 — Integridad estructural documental` |
+| Último gate aprobado | `DOC-GATE-02 — Integridad de dirección narrativa jugable` |
 | Hito técnico aprobado | Ninguno |
 | Próximo hito | `M0 — Esqueleto técnico ejecutable` |
 | Implementación jugable | No iniciada |
 | Entregables presentes | 20 documentos consolidados y estructura vacía de carpetas |
 | Entregables ausentes | `mission.sqm`, `description.ext`, inicializadores, SQF, configuración funcional y pruebas de motor |
-| Pruebas ejecutadas | Integridad de enlaces, anclas, IDs, Markdown y coherencia documental básica |
+| Pruebas ejecutadas | Integridad de enlaces, anclas, IDs, Markdown, coherencia documental básica y trazabilidad narrativa entre 00, 05–09, 15–17 y 19 |
 | Pruebas de Arma 3 | Ninguna registrada |
 | Bloqueadores canónicos | Ninguno para iniciar Fase 0; Vardis y Verdad Comparada quedaron cerrados por `DEC-003`–`DEC-005` |
 | Bloqueadores técnicos posteriores | Geografía 3DEN, adaptación vanilla y benchmark provisional |
@@ -119,6 +120,63 @@ Toda modificación incompatible requiere actualizar este registro, las fuentes t
 | `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | pendiente | — |
 
 Cada tarea conservará ID, archivo o módulo propietario, requisitos relacionados, pruebas, estado, evidencia y versión o commit. Ninguna puede marcarse completada solo porque exista documentación de diseño.
+
+<a id="criterios-de-aceptacion-de-direccion-narrativa"></a>
+## Criterios de aceptación de dirección narrativa
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Estado de implementación:** no iniciado.
+> **Regla:** estos criterios son puertas futuras de contenido y sistema; su presencia documental no equivale a `IMPLEMENTADO` ni `PROBADO`.
+
+### Gate documental `DOC-GATE-02`
+
+> **Estado:** aprobado el 2026-07-25.
+> **Alcance:** contratos y trazabilidad documental; no prueba ejecución, balance, guardado, SQF ni comportamiento dentro de Arma 3.
+
+La capa directora queda documentalmente íntegra cuando:
+
+- los actos I–VIII declaran fantasía, pregunta, cambio irreversible, mecánica, actores autónomos, decisión, escalada, revelación, duda, consecuencia diferida, salida y finales preparados;
+- Verde y FIA poseen condiciones de entrada, iniciativa, influencia, ruptura, transición y huella de final;
+- los siete relojes directores declaran fases, detonantes, escenas, crisis y resolución;
+- cada familia pública de final tiene preparación, señales, bloqueos, representantes y advertencia previa al no retorno;
+- progresión, inteligencia, misión y diálogo consumen la misma cadena causal;
+- el índice permite trazar acto → facción → personaje → misión → consecuencia → final;
+- ninguna afirmación eleva diseño a implementación o revela conocimiento de autor en contenido para jugador.
+
+### Gate funcional narrativo del vertical slice
+
+El vertical slice Azul no se aprueba solo por presentar voces y diálogo variable. Debe superar una prueba guardable y repetible con esta secuencia:
+
+1. en Neochori, proteger civiles y perseguir Verde son alternativas reales con coste;
+2. Ward, Hale, Laurent y Torres reaccionan de forma diferenciada y compatible con su conocimiento;
+3. la comunidad cambia cooperación, agravio o miedo;
+4. Verde ejecuta un plan de reorganización aunque el jugador no la persiga;
+5. FIA ofrece información, exige una condición o se distancia;
+6. `IF_B_A01_M04` cambia ruta, apoyo, riesgo o ventana;
+7. una escena posterior recuerda el efecto, no solo la elección;
+8. guardado/carga conserva detonante, estado parcial y consecuencias programadas;
+9. el debriefing informa hechos observables sin exponer pesos;
+10. al menos una relación y una contribución de final conservan trazabilidad de origen.
+
+Se ejecutan dos perfiles principales, una omisión/expiración y una carga entre decisión y recordatorio. Un defecto en cualquier eslabón invalida la demostración narrativa aunque el combate termine correctamente.
+
+### Matriz de pruebas causales
+
+| Área | Preparación | Acción | Resultado verificable | Regresión obligatoria |
+| --- | --- | --- | --- | --- |
+| Agencia de facción | fijar recursos, objetivo y reloj; no aceptar la misión | avanzar tiempo estratégico | la facción actúa, consume recursos y genera noticia/misión transformada | guardar antes de expirar y cargar después |
+| Evolución Verde/FIA | estado próximo a transición con un detonante ausente | aplicar o negar detonante | no cambia prematuramente; cambia una vez al completar condiciones | sustitución de líder y actor regional |
+| Reloj personal | cooperación con señales acumuladas | provocar detonante de rivalidad/ruptura | escena, conducta, misión y mando cambian coherentemente | participante muerto usa sustituto funcional |
+| Consecuencia diferida | registrar arma, promesa, herido o evidencia | alcanzar condición posterior | reaparece el mismo objeto/deuda/hecho con procedencia | carga, rama alternativa y expiración |
+| Escalada | comparar dos actos consecutivos | ejecutar conjunto representativo | aumentan al menos dos ejes y existe recuperación tras pico | dificultad no borra coste moral/político |
+| Revelación | evidencia incompleta y actores con accesos distintos | autenticar y distribuir selectivamente | cada actor conoce/reacciona solo a lo recibido | metaconocimiento y fuente contaminada |
+| Progresión | capacidad formal sin confianza o información | intentar ordenar | obediencia, alternativa y explicación responden a ejes separados | ascenso no concede acceso indebido |
+| Preparación de final | construir y bloquear una familia | cruzar no retorno | advertencia reconoce viabilidad; validador elige resultado coherente | perfiles dorados de las 14 familias |
+| Diálogo | decisión con cuatro perspectivas | interrumpir o perder participante | función reaparece por fallback sin duplicarse | subtítulos, guardado y callback único |
+
+### Trazabilidad mínima de evidencia
+
+Cada caso futuro registra `testId`, versión, fixture, estado inicial, acción, resultado esperado/real, `missionId` o evento causal, variables modificadas, captura/RPT si aplica y defecto relacionado. Las pruebas documentales pueden comprobar contratos y enlaces; solo Arma 3 puede aportar evidencia funcional, de rendimiento o 3DEN.
 
 ## Contenido consolidado
 

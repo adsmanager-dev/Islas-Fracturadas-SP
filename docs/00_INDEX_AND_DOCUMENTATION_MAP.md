@@ -118,6 +118,50 @@ Una etiqueta colocada en una sección `Fuente integrada` gobierna sus subseccion
 - La arquitectura técnica implementará contratos de todos los sistemas sin convertir propuestas en funcionalidad existente.
 - La hoja de ruta y el plan de pruebas validan cada fuente temática y no redefinen sus reglas.
 
+<a id="mapa-director-de-trazabilidad-jugable"></a>
+## Mapa director de trazabilidad jugable
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Regla:** la fuente de campaña coordina; cada enlace temático conserva autoridad sobre su sistema. Esta matriz no afirma implementación.
+
+La cadena autoritativa de una decisión jugable es:
+
+```text
+acto y pregunta dramática
+→ iniciativa de facción
+→ reloj o arco de personaje
+→ misión/evento y decisión u omisión
+→ consecuencias inmediata y diferida
+→ variable trazable de final y epílogo
+```
+
+| Acto | Facciones y mundo autónomo | Personajes y conflictos | Misión o experiencia directora | Consecuencia que debe reaparecer | Finales que empieza o continúa preparando |
+| --- | --- | --- | --- | --- | --- |
+| I — Dos mareas | [Verde](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde), [FIA/civiles](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md#maquina-directora-de-evolucion-fia), Azul/Rojo | Torres/Darzi, Ward/Hale, Navid/Vahid | `IF_B_A01_M03`–`M04`, equivalentes Rojos, cabeza de playa y primer convoy | vida, comunidad, arma, ruta y confianza inicial | presencia extranjera, resistencia, cooperación local o colapso |
+| II — Los ojos de la isla | infiltrados, técnicos, Verde y redes locales explotan u ocultan información | Shaw/Volkov, Kessler/Sadeq, Reed/Farouk | verificación de predicción, nodo, dron y fuente contradictoria | una fuente usada o descartada cambia III o VI | destino de Argos, verdad pública y control de Helios |
+| III — Tierra prestada | potencias expanden; municipios pactan; FIA recluta; Verde prioriza reservas | Ward/Hale, Navid/Vahid, Laurent/Khoury | convoy regional, frente sacrificado, corredor y servicio | zona abandonada, dependencia logística y legitimidad administrativa | protectorado, Estado cliente, confederación o victoria sin paz |
+| IV — Las ciudades recuerdan | municipios, sindicatos, FIA y fuerzas ocupantes administran o resisten | Markou/Kallas, Koronis, Laurent/Khoury | huelga, hospital, desplazados, detención y seguridad urbana | promesa, agravio, arma o servicio vuelve en V–VII | Gobierno de unidad, resistencia, revolución, ocupación o fragmentación |
+| V — El ejército dividido | [Verde](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde), Gobierno y FIA eligen coaliciones | Varos/Gobierno, Markou/Kallas, Ward/Hale, Navid/Vahid | reconocimiento de mando, integración/desarme y operación conjunta | fragmento protegido, subordinado o humillado determina aliados posteriores | restauración, directorio, alianza, unidad o islas divididas |
+| VI — La voz de Stratis | técnicos, Petrou/Damaris y Argos mueven pruebas, testigos y copias | Kessler/Sadeq, Petrou/Damaris, Arendt/Vardis | cadena de custodia, convoy de los muertos y ruta LÁZARO | testigo, copia o hipótesis altera VII–VIII | Helios nacional, extranjero, liberado, destruido u oscuro |
+| VII — Guerra de los nodos | bloques ejecutan ofensivas y crisis de mando sin esperar mediación | [relojes Ward/Hale, Navid/Vahid y Argos](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md#arcos-ejecutables-y-relojes-de-conflicto) | operaciones múltiples, tregua, exposición y relevo/mediación | mando y coalición resueltos definen fuerzas para Stratis | todas las familias aún compatibles y módulos Argos |
+| VIII — Regreso a Stratis | coaliciones resultantes, Meridian, Argos y unidades convergen | resoluciones personales y sustitutos | decisión técnica/política sobre Helios, presencia y orden | epílogos citan causas concretas y memoria regional | [14 familias públicas y módulos](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md#capa-directora-de-campana) |
+
+### Propiedad de cada eslabón
+
+| Eslabón | Fuente principal | Contrato de salida |
+| --- | --- | --- |
+| identidad, salida y promesa del acto | [08](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md#capa-directora-de-campana) | estado mínimo y familias viables |
+| transición Verde | [05](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde) | etapa, detonante, corriente y memoria |
+| transición FIA/civil | [06](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md#maquina-directora-de-evolucion-fia) | etapa, corriente, armas, promesas y radicalización |
+| arco y reloj personal | [07](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md#arcos-ejecutables-y-relojes-de-conflicto) | fase, escena, conducta, sustituto y resolución |
+| revelación | [09](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#ritmo-director-de-revelaciones) | pregunta respondida, duda, acceso y distribución |
+| autoridad del jugador | [15](15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md#progresion-como-responsabilidad) | opción, competencia, reconocimiento y responsabilidad |
+| misión y consecuencia | [16](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md#registro-autoritativo-de-consecuencias) | causa, resolución, efectos, recordatorio y variable final |
+| escena y comunicación | [17](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md#matriz-directora-de-escenas-y-recordatorios) | reacción, transición visible y callback |
+| aceptación y evidencia | [19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#criterios-de-aceptacion-de-direccion-narrativa) | caso, fixture, resultado y prueba |
+
+Una misión futura no entra en producción si no puede recorrer esta cadena en ambos sentidos: desde su detonante hasta al menos una consecuencia diferida y desde cualquier variable de final hasta una causa identificable.
+
 ## Glosario mínimo
 
 | Término | Significado |

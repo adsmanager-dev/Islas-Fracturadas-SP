@@ -10,7 +10,7 @@ Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto comb
 
 Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
 
-> **Estado actual:** `DOC-GATE-01` aprobado; diseño conceptual y técnico consolidado, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+> **Estado actual:** `DOC-GATE-02` aprobado; la dirección narrativa jugable y su trazabilidad documental están consolidadas, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Experiencia prevista
 

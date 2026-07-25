@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Capa directora de campaña](#capa-directora-de-campana)
 - [BLUE RED CAMPAIGN ARCHITECTURE](#fuente-blue-red-campaign-architecture)
 - [MODULAR ENDINGS AND EPILOGUES MATRIX](#fuente-modular-endings-and-epilogues-matrix)
 
@@ -39,6 +40,106 @@ Fuentes auditadas: `BLUE_RED_CAMPAIGN_ARCHITECTURE.md`, `MODULAR_ENDINGS_AND_EPI
 - Las fuentes declaradas para 08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="capa-directora-de-campana"></a>
+## Capa directora de campaña
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Madurez de los umbrales y combinaciones concretas:** `POR_CALIBRAR`
+> **Regla de autoridad:** esta sección organiza la causalidad entre actos, pero no sustituye las fuentes temáticas de facciones, personajes, inteligencia, progresión, misiones o diálogo.
+
+Cada acto debe resolver una promesa anterior, complicar otra y abrir una nueva. No avanza solo por completar una lista de misiones: avanza cuando el mundo alcanza el estado de salida mínimo y registra qué condiciones quedaron sin resolver. La intensidad alterna operaciones altas, medias y bajas; la escalada aumenta al menos dos ejes entre militar, logístico, político, civil, personal, informativo, territorial y moral.
+
+### Matriz directora de actos
+
+| Acto | Fantasía jugable | Pregunta dramática | Cambio irreversible | Mecánica protagonista | Actores que impulsan el mundo | Decisión central |
+| --- | --- | --- | --- | --- | --- | --- |
+| I — Dos mareas | sobrevivir, reunir la unidad y convertir una llegada precaria en presencia | ¿a quién proteges cuando aún no puedes protegerlo todo? | Azul y Rojo establecen cabezas de playa; Verde y civiles dejan de tratar la crisis como incidente temporal | supervivencia de unidad, logística corta, sectores y primer contacto civil | mandos invasores, Verde local, municipios y células FIA | perseguir ventaja militar o conservar vidas, suministro y confianza |
+| II — Los ojos de la isla | aprender a combatir con información incompleta | ¿qué ordenas cuando la fuente útil no es plenamente fiable? | la inteligencia deja de ser apoyo y se convierte en terreno de disputa | verificación, confianza de fuentes, drones, nodos y evidencia | Shaw, Volkov, técnicos, Rallis y Argos | explotar una predicción o retrasarse para autenticarla |
+| III — Tierra prestada | sostener varios frentes y administrar lo conquistado | ¿puedes expandirte sin vaciar aquello que dices defender? | la presencia extranjera se vuelve administración de hecho | corredores, convoyes regionales, prioridades de frente y servicios | Azul, Rojo, municipios, Verde aislada y FIA en expansión | concentrar fuerza para avanzar o repartirla para sostener territorio |
+| IV — Las ciudades recuerdan | pasar de fuerza expedicionaria a autoridad urbana | ¿puedes proteger una ciudad mientras la utilizas para ganar la guerra? | una ciudad protegida, negociada o sometida adquiere memoria política duradera | servicios, huelgas, desplazados, seguridad urbana y uso de fuerza | municipios, FIA, contratistas, Verde local y mandos extranjeros | seguridad inmediata frente a legitimidad, restitución y participación |
+| V — El ejército dividido | construir una coalición entre instituciones que se están rompiendo | ¿qué soberanía preservas cuando ya no existe un mando nacional único? | Verde deja de ser un actor unitario y sus fragmentos eligen patrocinio, reforma o resistencia | alianzas, mandos paralelos, integración de fuerzas y negociación | Varos, Sarris, Daskal, Koronis, Rallis, Gobierno y FIA | subordinar, reconocer, desarmar o pactar con actores nativos |
+| VI — La voz de Stratis | investigar una guerra que también te ha utilizado | ¿quién merece conocer una verdad capaz de alterar la guerra? | la existencia operativa de HELIOS-CORE queda demostrada sin resolver todavía toda su autoría | cadena de custodia, clasificación, distribución y protección de testigos | técnicos, Petrou, Damaris, infiltrados y Argos | preservar, compartir, restringir o destruir evidencia y acceso |
+| VII — Guerra de los nodos | ejercer mando operacional entre bloques incompatibles | ¿cómo ganas cuando tu propio mando puede ser parte del problema? | los conflictos de mando alcanzan crisis abierta y Argos pierde parte de su invisibilidad | operaciones múltiples, acceso físico/digital, treguas y crisis de mando | Ward/Hale, Navid/Vahid, bloques nativos, Argos y fuerzas regionales | obedecer, mediar, exponer, relevar o asumir responsabilidad |
+| VIII — Regreso a Stratis | resolver simultáneamente guerra, Helios y legado de la unidad | ¿qué debe sobrevivir a la victoria? | el destino de HELIOS-CORE, la presencia extranjera y el orden político quedan cerrados para esa campaña | resolución sistémica, política, técnica y personal | coaliciones resultantes, Meridian, Argos, técnicos y unidades protagonistas | destruir, custodiar, nacionalizar, liberar u ocultar; ocupar, retirarse o pactar |
+
+| Acto | Escalada dominante | Verdad demostrada | Nueva duda | Consecuencia diferida obligatoria | Estado mínimo de salida | Familias de final preparadas |
+| --- | --- | --- | --- | --- | --- | --- |
+| I | militar + logística + humana | las versiones oficiales no explican toda la preparación previa | ¿quién conocía los movimientos antes del Día Cero? | una vida, convoy, arma o comunidad reaparece en II–IV | cabeza de playa, unidad, ruta, relación local y primera evidencia | presencia extranjera, resistencia, colapso o cooperación local |
+| II | informativa + personal | Helios anticipa decisiones mejor de lo razonable | ¿predice, selecciona o provoca? | una fuente confiada o descartada altera una operación de III o VI | confianza de fuentes, sospecha de infiltración y evidencia autenticada o contaminada | destino de Argos, verdad pública y control de Helios |
+| III | territorial + logística + política | una contingencia fue presentada como certeza | ¿quién convirtió análisis en autorización? | el frente abandonado, el convoy priorizado y el servicio sacrificado condicionan IV–V | corredores, sobreextensión, administración y dependencia regional | protectorado, Estado cliente, confederación o guerra sin paz |
+| IV | civil + moral + política | PHAROS alcanzó a familias, pagos e instituciones | ¿quién decidió qué vidas eran aceptables? | huelgas, detenidos, armas y promesas regresan en V–VII o epílogos | memoria urbana, servicios, desplazamiento, legitimidad y radicalización | unidad, resistencia, revolución, ocupación o fragmentación |
+| V | institucional + personal + militar | existen órdenes válidas pero incompatibles | ¿puede reunificarse Verde sin repetir la subordinación? | el fragmento protegido o humillado define aliados, golpes y posguerra | facciones Verdes diferenciadas, Gobierno, FIA y coaliciones registradas | restauración, directorio, alianza, Gobierno de unidad o división |
+| VI | informativa + moral + técnica | HELIOS-CORE sigue activo en Stratis | ¿quién puede controlarlo sin reproducir Argos? | testigos, copias y distribución de pruebas alteran VII–VIII | acceso, custodia, hipótesis descartadas y nivel de exposición | Helios nacional, extranjero, liberado, destruido u oscuro |
+| VII | guerra total + mando + responsabilidad | los comandantes fueron también variables de validación | ¿quién conserva autoridad legítima para decidir el final? | la resolución del reloj de mando define fuerzas y voces disponibles en VIII | mando resuelto, coaliciones, acceso a Stratis y advertencia de no retorno | todas las familias políticas compatibles con el estado construido |
+| VIII | sistémica + política + personal | la campaña obtiene la verdad permitida por `DEC-003`–`DEC-005` | ¿qué significado tendrá la victoria en la memoria pública? | epílogos regionales, personajes, unidad y señal residual | vector final completo y trazable | familia pública, módulos Helios/Argos y epílogos compatibles |
+
+### Agencia autónoma de facciones
+
+Ninguna facción espera a que el jugador seleccione una misión. El simulador narrativo debe resolver sus iniciativas aunque la misión asociada se ignore, delegue, expire o quede fuera de pantalla.
+
+| Facción | Objetivo persistente | Temor | Puede perder | Puede conseguir |
+| --- | --- | --- | --- | --- |
+| Azul | consolidar un corredor y negar ventaja estratégica a Rojo | expansión Roja y fracaso público | legitimidad, logística y cohesión de mando | puertos, acceso Helios y salida política |
+| Rojo | conectar Asterión con una alianza Verde viable | aislamiento oriental y pérdida de iniciativa | alianza, combustible y autoridad de Navid | aeropuerto, Gobierno reconocido y profundidad territorial |
+| Verde | preservar soberanía, fuerza y continuidad nacional | subordinación o disolución | mando unificado, depósitos e instituciones | reunificación, alianza limitada o resistencia nacional |
+| FIA | convertir apoyo clandestino en influencia política | ocupación permanente o captura por radicales | legitimidad, redes y cohesión | capacidad armada, administración o transición |
+| Gobierno | conservar instituciones y reconocimiento | colapso, golpe o tutela extranjera | obediencia militar y capacidad administrativa | continuidad constitucional o coalición |
+| Municipios | mantener servicios, población y margen local | hambre, desplazamiento y represalia | habitantes, infraestructura y confianza | autonomía, pacto regional o peso nacional |
+| Argos | preservar Validación Integral y su continuidad | exposición prematura y pérdida de operadores | archivos, accesos y cobertura | retraso, evacuación, copia superviviente y nuevo teatro |
+
+| Acto | Azul actúa sin el jugador | Rojo actúa sin el jugador | Verde actúa sin el jugador | FIA actúa sin el jugador | Gobierno y municipios actúan sin el jugador | Argos actúa sin el jugador |
+| --- | --- | --- | --- | --- | --- | --- |
+| I | fortifica o fuerza una salida limitada | enlaza Molos y Asterión | contiene desembarcos y reagrupa aislados | observa, rescata, roba o esconde armas | abren refugios, racionan y negocian paso | protege infiltrados y corrige señales demasiado visibles |
+| II | explota ESPEJO o pide verificación | explota Asterión o protege a Sadeq | Rallis distribuye inteligencia y Varos busca comunicaciones | vende, contrasta o reserva inteligencia local | registran desaparecidos y contradicen partes oficiales | contamina fuentes y fabrica explicaciones plausibles |
+| III | prioriza aeropuerto, corredor o servicios | amplía el corredor y exige contribuciones | concentra reservas o pacta localmente | recluta, sabotea y expande redes | municipios pactan seguridad y Gobierno decreta emergencia | convierte contingencias en certezas operacionales |
+| IV | impone, supervisa o comparte administración | protege instituciones o instala control | Koronis abre corredores; aislados buscan acuerdos | Markou negocia; Kallas arma brigadas | convocan huelgas, administran hospitales y desplazan población | oculta pagos PHAROS y explota disturbios |
+| V | Hale o Ward busca una coalición útil | Navid o Vahid disputa el tipo de alianza | mandos paralelos eligen autoridad y territorio | Markou/Kallas eligen pacto, levantamiento o ruptura | Pallis, Stavrou y Kouris compiten por continuidad | Rallis acelera rupturas y prepara evacuación |
+| VI | asegura manifiestos, técnicos y ruta | protege convoyes, técnicos y acceso | Petrou/Damaris activan LÁZARO; fragmentos eligen custodio | protege testigos o intenta apropiarse de pruebas | municipios exigen verdad sobre víctimas | omite, retrasa, elimina rutas y mueve copias |
+| VII | resuelve su crisis de mando y ataca nodos | resuelve su crisis de mando y ataca nodos | coaliciones nativas exigen garantías | coopera, combate a todos o se fragmenta | condicionan legitimidad a conducta y publicación | sacrifica células, falsifica traiciones y conserva el núcleo |
+| VIII | asalta, infiltra, pacta o contiene | asalta, infiltra, pacta o contiene | apoya, resiste o exige soberanía | moviliza, negocia o prepara posguerra | forman Gobierno, pacto municipal o administración de emergencia | evacua, negocia, destruye pruebas o deja una copia |
+
+El jugador puede acelerar, frenar, explotar o impedir una iniciativa, pero cada intervención debe registrar el plan sustituido y su coste de oportunidad.
+
+### Preparación de las familias públicas de final
+
+Las condiciones exactas siguen `POR_CALIBRAR`. Antes del punto de no retorno, el jugador recibe señales diegéticas sobre las familias aún viables y advertencias sobre compromisos incompatibles, nunca porcentajes ni el nombre técnico del final.
+
+| Familia | Preparación mínima y actos | Señales visibles | Bloqueos principales | Personajes o instituciones representativas |
+| --- | --- | --- | --- | --- |
+| Liberación vigilada | Azul dominante; autoridad local funcional; retirada o revisión pactada en III–VIII | administración compartida, calendario de transferencia, patrullas mixtas | Gobierno colapsado, anexión de hecho o servicios destruidos | Ward, Laurent, Pallis, Stavrou, municipios |
+| Protectorado Azul | dominio Azul, bases y Gobierno dependiente preparados desde III | asesores controlan puertos, seguridad y Helios; decretos tutelados | retirada efectiva, soberanía nativa fuerte o derrota Azul | Hale, tecnócratas, contratistas, Gobierno dependiente |
+| Victoria sin paz | victoria militar Azul sin legitimidad ni consolidación, sembrada en I–VII | rutas inseguras, armas Azul en manos insurgentes, funerales hostiles | pacto civil estable, desarme viable y servicios suficientes | FIA armada, municipios agraviados, AZUR-1 |
+| Alianza restaurada | Rojo dominante con Gobierno y Verde preservados desde I–VII | órdenes conjuntas, mando Verde reconocido, límites escritos | subordinación irreversible, golpe o destrucción institucional | Navid, Varos, Sarris, Khoury, Gobierno |
+| Orden impuesto | Rojo dominante, Gobierno cliente y Verde subordinada desde III–VII | asesores deciden nombramientos, seguridad fría y censura | autonomía real, retirada Roja o rebelión Verde exitosa | Vahid, Kouris dependiente, mandos subordinados |
+| Alianza que devoró al Estado | asistencia Roja convertida en ocupación entre III y VII | requisas, bases permanentes, oficiales Verdes relegados | alianza limitada respetada o expulsión Roja | Vahid, Khoury, Sarris rebelde, municipios orientales |
+| Gobierno de unidad | Pallis/Stavrou; Markou o sustituto cívico; Koronis; municipios protegidos; baja dependencia, preparado IV–VIII | reuniones difíciles, operaciones conjuntas, restitución y servicios | FIA militarizada sin contrapeso, Verde reformista destruida o tutela extrema | Pallis, Stavrou, Markou, Koronis, Laurent |
+| República restaurada | autoridad civil y Verde reunificada con legitimidad, preparada V–VIII | juramentos comunes, cadena de mando nacional y reapertura institucional | directorio, fragmentación permanente o captura extranjera | Pallis, Varos o sustituto, Sarris, Koronis |
+| Directorio de soberanía | Verde soberanista fuerte y autoridad civil incapaz, preparado V–VIII | estados de excepción, consejos militares y fronteras controladas | desarme Verde, coalición civil robusta o subordinación extranjera | Daskal, Varos, oficiales regionales |
+| República de la resistencia | FIA cívica legítima, municipios y transición institucional, preparada II–VIII | consejos abiertos, brigadas subordinadas y elecciones discutidas | muerte sin sustituto de Markou, dominio total de Kallas o rechazo municipal | Markou, Stavrou, Koronis, consejos cívicos |
+| Revolución armada | FIA militar fuerte, Kallas dominante y débiles contrapesos, preparada II–VIII | tribunales de campaña, depósitos pesados y mando de brigadas | desarme efectivo, autoridad cívica sólida o derrota FIA | Kallas, Brigadas de Liberación, Frente Negro |
+| República de puertos y municipios | centro débil y redes locales funcionales, preparada III–VIII | pactos de abastecimiento, consejos regionales y rutas compartidas | recentralización coercitiva, colapso de servicios o guerra abierta entre regiones | alcaldes, sindicatos, consejos municipales |
+| Islas divididas | bloques territoriales viables pero incompatibles, preparado III–VIII | puestos fronterizos, monedas de lealtad y treguas locales | reunificación política/militar o victoria total consolidada | mandos regionales, enclaves Azul/Rojo/Verde/FIA |
+| Islas desconectadas | colapso combinado de autoridad, servicios, Helios y población, acumulado I–VIII | éxodo, apagones, cadenas logísticas rotas y archivos perdidos | cualquier coalición capaz de garantizar servicios y sucesión | desplazados, trabajadores esenciales, administraciones de emergencia |
+
+Cada familia debe tener al menos una misión asociada, una escena de preparación, una advertencia previa al no retorno y un epílogo que cite acciones rastreables. Un final que solo satisface una fórmula, sin preparación visible, falla validación narrativa.
+
+### Demostración narrativa del vertical slice Azul
+
+El vertical slice debe demostrar esta cadena completa:
+
+```text
+decisión del jugador
+→ reacción diferenciada de personaje
+→ cambio de comunidad o facción
+→ consecuencia estratégica
+→ misión nueva, transformada, delegada o expirada
+→ recordatorio posterior
+→ estado persistido
+→ contribución trazable a relaciones o final
+```
+
+La prueba mínima de Neochori ofrece una decisión entre proteger civiles y perseguir una unidad Verde. Ward, Hale, Laurent y Torres reaccionan según sus prioridades; Neochori altera cooperación y memoria; Verde reorganiza el contraataque; FIA ofrece información o se distancia; `IF_B_A01_M04` cambia la ruta del convoy; una escena posterior recuerda la elección; el guardado conserva causas y efectos; el debriefing explica consecuencias observables sin revelar cálculos. No se considera demostrada la promesa narrativa si cualquiera de esos eslabones solo existe como texto fijo.
 
 ## Contenido consolidado
 
