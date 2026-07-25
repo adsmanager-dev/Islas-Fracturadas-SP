@@ -1,0 +1,10 @@
+.git/
+.codebase-memory/
+.serena/
+.vscode/
+docs/
+IslasFracturadas.Altis/assets/
+*.pbo
+*.ebo
+*.bisign
+*.rpt

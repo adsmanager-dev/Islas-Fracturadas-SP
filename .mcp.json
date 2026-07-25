@@ -1,0 +1,40 @@
+{
+  "mcpServers": {
+    "codebase-memory-mcp": {
+      "type": "stdio",
+      "command": "C:/Users/Admin/.local/bin/codebase-memory-mcp.exe",
+      "args": [],
+      "env": {}
+    },
+    "serena": {
+      "type": "stdio",
+      "command": "C:/Users/Admin/.local/bin/serena.exe",
+      "args": [
+        "start-mcp-server",
+        "--project",
+        "D:/Proyectos/Islas Fracturadas",
+        "--context",
+        "claude-code",
+        "--transport",
+        "stdio",
+        "--enable-web-dashboard",
+        "false",
+        "--open-web-dashboard",
+        "false"
+      ],
+      "env": {}
+    },
+    "semgrep": {
+      "type": "stdio",
+      "command": "C:/Users/Admin/.local/bin/semgrep.exe",
+      "args": [
+        "mcp",
+        "-t",
+        "stdio",
+        "-a",
+        "claude"
+      ],
+      "env": {}
+    }
+  }
+}

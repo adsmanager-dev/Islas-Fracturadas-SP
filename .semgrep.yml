@@ -1,0 +1,49 @@
+rules:
+  - id: islas-fracturadas.sqf.dynamic-code-execution
+    languages: [generic]
+    paths:
+      include:
+        - /IslasFracturadas.Altis/**/*.sqf
+    message: >-
+      Evita compile/compileFinal con datos dinámicos. Usa funciones registradas,
+      datos validados y llamadas explícitas; si es imprescindible, documenta el
+      origen de la cadena y su frontera de confianza.
+    severity: ERROR
+    pattern-regex: '(?i)\b(?:call\s+)?compile(?:Final)?\b'
+    metadata:
+      category: security
+      technology: [arma3, sqf]
+      confidence: HIGH
+
+  - id: islas-fracturadas.sqf.remote-exec-review
+    languages: [generic]
+    paths:
+      include:
+        - /IslasFracturadas.Altis/**/*.sqf
+    message: >-
+      Revisa localidad, autoridad y CfgRemoteExec antes de usar remoteExec o
+      remoteExecCall. El cliente no debe poder mutar estado estratégico.
+    severity: WARNING
+    pattern-regex: '(?i)\bremoteExec(?:Call)?\b'
+    metadata:
+      category: security
+      technology: [arma3, sqf]
+      confidence: MEDIUM
+
+  - id: islas-fracturadas.generic.hardcoded-secret
+    languages: [generic]
+    paths:
+      include:
+        - /IslasFracturadas.Altis/**/*
+        - "*.json"
+        - "*.yml"
+        - "*.yaml"
+    message: >-
+      Posible secreto codificado directamente. Usa variables de entorno o un
+      almacén local excluido de Git.
+    severity: ERROR
+    pattern-regex: |-
+      (?i)\b(?:api[_-]?key|access[_-]?token|client[_-]?secret|password)\b\s*[:=]\s*["'][^"']{8,}["']
+    metadata:
+      category: security
+      confidence: MEDIUM

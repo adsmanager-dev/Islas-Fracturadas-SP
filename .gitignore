@@ -1,0 +1,62 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editores e IDE
+.idea/
+*.code-workspace
+.vscode/*
+!.vscode/extensions.json
+!.vscode/sqfvm-lsp/
+.vscode/sqfvm-lsp/*
+!.vscode/sqfvm-lsp/ls-ignore.txt
+
+# SQF-VM Language Server
+sqlite3.db
+sqlite3.db-journal
+sqlite3.db-shm
+sqlite3.db-wal
+
+# Salidas de Arma 3 y empaquetado
+*.pbo
+*.ebo
+*.bisign
+*.biprivatekey
+*.rpt
+*.bidmp
+*.mdmp
+*.Arma3Profile
+*.vars.Arma3Profile
+.hemttout/
+
+# Cachés y copias generadas de misiones
+__cur_mp/
+mpmissionscache/
+missionscache/
+*.sqm.bak
+*.sqm.old
+
+# Registros, cobertura y resultados de pruebas
+*.log
+coverage/
+test-results/
+
+# Temporales y respaldos locales
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Variables y secretos locales
+.env
+.env.*
+!.env.example
+
+# Serena local
+.serena/project.local.yml
+.serena/cache/
+.serena/logs/
+.serena/memories/
