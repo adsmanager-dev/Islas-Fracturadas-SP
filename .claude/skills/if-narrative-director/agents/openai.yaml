@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dirección narrativa IF"
+  short_description: "Diseña arcos, escalada y desenlaces"
+  default_prompt: "Use $if-narrative-director para estructurar este arco narrativo con trazabilidad."

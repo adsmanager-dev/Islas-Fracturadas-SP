@@ -1,0 +1,4 @@
+interface:
+  display_name: "Triaje RPT IF"
+  short_description: "Diagnostica errores y avisos del RPT"
+  default_prompt: "Use $if-rpt-triage para analizar este RPT y priorizar sus causas."

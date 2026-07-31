@@ -12,6 +12,29 @@ Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohem
 
 > **Estado actual:** `DOC-GATE-02` aprobado; la dirección narrativa jugable y su trazabilidad documental están consolidadas, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
+## Estado real del repositorio
+
+| Elemento | Estado | Evidencia |
+| --- | --- | --- |
+| Biblioteca documental | consolidada | `docs/00–19` |
+| Decisiones rectoras | registradas | `DEC-001`–`DEC-007` |
+| Estructura de carpetas | creada | archivos `.gitkeep` |
+| `mission.sqm` | ausente | pendiente `F0-002` |
+| `description.ext` | ausente | pendiente `F0-003` |
+| Bootstrap y logger SQF | ausentes | pendientes `F0-006`–`F0-007` |
+| Pruebas dentro de Arma 3 | no ejecutadas | pendiente M0 |
+| Validación 3DEN | no iniciada | pendiente |
+
+## Requisitos de desarrollo
+
+- Arma 3 y Editor 3DEN para la validación física y funcional.
+- Visual Studio Code, PowerShell y Git.
+- Semgrep para reglas deterministas.
+- Codebase Memory, Serena y Semgrep configurados como servidores MCP.
+- Claude Code, Codex o GitHub Copilot en VS Code como agente compatible.
+
+No se fijan versiones hasta verificarlas en el entorno real.
+
 ## Experiencia prevista
 
 - Campañas separadas para la Fuerza Azul y la Fuerza Roja.
@@ -46,7 +69,11 @@ Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad C
 .
 ├── README.md
 ├── AGENTS.md
-├── CLAUDE.md                    # Entrada compatible que importa AGENTS.md
+├── CLAUDE.md                    # Adaptador de Claude que importa AGENTS.md
+├── agent-skills-src/            # Fuente única de las skills IF
+├── .claude/skills/              # Copia generada para Claude Code
+├── .agents/skills/              # Copia generada para Codex
+├── tools/Sync-AgentSkills.ps1   # Sincroniza y verifica ambas copias
 ├── docs/                         # Biblioteca canónica de 20 documentos
 ├── IslasFracturadas.Altis/       # Raíz futura de la misión
 │   ├── cfg/                      # CfgFunctions, RemoteExec, sonidos y UI
@@ -64,6 +91,16 @@ Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad C
 ```
 
 Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sistema correspondiente esté implementado.
+
+## Inicio de una sesión de agente
+
+1. Abrir la raíz del repositorio.
+2. Revisar `git status --short`.
+3. Leer `AGENTS.md` y `docs/00_INDEX_AND_DOCUMENTATION_MAP.md`.
+4. Identificar la fuente de verdad del encargo.
+5. Seleccionar la skill `if-*` correspondiente.
+6. Clasificar la tarea como documental, técnica, 3DEN, validación o gate.
+7. Ejecutar, validar y registrar evidencia sin exagerar el estado.
 
 ## Inicio del desarrollo
 
@@ -95,6 +132,37 @@ No debe editarse `mission.sqm` como texto generado libremente; es propiedad del 
 | Semgrep | `.mcp.json`, `.semgrep.yml` y `.semgrepignore` | Revisión de secretos, ejecución dinámica SQF y fronteras de `remoteExec`. |
 
 Claude dispone además de registros locales aprobados para este proyecto. Codex tiene los tres servidores habilitados en su configuración MCP; una sesión que estuviera abierta antes de configurarlos debe reiniciarse para cargar las herramientas nuevas.
+
+## Personalización de agentes
+
+| Elemento | Ubicación | Función |
+| --- | --- | --- |
+| Reglas comunes | `AGENTS.md` | restricciones permanentes |
+| Adaptador Claude | `CLAUDE.md` | comportamiento específico |
+| Fuente de skills | `agent-skills-src/` | autoría de las 18 skills `if-*` |
+| Skills Claude | `.claude/skills/` | copia generada |
+| Skills Codex | `.agents/skills/` | copia generada |
+| Sincronización | `tools/Sync-AgentSkills.ps1` | copia, hashes y protección contra ediciones manuales |
+| MCP | `.mcp.json` | capacidades externas |
+| Semgrep | `.semgrep.yml` | reglas deterministas |
+
+No edites las copias generadas. Modifica `agent-skills-src/` y ejecuta:
+
+```powershell
+.\tools\Sync-AgentSkills.ps1
+.\tools\Sync-AgentSkills.ps1 -Check
+```
+
+Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills técnicas describen procedimientos futuros y no prueban que esos sistemas estén implementados.
+
+## Límites actuales
+
+- No añadir dependencias de mods antes de aprobar la matriz vanilla/mod.
+- No publicar una versión jugable inexistente.
+- No modificar `mission.sqm` manualmente.
+- No incorporar assets sin licencia o procedencia comprobada.
+- No añadir documentos a `docs/` sin respetar el límite de 20.
+- No convertir una propuesta narrativa en canon rector silenciosamente.
 
 ## Comprobación documental
 

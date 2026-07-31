@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revisión de configuración IF"
+  short_description: "Audita configuración de misión Arma 3"
+  default_prompt: "Use $if-config-review para revisar esta configuración de misión."

@@ -1,60 +1,97 @@
 # Instrucciones para agentes
 
-## Estado del proyecto
+## Jerarquía
 
-- El repositorio contiene documentación consolidada y un esqueleto de carpetas.
-- No existe todavía una misión jugable ni implementación SQF confirmada; no conviertas diseño previsto en estado implementado.
+1. Solicitud explícita del usuario.
+2. `AGENTS.override.md` más próximo al archivo, si existe.
+3. `AGENTS.md` más próximo y después los de niveles superiores.
+4. Fuente temática indicada en `docs/00_INDEX_AND_DOCUMENTATION_MAP.md`.
+5. Convenciones generales y ejemplos.
 
-## Fuentes externas
+La instrucción específica prevalece sobre la general, pero no autoriza inventar implementación, alterar canon rector ni revelar conocimiento de autor.
+
+## Estado real
+
+- El repositorio contiene 20 documentos consolidados y un esqueleto de carpetas.
+- No existe misión jugable ni implementación SQF confirmada.
+- No conviertas diseño, pseudocódigo, `.gitkeep` o checklists en estado implementado.
+
+## Fuentes principales
 
 | Necesidad | Archivo |
 | --- | --- |
-| Índice y jerarquía | `docs/00_INDEX_AND_DOCUMENTATION_MAP.md` |
+| Índice y autoridad | `docs/00_INDEX_AND_DOCUMENTATION_MAP.md` |
 | Visión y restricciones | `docs/01_PROJECT_VISION_AND_DESIGN_PILLARS.md` |
 | Canon narrativo | `docs/02_STORY_BIBLE_AND_WORLD_HISTORY.md` |
 | Canon secreto Helios | `docs/03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md` |
 | Arquitectura técnica | `docs/18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md` |
-| Estado y hoja de ruta | `docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md` |
+| Estado, pruebas y hoja de ruta | `docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md` |
 
-## Herramientas de agentes
+## Clasificación de tareas
 
-- Prioriza Codebase Memory: `search_graph`, `trace_path`, `get_code_snippet`, `query_graph` y `get_architecture`; no edites `.codebase-memory/`.
-- Usa Serena para navegación simbólica; para SQF, literales, configuración o resultados insuficientes usa búsqueda textual.
-- Tras cambios de código ejecuta `semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis`.
+- `DOC_REVIEW`: revisar sin modificar.
+- `DOC_CHANGE`: cambiar documentación sin alterar canon rector.
+- `CANON_CHANGE`: registrar conflictos y requerir decisión humana.
+- `DESIGN_CHANGE`: modificar un sistema previsto no implementado.
+- `IMPLEMENTATION`: crear o modificar SQF, configuración o datos funcionales.
+- `THREEDEN_WORK`: requerir acciones manuales dentro de 3DEN.
+- `VALIDATION`: verificar una implementación existente.
+- `RELEASE_GATE`: evaluar un hito completo.
 
-## Flujo de trabajo
+No conviertas una tarea documental en implementación ni una propuesta en canon.
 
-- Lee primero el índice y después la fuente de verdad del sistema afectado.
-- Revisa `git status --short` antes de modificar archivos.
-- Conserva cambios preexistentes y evita tocar áreas fuera del encargo.
-- No implementes SQF, 3DEN o configuración jugable sin una petición explícita.
-- Actualiza enlaces y trazabilidad cuando cambien nombres o responsabilidades.
+## Flujo obligatorio
 
-## Canon y documentación
+1. Clasificar la tarea y leer el índice.
+2. Identificar la fuente de verdad.
+3. Revisar `git status --short` y el estado real.
+4. Localizar dependencias y consumidores.
+5. Ejecutar solo el cambio solicitado.
+6. Validar según el artefacto.
+7. Revisar trazabilidad y documentación afectada.
+8. Informar cambios, pruebas, riesgos y pendientes.
 
-- Redacta la documentación en español y UTF-8.
-- Mantén `docs/` en un máximo de 20 documentos; consolida antes de añadir una fuente.
-- Respeta las etiquetas de canon, propuesta, pendiente y nivel de conocimiento.
-- Registra versiones incompatibles en `Conflictos o decisiones pendientes`.
-- No reveles conocimiento de autor en contenido destinado al jugador.
+## Enrutamiento de herramientas
 
-## Convenciones técnicas
+| Necesidad | Primaria | Alternativa |
+| --- | --- | --- |
+| Arquitectura y dependencias | Codebase Memory | índice / búsqueda textual |
+| Símbolos estructurados | Serena | búsqueda textual |
+| SQF, macros, literales y config | `rg` | Serena |
+| Seguridad y `remoteExec` | Semgrep | revisión manual |
+| Geografía y composiciones | Editor 3DEN | ninguna |
+| Ejecución real | Arma 3 + RPT | pruebas disponibles |
+| Canon | documentos 00–19 | nunca inferir desde código |
 
-- Usa `IslasFracturadas.Altis/` como raíz de la misión.
-- Usa el prefijo `IF_` para identificadores propios del proyecto.
-- Mantén autoridad estratégica compatible con servidor y clientes futuros.
-- Separa comandos, consultas y eventos.
-- No edites `mission.sqm` fuera del flujo controlado del Editor 3DEN.
-- Conserva el diseño SP inicial y la preparación futura para cooperativo.
+No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis`.
 
-## Validación
+## Evidencia y terminado
+
+- `DISEÑO_CONFIRMADO`: decisión presente en su fuente.
+- `IMPLEMENTADO`: artefacto funcional y referencia exacta.
+- `VALIDADO_3DEN`: evidencia registrada desde el editor.
+- `PROBADO`: prueba repetible con resultado conservado.
+- `APROBADO`: criterio y puerta formal superados.
+- Documentación: fuente respetada, conflictos y enlaces revisados, sin duplicación ni estado exagerado.
+- SQF: contratos, localidad, prefijo `IF_`, entradas, logging, Semgrep y prueba o limitación documentada.
+- 3DEN: ejecutar dentro del editor; registrar coordenadas, navegación, composición y rendimiento.
+- Revisión: ordenar hallazgos por gravedad con ubicación, impacto, corrección y prueba faltante.
+
+## Convenciones y límites
+
+- Redacta documentación en español y UTF-8; mantén `docs/` en un máximo de 20 archivos.
+- Conserva etiquetas de canon, propuesta, pendiente y nivel de conocimiento.
+- Usa `IslasFracturadas.Altis/`, prefijo `IF_`, autoridad preparada para servidor y separación de comandos, consultas y eventos.
+- No edites `mission.sqm` fuera del flujo controlado de 3DEN.
+- Conserva SP inicial y preparación futura para cooperativo.
+- No implementes SQF, 3DEN o configuración jugable sin petición explícita.
+- No confirmes, publiques ni descartes cambios salvo petición explícita.
+
+## Validación e informe
 
 | Comprobación | Comando |
 | --- | --- |
-| Estado | `git status --short` |
 | Diferencias | `git diff --check` |
-| Límite documental | `Get-ChildItem .\docs -Recurse -File \| Where-Object { $_.Extension -in ".md", ".txt", ".pdf" } \| Measure-Object` |
+| Documentos | `Get-ChildItem .\docs -Recurse -File \| Where-Object { $_.Extension -in ".md", ".txt", ".pdf" } \| Measure-Object` |
 
-## Git
-
-- No confirmes, publiques ni descartes cambios salvo petición explícita.
+Al finalizar informa alcance, archivos, decisiones, validaciones, resultados, riesgos, pendientes manuales y documentación actualizada.

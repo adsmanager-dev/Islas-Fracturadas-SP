@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contrato de eventos IF"
+  short_description: "Diseña eventos y payloads desacoplados"
+  default_prompt: "Use $if-event-contract para definir o revisar este contrato de evento."

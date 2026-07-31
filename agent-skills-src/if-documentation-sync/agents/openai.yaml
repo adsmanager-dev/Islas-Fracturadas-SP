@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sincronización documental IF"
+  short_description: "Alinea cambios con fuentes y estado real"
+  default_prompt: "Use $if-documentation-sync para alinear la documentación con los cambios realizados."
