@@ -2336,6 +2336,12 @@ Debe:
 * evitar confesión completa;
 * plantear responsabilidad compartida.
 
+#### `Ecos Fracturados`
+
+> **Clasificación:** guion audiovisual de producción (crónica coral en vídeo musical); no deriva de la autoría secreta de ningún personaje.
+
+La pieza narra la invasión y ocupación de un archipiélago ficticio por las fuerzas Azul y Roja desde las consecuencias territoriales y civiles, con la Fuerza Verde y la población nativa como testigos y actores fragmentados. El operador de HELIOS aparece sin identidad revelada — nunca se muestra su rostro con claridad — y sin codificarse como voz o conciencia de Helios; su aparición final confiesa que la información fue mostrada, retrasada u ocultada para inclinar decisiones humanas, sin absolver a autor, mando ni ejecutor. El guion completo, el bloque de continuidad visual, los personajes recurrentes y la letra se conservan en `production/cancion/IF_ECOS_FRACTURADOS_LYRICS_MASTER_v1.0.md`.
+
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--frases-13"></a>
 #### Frases
 
