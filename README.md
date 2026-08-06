@@ -10,21 +10,21 @@ Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto comb
 
 Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
 
-> **Estado actual:** `DOC-GATE-02` aprobado; la dirección narrativa jugable y su trazabilidad documental están consolidadas, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+> **Estado actual:** `M0 — Esqueleto técnico ejecutable` aprobado. La misión principal inicia, carga configuración, registra funciones `IF_`, ejecuta `preInit`/`postInit`, logging, diagnóstico y smoke test. Todavía no existe una campaña jugable ni persistencia o simulación estratégica. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Estado real del repositorio
 
 | Elemento | Estado | Evidencia |
 | --- | --- | --- |
 | Biblioteca documental | consolidada | `docs/00–19` |
-| Decisiones rectoras | registradas | `DEC-001`–`DEC-007` |
-| Estructura de carpetas | creada | archivos `.gitkeep` |
-| `mission.sqm` | presente, generado por 3DEN | `F0-002` completada; escenario de validación parcial |
-| Configuración de Panochori | provisional, no cargada | `IslasFracturadas.Altis/config/sectors.hpp` |
-| `description.ext` | ausente | pendiente `F0-003` |
-| Bootstrap y logger SQF | ausentes | pendientes `F0-006`–`F0-007` |
-| Pruebas dentro de Arma 3 | no ejecutadas | pendiente M0 |
-| Validación 3DEN | no iniciada | pendiente |
+| Decisiones rectoras | registradas | `DEC-001`–`DEC-008` |
+| Estructura de carpetas | M0 materializada | funciones reales bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| `mission.sqm` | misión principal vanilla | generado por 3DEN; validación física conservada en misión separada |
+| Configuración de Panochori | cargada en M0; geografía provisional | `description.ext` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
+| `description.ext` | implementado y cargado | `F0-003` completada |
+| Bootstrap y logger SQF | implementados y probados | `F0-006`–`F0-007` completadas |
+| Pruebas dentro de Arma 3 | dos arranques PASS | [evidencia M0](docs/validation/M0_SMOKE_TEST_2026-08-06.md) |
+| Validación 3DEN | parcial en Panochori | faltan pruebas marítimas, huellas y alturas |
 
 ## Requisitos de desarrollo
 
@@ -108,15 +108,16 @@ Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sist
 6. Clasificar la tarea como documental, técnica, 3DEN, validación o gate.
 7. Ejecutar, validar y registrar evidencia sin exagerar el estado.
 
-## Inicio del desarrollo
+## Continuación del desarrollo
 
-El siguiente hito es **M0 — Esqueleto técnico ejecutable**:
+`M0 — Esqueleto técnico ejecutable` está aprobado. El siguiente hito es
+**M1 — Núcleo autoritativo estable**:
 
-1. Conservar `mission.sqm` mediante el flujo controlado de 3DEN.
-2. Crear `description.ext` y los archivos de inicialización.
-3. Registrar `CfgFunctions` e incluir las configuraciones aprobadas.
-4. Implementar un logger mínimo y una función de prueba.
-5. Abrir la misión y confirmar un inicio limpio en el RPT.
+1. Definir `IF_campaignState` e `IF_runtime` con autoridad preparada para servidor.
+2. Implementar errores, validadores y configuración de servicios.
+3. Separar commands, queries y eventos.
+4. Añadir scheduler, transacciones y reloj.
+5. Ampliar el test runner y cerrar M1 con evidencia RPT.
 
 No debe editarse `mission.sqm` como texto generado libremente; es propiedad del Editor 3DEN.
 
@@ -125,7 +126,11 @@ No debe editarse `mission.sqm` como texto generado libremente; es propiedad del 
 `tools/Sync-MissionWorkspace.ps1` conecta la misión del repositorio con la carpeta local que abre el Editor 3DEN. Por defecto usa:
 
 - proyecto: `IslasFracturadas.Altis/`;
-- editor: `%USERPROFILE%\Documents\Arma 3\missions\Islas%20Fracturadas.Altis`.
+- editor: `%USERPROFILE%\Documents\Arma 3\missions\IslasFracturadas.Altis`.
+
+La misión de validación física se conserva aparte como
+`IF_00_Validacion_Cabeza_Playa_Azul.Altis` y no es el destino predeterminado
+de sincronización.
 
 El flujo es deliberadamente direccional para evitar sobrescrituras ambiguas:
 
@@ -190,7 +195,7 @@ No edites las copias generadas. Modifica `agent-skills-src/` y ejecuta:
 .\tools\Sync-AgentSkills.ps1 -Check
 ```
 
-Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills técnicas describen procedimientos futuros y no prueban que esos sistemas estén implementados.
+Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0.
 
 ## Límites actuales
 

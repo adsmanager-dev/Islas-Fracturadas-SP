@@ -3,7 +3,7 @@
 > **Estado del contenedor:** canon rector documental
 > **Fuente de verdad para:** navegación, jerarquía documental, trazabilidad y asignación de fuentes principales
 > **Relacionados:** los 19 documentos temáticos de esta biblioteca
-> **Última consolidación:** 2026-07-25
+> **Última consolidación:** 2026-08-06
 
 ## Propósito
 
@@ -174,7 +174,7 @@ Una misión futura no entra en producción si no puede recorrer esta cadena en a
 | AZUR-1 / RUBÍ-1 | Unidades protagonistas persistentes de las campañas Azul y Roja. |
 | Sector | Unidad territorial conectada con estado, capacidad, infraestructura y valor estratégico. |
 | 3DEN | Editor de escenarios de Arma 3 usado para módulos y composiciones físicas. |
-| SQF | Lenguaje de scripting de Arma 3 previsto para la implementación. |
+| SQF | Lenguaje de scripting de Arma 3 usado por el esqueleto M0 y por la implementación futura. |
 
 ## Historial de la reorganización
 
@@ -250,7 +250,7 @@ La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado 
 
 | ID | Decisión adoptada | Estado |
 | --- | --- | --- |
-| `DEC-001` | Diseño conceptual y técnico consolidado; implementación jugable no iniciada. | adoptada |
+| `DEC-001` | Diseño e implementación conservan estados distintos; M0 es el primer alcance promovido a `IMPLEMENTADO` y `PROBADO` mediante artefactos y evidencia. | adoptada |
 | `DEC-002` | V1 individual; cooperativo de un solo bando como ampliación futura. | adoptada |
 | `DEC-003` | Una campaña demuestra la dirección clandestina e infiere a Vardis, pero no autentica su presencia física ni permite capturarlo. | adoptada |
 | `DEC-004` | Ambas campañas desbloquean Verdad Comparada, confirmación física y desenlaces personales de Vardis. | adoptada |
@@ -266,6 +266,7 @@ La biblioteca mantiene sus 20 fuentes temáticas consolidadas. Los registros baj
 | Evidencia | Alcance | Estado |
 | --- | --- | --- |
 | [Cabeza de playa Azul en Panochori](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) | carriles, salida terrestre, ruta logística y candidato de FOB | `VALIDACION_3DEN_EN_CURSO` |
+| [Smoke test técnico M0](validation/M0_SMOKE_TEST_2026-08-06.md) | carga de configuración, `CfgFunctions`, bootstrap, logging, IDs y diagnóstico | `PROBADO`; `M0 APROBADO` |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 
@@ -276,7 +277,7 @@ Requieren revisión humana posterior, sin bloquear esta reorganización:
 - cualquier equivalente futuro a la comparación dual, fuera de V1, que requerirá una nueva decisión explícita;
 - detalles de la migración futura de SP a cooperativo/MP;
 - catálogo físico y geográfico que exige validación dentro de 3DEN;
-- diferencias entre diseño previsto, implementación no iniciada y resultados todavía no medidos.
+- diferencias entre diseño previsto, implementación limitada a M0 y resultados todavía no medidos.
 
 ## Criterios de validación
 

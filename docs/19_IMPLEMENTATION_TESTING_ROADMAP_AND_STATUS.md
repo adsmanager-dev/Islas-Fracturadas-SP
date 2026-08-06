@@ -1,6 +1,6 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** diseño técnico confirmado; Fase 0 en curso; implementación jugable no iniciada
+> **Estado del contenedor:** Fase 0 completada; `M0` aprobado; Fase 1 en preparación; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
 > **Última consolidación:** 2026-08-06
@@ -50,19 +50,19 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Fase 0 |
-| Subfase | Misión base 3DEN importada y validación parcial de Panochori |
-| Último gate aprobado | `DOC-GATE-02 — Integridad de dirección narrativa jugable` |
-| Hito técnico aprobado | Ninguno |
-| Próximo hito | `M0 — Esqueleto técnico ejecutable` |
-| Implementación jugable | No iniciada |
-| Entregables presentes | 20 fuentes consolidadas, anexo de evidencia 3DEN, `mission.sqm` generado por 3DEN y `config/sectors.hpp` provisional |
-| Entregables ausentes | `description.ext`, inicializadores, SQF, carga funcional de configuración, pruebas RPT y misión jugable |
-| Pruebas ejecutadas | Integridad documental previa; ruta terrestre Hunter/HEMTT y convoy de la subzona Panochori comunicadas y registradas con evidencia parcial |
-| Pruebas de Arma 3 | Arma 3 2.20, escenario `IF_00_Validacion_Cabeza_Playa_Azul`; sin captura, vídeo ni RPT adjuntos |
+| Fase actual | Fase 1 — preparación del núcleo autoritativo |
+| Subfase | M0 cerrado; recepción y desglose de M1 pendientes |
+| Último gate aprobado | `M0 — Esqueleto técnico ejecutable` |
+| Hito técnico aprobado | `M0`, 2026-08-06 |
+| Próximo hito | `M1 — Núcleo autoritativo estable` |
+| Implementación jugable | Esqueleto técnico M0 ejecutable; campaña jugable todavía ausente |
+| Entregables presentes | misión principal vanilla, `description.ext`, `CfgFunctions`, bootstrap, logger, validador de IDs, diagnóstico, smoke test y configuración provisional cargada |
+| Entregables ausentes | estado persistente, bus de eventos, scheduler, transacciones, reloj, módulos de campaña y test runner de M1 |
+| Pruebas ejecutadas | validación estática M0, Semgrep sin hallazgos, sincronizador aislado PASS y dos arranques consecutivos PASS en Arma 3 |
+| Pruebas de Arma 3 | Arma 3 2.20.152984 x86; escenario `IslasFracturadas`; captura visual y RPT registrados en [evidencia M0](validation/M0_SMOKE_TEST_2026-08-06.md) |
 | Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
-| Bloqueadores técnicos posteriores | Validación marítima y física restante de Panochori, corredor interior, adaptación vanilla y benchmark provisional |
-| Estado de Fase 0 | En curso |
+| Bloqueadores técnicos posteriores | Ninguno para M0; usar x64 antes de rendimiento y completar validación física de Panochori antes de contenido territorial dependiente |
+| Estado de Fase 0 | Completada; `M0 APROBADO` |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -81,6 +81,23 @@ Evidencia registrada:
 
 `DOC-GATE-01` no equivale a `M0`. `M0` exige misión iniciable, funciones registradas, bootstrap, logging verificable y un RPT sin errores críticos.
 
+### M0 — Esqueleto técnico ejecutable
+
+> **Estado:** `APROBADO` el 2026-08-06.
+> **Alcance:** infraestructura mínima de Fase 0; no acredita campaña, persistencia, rendimiento ni validación geográfica completa.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| La misión inicia | dos arranques de `IslasFracturadas` y captura del jugador en mundo | `PASS` |
+| `preInit` y `postInit` funcionan | secuencias diferenciadas en RPT, repetidas dos veces | `PASS` |
+| Se genera un log estructurado | entradas `[IF][módulo][nivel][tiempo]` | `PASS` |
+| Se ejecuta una función registrada | siete comprobaciones de `IF_fnc_smokeTest`, incluidas funciones e IDs | `PASS` |
+| No hay errores críticos en RPT | cero candidatos de error o warning en la segunda ventana de misión | `PASS` |
+| La estructura está documentada | arquitectura 18, README y prueba estática M0 | `PASS` |
+| Existe commit estable | `4b0b1ba` sobre baseline `4150383` | `PASS` |
+
+La evidencia repetible, versión, digest del RPT y límites se conservan en [M0_SMOKE_TEST_2026-08-06.md](validation/M0_SMOKE_TEST_2026-08-06.md). El aviso de ejecución x86 se acepta para esta prueba funcional; cualquier benchmark o presupuesto de rendimiento exige repetir en x64.
+
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
@@ -88,7 +105,7 @@ Evidencia registrada:
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
-| `DEC-001` | El proyecto tiene diseño conceptual y técnico consolidado; la implementación jugable no se ha iniciado. | 18, 19 y README | No se usa `IMPLEMENTADO` hasta existir artefacto funcional y evidencia. | adoptada |
+| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0 es `IMPLEMENTADO` y `PROBADO`; la campaña y los sistemas posteriores permanecen sin implementar. | adoptada |
 | `DEC-002` | La V1 es campaña individual; el cooperativo de un solo bando es una ampliación futura preparada arquitectónicamente. | 01, 15, 18 y 19 | Ningún requisito cooperativo bloquea Fase 0 ni la primera campaña SP. | adoptada |
 | `DEC-003` | Una campaña puede demostrar Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y una dirección clandestina; puede inferir a Vardis, pero no autenticar su presencia física ni capturarlo. | 03, 08, 09, 15–19 | `vardisConfirmed == false` durante una campaña aislada. | adoptada |
 | `DEC-004` | Completar ambas campañas desbloquea Verdad Comparada, sala de dirección, confirmación física y desenlaces de captura, muerte, juicio, negociación o fuga de Vardis. | 03, 08, 09, 15–19 | Todo desenlace físico de Vardis exige `dualCampaignCompleted == true` y operación dual desbloqueada. | adoptada |
@@ -107,22 +124,22 @@ Toda modificación incompatible requiere actualizar este registro, las fuentes t
 ## Backlog ejecutable inicial de Fase 0
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Estado global:** no iniciado.
+> **Estado global:** completado; evidencia consolidada en el gate M0.
 
 | ID | Tarea | Dependencia | Propietario previsto | Requisito / prueba | Criterio de aceptación | Estado | Evidencia / versión |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | pendiente | — |
-| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | completada | `IF_00_Validacion_Cabeza_Playa_Azul`; Arma 3 2.20; 2026-08-06 |
-| `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | pendiente | — |
-| `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | pendiente | — |
-| `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | pendiente | — |
-| `F0-006` | Crear bootstrap `preInit`/`postInit` | `F0-005` | `core/bootstrap/` | inicialización 18; prueba de ciclos | Ambos ciclos dejan evidencia diferenciada en RPT | pendiente | — |
-| `F0-007` | Implementar logger mínimo | `F0-006` | `core/logging/` | logging 18; prueba RPT | Cada log incluye nivel, módulo y mensaje | pendiente | — |
-| `F0-008` | Crear configuración y validación de IDs | `F0-004` | `core/ids/` y `data/` | IDs estables 18; prueba negativa | El validador detecta ID vacío o duplicado | pendiente | — |
-| `F0-009` | Crear modo diagnóstico | `F0-006`, `F0-007` | `diagnostics/` | diagnóstico 18; activación/desactivación | Puede activarse sin modificar la lógica normal | pendiente | — |
-| `F0-010` | Crear escenario smoke test | `F0-002`–`F0-009` | `tests/` y misión Altis | inicio, función y logging | Inicio, función registrada y logging pasan en una ejecución | pendiente | — |
-| `F0-011` | Ejecutar gate de RPT | `F0-010` | `tests/` y evidencia externa | criterios de salida de Fase 0 | No hay errores críticos ni funciones ausentes en RPT | pendiente | — |
-| `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | pendiente | — |
+| `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | completada | `4150383` |
+| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | completada | misión principal `IslasFracturadas`; jugador vanilla `B_Soldier_F`; prueba física separada |
+| `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | completada | título M0 visible; RPT limpio |
+| `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | completada | archivos funcionales en `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | completada | siete comprobaciones registradas PASS |
+| `F0-006` | Crear bootstrap `preInit`/`postInit` | `F0-005` | `core/bootstrap/` | inicialización 18; prueba de ciclos | Ambos ciclos dejan evidencia diferenciada en RPT | completada | dos secuencias `preInit`/`postInit` en RPT |
+| `F0-007` | Implementar logger mínimo | `F0-006` | `core/logging/` | logging 18; prueba RPT | Cada log incluye nivel, módulo y mensaje | completada | 24 líneas `[IF]` estructuradas |
+| `F0-008` | Crear configuración y validación de IDs | `F0-004` | `core/ids/` y `data/` | IDs estables 18; prueba negativa | El validador detecta ID vacío o duplicado | completada | `ids.validAccepted` e `ids.invalidRejected`: PASS |
+| `F0-009` | Crear modo diagnóstico | `F0-006`, `F0-007` | `diagnostics/` | diagnóstico 18; activación/desactivación | Puede activarse sin modificar la lógica normal | completada | modo BASIC e informe M0 en ambas ejecuciones |
+| `F0-010` | Crear escenario smoke test | `F0-002`–`F0-009` | `tests/` y misión Altis | inicio, función y logging | Inicio, función registrada y logging pasan en una ejecución | completada | dos ejecuciones consecutivas PASS |
+| `F0-011` | Ejecutar gate de RPT | `F0-010` | `tests/` y evidencia externa | criterios de salida de Fase 0 | No hay errores críticos ni funciones ausentes en RPT | completada | `arma3_2026-08-06_10-22-59.rpt`; ventana final sin candidatos |
+| `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | completada | `4b0b1ba`; [registro M0](validation/M0_SMOKE_TEST_2026-08-06.md) |
 
 Cada tarea conservará ID, archivo o módulo propietario, requisitos relacionados, pruebas, estado, evidencia y versión o commit. Ninguna puede marcarse completada solo porque exista documentación de diseño.
 
