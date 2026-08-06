@@ -1,6 +1,6 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** Fase 0 completada; `M0` aprobado; Fase 1 en preparación; campaña jugable no iniciada
+> **Estado del contenedor:** Fases 0–1 completadas; `M1` aprobado; Fase 2 en preparación; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
 > **Última consolidación:** 2026-08-06
@@ -50,19 +50,20 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Fase 1 — preparación del núcleo autoritativo |
-| Subfase | M0 cerrado; recepción y desglose de M1 pendientes |
-| Último gate aprobado | `M0 — Esqueleto técnico ejecutable` |
-| Hito técnico aprobado | `M0`, 2026-08-06 |
-| Próximo hito | `M1 — Núcleo autoritativo estable` |
-| Implementación jugable | Esqueleto técnico M0 ejecutable; campaña jugable todavía ausente |
-| Entregables presentes | misión principal vanilla, `description.ext`, `CfgFunctions`, bootstrap, logger, validador de IDs, diagnóstico, smoke test y configuración provisional cargada |
-| Entregables ausentes | estado persistente, bus de eventos, scheduler, transacciones, reloj, módulos de campaña y test runner de M1 |
-| Pruebas ejecutadas | validación estática M0, Semgrep sin hallazgos, sincronizador aislado PASS y dos arranques consecutivos PASS en Arma 3 |
-| Pruebas de Arma 3 | Arma 3 2.20.152984 x86; escenario `IslasFracturadas`; captura visual y RPT registrados en [evidencia M0](validation/M0_SMOKE_TEST_2026-08-06.md) |
+| Fase actual | Fase 2 — preparación de persistencia mínima |
+| Subfase | M1 cerrado; recepción y desglose de M2 pendientes |
+| Último gate aprobado | `M1 — Núcleo autoritativo estable` |
+| Hito técnico aprobado | `M1`, 2026-08-06 |
+| Próximo hito | `M2 — Campaña persistente mínima` |
+| Implementación jugable | Infraestructura M1 ejecutable; campaña jugable todavía ausente |
+| Entregables presentes | misión vanilla; configuración M1; `IF_campaignState`; `IF_runtime`; errors e IDs; commands y queries; bus de eventos idempotente de sesión; scheduler; transacciones; reloj; diagnóstico y test runner |
+| Entregables ausentes | storage adapter, serialización, snapshots A/B, checksum, carga, recuperación, migración inicial y módulos jugables de campaña |
+| Pruebas ejecutadas | suites estáticas M0/M1 PASS, Semgrep sin hallazgos, 31 archivos SQF sin errores de parseo y 17 comprobaciones internas PASS en Arma 3 |
+| Pruebas de Arma 3 | Arma 3 2.20.152984 x86; escenario `IslasFracturadas`; RPT registrado en [evidencia M1](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) |
 | Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
-| Bloqueadores técnicos posteriores | Ninguno para M0; usar x64 antes de rendimiento y completar validación física de Panochori antes de contenido territorial dependiente |
+| Bloqueadores técnicos posteriores | Ninguno para iniciar M2; usar x64 antes de rendimiento y completar validación física de Panochori antes de contenido territorial dependiente |
 | Estado de Fase 0 | Completada; `M0 APROBADO` |
+| Estado de Fase 1 | Completada; `M1 APROBADO` |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -98,6 +99,26 @@ Evidencia registrada:
 
 La evidencia repetible, versión, digest del RPT y límites se conservan en [M0_SMOKE_TEST_2026-08-06.md](validation/M0_SMOKE_TEST_2026-08-06.md). El aviso de ejecución x86 se acepta para esta prueba funcional; cualquier benchmark o presupuesto de rendimiento exige repetir en x64.
 
+### M1 — Núcleo autoritativo estable
+
+> **Estado:** `APROBADO` el 2026-08-06.
+> **Alcance:** servicios autoritativos de Fase 1 en SP; no acredita persistencia, multijugador, campaña jugable ni rendimiento.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Los servicios inician en orden | configuración, runtime, estado, scheduler y tests alcanzan `PHASE_90_RUNNING` | `PASS` |
+| El estado se crea | `IF_campaignState` schema 1 y `hasCanonicalState == true` | `PASS` |
+| Un command modifica estado | `M1 state.commandAndQuery` | `PASS` |
+| Una query consulta | lectura del valor cambiado y copia defensiva | `PASS` |
+| Un evento se procesa una vez | `event.persistent` y `event.repeatedOnce` | `PASS` |
+| Una transacción revierte | `transaction.rollback` y restauración del reloj | `PASS` |
+| Los tests pasan | diez comprobaciones M1 y siete smoke M0 | `PASS` |
+| No existe dependencia de UI | revisión estática y ejecución SP sin consumidor UI | `PASS` |
+| No hay errores de misión en RPT | cero candidatos en líneas 728–757 | `PASS` |
+| Existe commit estable | `0dc846f` | `PASS` |
+
+La evidencia repetible, digest del RPT, matriz y límites se conservan en [M1_AUTHORITATIVE_CORE_2026-08-06.md](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md). La idempotencia acreditada es de sesión; persistir IDs procesados, snapshots y schema entre reinicios pertenece a M2.
+
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
@@ -105,7 +126,7 @@ La evidencia repetible, versión, digest del RPT y límites se conservan en [M0_
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
-| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0 es `IMPLEMENTADO` y `PROBADO`; la campaña y los sistemas posteriores permanecen sin implementar. | adoptada |
+| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0 y M1 son `IMPLEMENTADO` y `PROBADO`; persistencia, campaña y sistemas posteriores permanecen sin implementar. | adoptada |
 | `DEC-002` | La V1 es campaña individual; el cooperativo de un solo bando es una ampliación futura preparada arquitectónicamente. | 01, 15, 18 y 19 | Ningún requisito cooperativo bloquea Fase 0 ni la primera campaña SP. | adoptada |
 | `DEC-003` | Una campaña puede demostrar Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y una dirección clandestina; puede inferir a Vardis, pero no autenticar su presencia física ni capturarlo. | 03, 08, 09, 15–19 | `vardisConfirmed == false` durante una campaña aislada. | adoptada |
 | `DEC-004` | Completar ambas campañas desbloquea Verdad Comparada, sala de dirección, confirmación física y desenlaces de captura, muerte, juicio, negociación o fuga de Vardis. | 03, 08, 09, 15–19 | Todo desenlace físico de Vardis exige `dualCampaignCompleted == true` y operación dual desbloqueada. | adoptada |

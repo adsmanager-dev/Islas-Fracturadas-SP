@@ -12,8 +12,8 @@ La instrucción específica prevalece sobre la general, pero no autoriza inventa
 
 ## Estado real
 
-- El repositorio contiene 20 fuentes consolidadas, anexos de evidencia, una misión principal separada y el esqueleto técnico M0 probado en Arma 3.
-- Existe implementación SQF confirmada solo para M0; todavía no existe una campaña jugable ni sistemas persistentes de campaña.
+- El repositorio contiene 20 fuentes consolidadas, anexos de evidencia, una misión principal separada y el núcleo técnico M0–M1 probado en Arma 3.
+- Existe implementación SQF confirmada para M0–M1; todavía no existe campaña jugable, persistencia entre sesiones ni simulación estratégica.
 - No conviertas diseño, pseudocódigo, `.gitkeep` o checklists en estado implementado.
 
 ## Fuentes principales

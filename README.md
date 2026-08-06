@@ -10,7 +10,7 @@ Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto comb
 
 Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
 
-> **Estado actual:** `M0 — Esqueleto técnico ejecutable` aprobado. La misión principal inicia, carga configuración, registra funciones `IF_`, ejecuta `preInit`/`postInit`, logging, diagnóstico y smoke test. Todavía no existe una campaña jugable ni persistencia o simulación estratégica. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+> **Estado actual:** `M1 — Núcleo autoritativo estable` aprobado. La misión principal inicia `IF_config`, `IF_runtime` e `IF_campaignState`, y prueba commands, queries, eventos idempotentes de sesión, scheduler, transacciones, reloj y errores. Todavía no existe campaña jugable ni persistencia entre sesiones. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Estado real del repositorio
 
@@ -18,12 +18,13 @@ Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohem
 | --- | --- | --- |
 | Biblioteca documental | consolidada | `docs/00–19` |
 | Decisiones rectoras | registradas | `DEC-001`–`DEC-008` |
-| Estructura de carpetas | M0 materializada | funciones reales bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| Estructura de carpetas | M1 materializada | 31 funciones registradas bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
 | `mission.sqm` | misión principal vanilla | generado por 3DEN; validación física conservada en misión separada |
-| Configuración de Panochori | cargada en M0; geografía provisional | `description.ext` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
+| Configuración de Panochori | cargada y validada en M1; geografía provisional | `IF_config` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
 | `description.ext` | implementado y cargado | `F0-003` completada |
 | Bootstrap y logger SQF | implementados y probados | `F0-006`–`F0-007` completadas |
-| Pruebas dentro de Arma 3 | dos arranques PASS | [evidencia M0](docs/validation/M0_SMOKE_TEST_2026-08-06.md) |
+| Núcleo autoritativo | implementado y probado en SP | estado, eventos, scheduler, transacciones, reloj y errores |
+| Pruebas dentro de Arma 3 | 17 comprobaciones PASS en M1 | [evidencia M1](docs/validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) |
 | Validación 3DEN | parcial en Panochori | faltan pruebas marítimas, huellas y alturas |
 
 ## Requisitos de desarrollo
@@ -82,7 +83,7 @@ Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad C
 ├── IslasFracturadas.Altis/       # Raíz de la misión
 │   ├── mission.sqm               # Generado y editado exclusivamente mediante 3DEN
 │   ├── cfg/                      # CfgFunctions, RemoteExec, sonidos y UI
-│   ├── config/                   # Datos provisionales de campaña aún no cargados
+│   ├── config/                   # Datos provisionales cargados por IF_config
 │   ├── core/                     # Estado, eventos, red, validación y utilidades
 │   ├── modules/                  # Dominios de campaña y reglas jugables
 │   ├── simulation/               # Simulación estratégica y virtualización
@@ -110,14 +111,14 @@ Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sist
 
 ## Continuación del desarrollo
 
-`M0 — Esqueleto técnico ejecutable` está aprobado. El siguiente hito es
-**M1 — Núcleo autoritativo estable**:
+`M1 — Núcleo autoritativo estable` está aprobado. El siguiente hito es
+**M2 — Campaña persistente mínima**:
 
-1. Definir `IF_campaignState` e `IF_runtime` con autoridad preparada para servidor.
-2. Implementar errores, validadores y configuración de servicios.
-3. Separar commands, queries y eventos.
-4. Añadir scheduler, transacciones y reloj.
-5. Ampliar el test runner y cerrar M1 con evidencia RPT.
+1. Implementar el adaptador de almacenamiento sin acceso directo desde los módulos.
+2. Añadir serialización, checksum y schema versionado.
+3. Crear snapshots A/B y recuperación ante corrupción.
+4. Guardar, cargar y migrar una campaña mínima sin duplicar efectos.
+5. Cerrar M2 con reinicio real y evidencia RPT.
 
 No debe editarse `mission.sqm` como texto generado libremente; es propiedad del Editor 3DEN.
 
@@ -195,7 +196,7 @@ No edites las copias generadas. Modifica `agent-skills-src/` y ejecuta:
 .\tools\Sync-AgentSkills.ps1 -Check
 ```
 
-Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0.
+Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0–M1.
 
 ## Límites actuales
 
