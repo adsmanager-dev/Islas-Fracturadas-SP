@@ -1,6 +1,6 @@
 author = "Equipo Islas Fracturadas";
-onLoadName = "Islas Fracturadas — M0";
-onLoadMission = "Esqueleto técnico ejecutable";
+onLoadName = "Islas Fracturadas — M1";
+onLoadMission = "Núcleo autoritativo en validación";
 
 #include "cfg\CfgFunctions.hpp"
 #include "config\sectors.hpp"

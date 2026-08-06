@@ -12,7 +12,10 @@ private _report = [
     ["phase", missionNamespace getVariable ["IF_bootstrapPhase", "UNKNOWN"]],
     ["preInit", missionNamespace getVariable ["IF_bootstrapPreInitComplete", false]],
     ["postInit", missionNamespace getVariable ["IF_bootstrapPostInitComplete", false]],
-    ["smokePassed", missionNamespace getVariable ["IF_smokeTestPassed", false]]
+    ["smokePassed", missionNamespace getVariable ["IF_smokeTestPassed", false]],
+    ["m1Passed", missionNamespace getVariable ["IF_m1CoreTestPassed", false]],
+    ["configReady", missionNamespace getVariable ["IF_configReady", false]],
+    ["hasCanonicalState", !(isNil {missionNamespace getVariable "IF_campaignState"})]
 ];
 
 if (_mode in ["DEVELOPER", "VERBOSE"]) then {
@@ -35,6 +38,6 @@ if (_mode isEqualTo "VERBOSE") then {
     ];
 };
 
-["INFO", "BOOT", "Informe de diagnóstico M0", _report] call IF_fnc_log;
+["INFO", "BOOT", "Informe de diagnóstico M1", _report] call IF_fnc_log;
 
 _report

@@ -1,5 +1,5 @@
 // Configuración provisional derivada de evidencia 3DEN parcial.
-// No se carga todavía desde description.ext ni acredita VALIDADO_3DEN completo.
+// Se carga en M1, pero no acredita VALIDADO_3DEN completo.
 
 class ALT_W_NERI_PANOCHORI
 {
