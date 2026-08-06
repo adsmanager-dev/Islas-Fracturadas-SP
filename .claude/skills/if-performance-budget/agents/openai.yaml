@@ -1,0 +1,4 @@
+interface:
+  display_name: "Presupuesto de rendimiento IF"
+  short_description: "Evalúa cargas y presupuestos medidos"
+  default_prompt: "Use $if-performance-budget para evaluar el presupuesto de rendimiento de este sistema."

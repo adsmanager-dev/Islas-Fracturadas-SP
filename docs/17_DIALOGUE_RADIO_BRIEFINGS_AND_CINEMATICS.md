@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Matriz directora de escenas y recordatorios](#matriz-directora-de-escenas-y-recordatorios)
 - [DIALOGUE RADIO BRIEFING AUDIO AND CINEMATICS SYSTEM](#fuente-dialogue-radio-briefing-audio-and-cinematics-system)
 
 ## Principios
@@ -38,6 +39,71 @@ Fuentes auditadas: `DIALOGUE_RADIO_BRIEFING_AUDIO_AND_CINEMATICS_SYSTEM.md`. No 
 - Las fuentes declaradas para 17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="matriz-directora-de-escenas-y-recordatorios"></a>
+## Matriz directora de escenas y recordatorios
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Variantes de líneas y localización exacta:** `POR_CALIBRAR`
+
+Las escenas no existen para repetir biografías ni explicar variables. Deben preparar una decisión, mostrar una reacción, advertir una transición o recordar una consecuencia. Radio, briefing, trayecto, combate, debriefing, visita y conversación privada son canales equivalentes si conservan función, acceso al conocimiento e interrupción segura.
+
+### Contrato de escena ejecutable
+
+```text
+sceneId
+dramaticFunction
+requiredParticipants
+functionalSubstitutes
+knowledgeGate
+triggerAndFallbackWindow
+relationshipOrClockState
+mandatoryFacts
+variableLines
+interruptionRule
+worldOrMissionConsequence
+callbackId
+```
+
+Una escena obligatoria puede variar o trasladarse, pero no desaparecer. Si falta un participante, el sustituto debe conservar la función y cambiar la voz, posición política y consecuencia.
+
+### Obligaciones por acto
+
+| Acto | Preparación | Reacción | Transición visible | Recordatorio diferido |
+| --- | --- | --- | --- | --- |
+| I | unidad y mando expresan prioridades antes de la primera elección civil/militar | al menos cuatro perspectivas reaccionan al coste | comunidad, Verde o FIA cambia conducta | el convoy o la primera noche recuerda la elección |
+| II | una fuente explica qué sabe y qué no | técnico, mando y unidad discrepan sobre autenticación | confianza o acceso cambia | una predicción usada/descartada reaparece en III o VI |
+| III | se presentan dos frentes que no pueden sostenerse plenamente | logística, mando y autoridad local nombran el sacrificio | ruta, servicio o guarnición muestra la prioridad | el área abandonada exige ayuda o se alía después |
+| IV | municipio formula demanda concreta | ocupante, FIA, civiles y unidad interpretan seguridad de modo distinto | protesta, huelga, servicio o desplazamiento cambia | una promesa o abuso vuelve en V–VII |
+| V | cada mando Verde expone autoridad y límite | aliados reaccionan a reconocimiento, subordinación o desarme | insignias, radio y fuerzas conjuntas evidencian fractura | el fragmento elegido aparece en VII–VIII |
+| VI | testigo/técnico delimita riesgo de la evidencia | mandos, nativos y unidad discuten custodia | acceso, protección o silencio cambia | una copia, testigo o hipótesis vuelve en VII–VIII |
+| VII | se anuncian órdenes incompatibles y consecuencias | la unidad y bloques toman posición | relevo, mediación, golpe o compromiso cambia mando | la fuerza disponible en Stratis refleja la resolución |
+| VIII | cada aliado formula qué quiere preservar | personajes centrales responden a la decisión final | mundo, mando y Helios ejecutan el resultado | epílogos citan decisiones concretas sin omnisciencia |
+
+### Llamadas de consecuencia
+
+Toda decisión estructural recibe, como mínimo:
+
+1. reacción inmediata de una persona presente;
+2. señal de mundo o facción dentro de la siguiente ventana estratégica;
+3. recordatorio posterior por un actor que conoció el hecho;
+4. debriefing que distingue certeza, interpretación e incógnita;
+5. epílogo o resolución personal si contribuyó al estado final.
+
+El recordatorio no repite la opción elegida: muestra su efecto. Puede ser un número de serie, una ausencia en formación, una ruta distinta, un hospital abierto, una consigna hostil, un oficial que ahora coopera o una promesa reclamada.
+
+### Matriz mínima del vertical slice de Neochori
+
+| Actor | Si se protegen civiles | Si se persigue a Verde | Conocimiento permitido |
+| --- | --- | --- | --- |
+| Ward | reconoce disciplina y advierte el riesgo operacional | acepta la ventaja si hubo proporcionalidad; exige parte de daños | órdenes Azul y efecto inmediato, no cálculo oculto |
+| Hale | cuestiona perder la unidad Verde | aprueba iniciativa y exige explotar la brecha | situación militar y su doctrina |
+| Laurent | convierte la protección en cooperación verificable | pide investigación, reparación o explicación pública | contactos civiles y conducta Azul |
+| Torres | vincula la decisión con confianza en Cole y cuidado de la unidad | apoya solo si no se abandonó a heridos o aliados | lo vivido por AZUR-1 |
+| Comunidad | ofrece guía, refugio o información según trato | coopera por miedo, se cierra o acude a FIA | daños, promesas y rumores locales |
+| Verde/FIA | Verde reordena el contraataque; FIA evalúa cooperación | Verde pierde fuerza; FIA evalúa a Azul como patrocinador o amenaza | observación local, nunca intención omnisciente |
+
+La conversación posterior, la ruta de `IF_B_A01_M04` y el debriefing deben leer el mismo registro causal. Líneas contradictorias solo son válidas si proceden de conocimiento parcial o propaganda identificable, no de estados desincronizados.
 
 ## Contenido consolidado
 
@@ -722,7 +788,7 @@ Ejemplo:
 ```text id="2gphxl"
 INTENCIÓN
 
-Mantener una ruta logística segura entre Katalaki y Neochori para permitir que la cabeza de playa sobreviva la primera noche.
+Mantener una ruta logística segura entre Panochori y Neri para permitir que la cabeza de playa sobreviva la primera noche.
 ```
 
 Esto permite que el jugador improvise sin perder el propósito.
@@ -2270,6 +2336,12 @@ Debe:
 * evitar confesión completa;
 * plantear responsabilidad compartida.
 
+#### `Ecos Fracturados`
+
+> **Clasificación:** guion audiovisual de producción (crónica coral en vídeo musical); no deriva de la autoría secreta de ningún personaje.
+
+La pieza narra la invasión y ocupación de un archipiélago ficticio por las fuerzas Azul y Roja desde las consecuencias territoriales y civiles, con la Fuerza Verde y la población nativa como testigos y actores fragmentados. El operador de HELIOS aparece sin identidad revelada — nunca se muestra su rostro con claridad — y sin codificarse como voz o conciencia de Helios; su aparición final confiesa que la información fue mostrada, retrasada u ocultada para inclinar decisiones humanas, sin absolver a autor, mando ni ejecutor.
+
 <a id="src-dialogue-radio-briefing-audio-and-cinematics-system--frases-13"></a>
 #### Frases
 
@@ -2653,7 +2725,7 @@ Ejemplo:
 
 ```text id="04qgh2"
 [RADIO DE MANDO — ELENA WARD]
-Mantengan Katalaki. No persigan más allá de la carretera.
+Mantengan Panochori. No persigan más allá de la carretera.
 ```
 
 ---

@@ -1,9 +1,9 @@
 # Arquitectura técnica, 3DEN, SQF y multijugador
 
-> **Estado del contenedor:** diseño técnico confirmado; implementación jugable no iniciada
+> **Estado del contenedor:** diseño técnico confirmado; esqueleto M0 implementado y probado; campaña jugable no iniciada
 > **Fuente de verdad para:** arquitectura técnica, persistencia, 3DEN, SQF, SP y MP futuro
 > **Relacionados:** [17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md); [19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-25
+> **Última consolidación:** 2026-08-06
 
 ## Propósito
 
@@ -159,9 +159,9 @@ IF_campaignState = createHashMapFromArray [
 #### 7. Identificadores
 
 ```text
-SEC_WEST_KATALAKI
+ALT_W_NERI_PANOCHORI
 REG_NORTHWEST
-CONN_KATALAKI_NEOCHORI
+CONN_PANOCHORI_NERI
 FAC_BLUE
 FOR_BLUE_001
 VEH_BLUE_APC_001
@@ -1659,6 +1659,7 @@ IslasFracturadas.Altis/
 ├── stringtable.xml
 │
 ├── cfg/
+├── config/                    # datos de campaña; no sustituye cfg/
 ├── core/
 ├── modules/
 ├── simulation/
@@ -1694,6 +1695,11 @@ cfg/
 #### Función
 
 Centralizar configuraciones cargadas por `description.ext`.
+
+<a id="configuracion-de-datos-de-campana"></a>
+#### 14.1 Carpeta `config`
+
+`config/` conserva datos declarativos de campaña separados de las clases de motor de `cfg/`. `config/sectors.hpp` centraliza provisionalmente las coordenadas de `ALT_W_NERI_PANOCHORI`. Desde M0, `description.ext` incluye el archivo, `IF_fnc_bootstrapPostInit` valida su ID y el diagnóstico `DEVELOPER`/`VERBOSE` puede leer sus carriles. Esta carga técnica no promueve las coordenadas a `VALIDADO_3DEN` ni implementa todavía el sistema territorial.
 
 ---
 
@@ -3150,8 +3156,8 @@ En producción normal:
 [IF][LOGISTICS][INFO][1420]
 Convoy creado
 convoyId=CONVOY_BLUE_014
-origin=KATALAKI
-destination=NEOCHORI
+origin=PANOCHORI
+destination=NERI
 ```
 
 ---
@@ -3911,7 +3917,7 @@ Ejemplos:
 ```text
 IF_ANCHOR_ALT_CW_NEOCHORI_COMMAND
 IF_OBJECT_HELIOS_AIRPORT_TERMINAL
-IF_SPAWN_BLUE_KATALAKI_01
+IF_BLUE_LANDING_BRAVO
 IF_ZONE_NEOCHORI_CIVIL
 ```
 
@@ -4197,7 +4203,7 @@ Ejemplo:
 [
     ["SECTOR_SET_CONTROL", ["ALT_CW_NEOCHORI", "FAC_BLUE"]],
     ["RELATION_CHANGE", ["CHAR_BLUE_WARD", "judgmentTrust", 5]],
-    ["RESOURCE_TRANSFER", ["KATALAKI", "NEOCHORI", "FUEL", 12]]
+    ["RESOURCE_TRANSFER", ["PANOCHORI", "NERI", "FUEL", 12]]
 ] call IF_fnc_effectApplySet;
 ```
 
@@ -5142,7 +5148,7 @@ Debe demostrar:
 3. Registrar nueve sectores.
 4. Crear fuerzas iniciales.
 5. Materializar desembarco.
-6. Capturar Katalaki.
+6. Consolidar la subzona Panochori de `ALT_W_NERI_PANOCHORI`.
 7. Guardar.
 8. Cargar.
 9. Crear convoy.

@@ -55,8 +55,6 @@ test-results/
 .env.*
 !.env.example
 
-# Serena local
-.serena/project.local.yml
-.serena/cache/
-.serena/logs/
-.serena/memories/
+# Metadatos locales de agentes
+.codebase-memory/
+.serena/

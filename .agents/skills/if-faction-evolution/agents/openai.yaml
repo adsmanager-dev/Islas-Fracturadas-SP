@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evolución de facciones IF"
+  short_description: "Modela estados autónomos de facciones"
+  default_prompt: "Use $if-faction-evolution para definir la evolución autónoma de esta facción."

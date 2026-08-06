@@ -1,0 +1,4 @@
+interface:
+  display_name: "Validación 3DEN IF"
+  short_description: "Prepara y registra pruebas manuales 3DEN"
+  default_prompt: "Use $if-3den-validation para preparar la validación manual de este contenido en 3DEN."

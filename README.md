@@ -2,7 +2,40 @@
 
 Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto combina guerra territorial, dos campañas independientes, actores nativos, insurgencia, población civil, logística, inteligencia y una conspiración articulada alrededor de Helios, PHAROS y el Comité Argos.
 
-> **Estado actual:** `DOC-GATE-01` aprobado; diseño conceptual y técnico consolidado, con esqueleto de directorios. La misión jugable, la configuración 3DEN y los sistemas SQF todavía no están implementados. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+## Dedicatoria
+
+**Islas Fracturadas es un proyecto creado como homenaje a Bohemia Interactive y a los equipos que construyeron la saga Arma. Su libertad de edición, sus herramientas y su confianza en la comunidad permitieron que jugadores, modders y creadores imaginaran experiencias que iban mucho más allá de una campaña cerrada. Este proyecto nace de esa libertad: no pretende reemplazar ni competir con la obra original, sino agradecerla creando dentro del espacio que ella hizo posible.**
+
+> **Islas Fracturadas no es una lucha por superar a sus creadores; es una carta de agradecimiento convertida en una campaña jugable.**
+
+Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
+
+> **Estado actual:** `M1 — Núcleo autoritativo estable` aprobado. La misión principal inicia `IF_config`, `IF_runtime` e `IF_campaignState`, y prueba commands, queries, eventos idempotentes de sesión, scheduler, transacciones, reloj y errores. Todavía no existe campaña jugable ni persistencia entre sesiones. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+
+## Estado real del repositorio
+
+| Elemento | Estado | Evidencia |
+| --- | --- | --- |
+| Biblioteca documental | consolidada | `docs/00–19` |
+| Decisiones rectoras | registradas | `DEC-001`–`DEC-008` |
+| Estructura de carpetas | M1 materializada | 31 funciones registradas bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| `mission.sqm` | misión principal vanilla | generado por 3DEN; validación física conservada en misión separada |
+| Configuración de Panochori | cargada y validada en M1; geografía provisional | `IF_config` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
+| `description.ext` | implementado y cargado | `F0-003` completada |
+| Bootstrap y logger SQF | implementados y probados | `F0-006`–`F0-007` completadas |
+| Núcleo autoritativo | implementado y probado en SP | estado, eventos, scheduler, transacciones, reloj y errores |
+| Pruebas dentro de Arma 3 | 17 comprobaciones PASS en M1 | [evidencia M1](docs/validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) |
+| Validación 3DEN | parcial en Panochori | faltan pruebas marítimas, huellas y alturas |
+
+## Requisitos de desarrollo
+
+- Arma 3 y Editor 3DEN para la validación física y funcional.
+- Visual Studio Code, PowerShell y Git.
+- Semgrep para reglas deterministas.
+- Codebase Memory, Serena y Semgrep configurados como servidores MCP.
+- Claude Code, Codex o GitHub Copilot en VS Code como agente compatible.
+
+No se fijan versiones hasta verificarlas en el entorno real.
 
 ## Experiencia prevista
 
@@ -28,7 +61,7 @@ La entrada principal es [`docs/00_INDEX_AND_DOCUMENTATION_MAP.md`](docs/00_INDEX
 | Arquitectura técnica | [`docs/18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md`](docs/18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md) |
 | Estado, pruebas y hoja de ruta | [`docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md`](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md) |
 
-La carpeta `docs/` contiene exactamente 20 fuentes consolidadas. No deben añadirse documentos nuevos sin integrar o sustituir otro documento dentro de ese límite.
+La carpeta `docs/` contiene exactamente 20 fuentes temáticas consolidadas. `docs/validation/` puede contener anexos de evidencia solicitados y enlazados desde esas fuentes; un anexo no adquiere autoridad temática ni acredita por sí solo `VALIDADO_3DEN`.
 
 Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad Comparada, se mantienen en el [registro autoritativo](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
@@ -38,10 +71,19 @@ Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad C
 .
 ├── README.md
 ├── AGENTS.md
-├── CLAUDE.md                    # Entrada compatible que importa AGENTS.md
-├── docs/                         # Biblioteca canónica de 20 documentos
-├── IslasFracturadas.Altis/       # Raíz futura de la misión
+├── CLAUDE.md                    # Adaptador de Claude que importa AGENTS.md
+├── agent-skills-src/            # Fuente única de las skills IF
+├── .claude/skills/              # Copia generada para Claude Code
+├── .agents/skills/              # Copia generada para Codex
+├── tools/Sync-AgentSkills.ps1   # Sincroniza y verifica ambas copias
+├── tools/Sync-MissionWorkspace.ps1 # Sincroniza proyecto y carpeta local de 3DEN
+├── tools/Test-Sync-MissionWorkspace.ps1 # Prueba aislada del sincronizador
+├── docs/                         # Biblioteca canónica de 20 fuentes
+│   └── validation/               # Anexos de evidencia manual 3DEN
+├── IslasFracturadas.Altis/       # Raíz de la misión
+│   ├── mission.sqm               # Generado y editado exclusivamente mediante 3DEN
 │   ├── cfg/                      # CfgFunctions, RemoteExec, sonidos y UI
+│   ├── config/                   # Datos provisionales cargados por IF_config
 │   ├── core/                     # Estado, eventos, red, validación y utilidades
 │   ├── modules/                  # Dominios de campaña y reglas jugables
 │   ├── simulation/               # Simulación estratégica y virtualización
@@ -57,17 +99,63 @@ Las decisiones `DEC-001`–`DEC-007`, incluido el cierre de Vardis y la Verdad C
 
 Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sistema correspondiente esté implementado.
 
-## Inicio del desarrollo
+## Inicio de una sesión de agente
 
-El siguiente hito es **M0 — Esqueleto técnico ejecutable**:
+1. Abrir la raíz del repositorio.
+2. Revisar `git status --short`.
+3. Leer `AGENTS.md` y `docs/00_INDEX_AND_DOCUMENTATION_MAP.md`.
+4. Identificar la fuente de verdad del encargo.
+5. Seleccionar la skill `if-*` correspondiente.
+6. Clasificar la tarea como documental, técnica, 3DEN, validación o gate.
+7. Ejecutar, validar y registrar evidencia sin exagerar el estado.
 
-1. Crear una misión vacía de Altis mediante el Editor 3DEN.
-2. Incorporar `mission.sqm`, `description.ext` y los archivos de inicialización.
-3. Registrar `CfgFunctions`.
-4. Implementar un logger mínimo y una función de prueba.
-5. Abrir la misión y confirmar un inicio limpio en el RPT.
+## Continuación del desarrollo
+
+`M1 — Núcleo autoritativo estable` está aprobado. El siguiente hito es
+**M2 — Campaña persistente mínima**:
+
+1. Implementar el adaptador de almacenamiento sin acceso directo desde los módulos.
+2. Añadir serialización, checksum y schema versionado.
+3. Crear snapshots A/B y recuperación ante corrupción.
+4. Guardar, cargar y migrar una campaña mínima sin duplicar efectos.
+5. Cerrar M2 con reinicio real y evidencia RPT.
 
 No debe editarse `mission.sqm` como texto generado libremente; es propiedad del Editor 3DEN.
+
+## Sincronización local con 3DEN
+
+`tools/Sync-MissionWorkspace.ps1` conecta la misión del repositorio con la carpeta local que abre el Editor 3DEN. Por defecto usa:
+
+- proyecto: `IslasFracturadas.Altis/`;
+- editor: `%USERPROFILE%\Documents\Arma 3\missions\IslasFracturadas.Altis`.
+
+La misión de validación física se conserva aparte como
+`IF_00_Validacion_Cabeza_Playa_Azul.Altis` y no es el destino predeterminado
+de sincronización.
+
+El flujo es deliberadamente direccional para evitar sobrescrituras ambiguas:
+
+```powershell
+# Comparar sin modificar archivos
+.\tools\Sync-MissionWorkspace.ps1 -Action Status
+
+# Después de guardar en 3DEN: traer cambios al repositorio, incluido mission.sqm
+.\tools\Sync-MissionWorkspace.ps1 -Action Pull
+
+# Antes de probar: previsualizar y enviar scripts/recursos al editor
+.\tools\Sync-MissionWorkspace.ps1 -Action Push -WhatIf
+.\tools\Sync-MissionWorkspace.ps1 -Action Push
+```
+
+`Push` nunca sobrescribe `mission.sqm`; ese archivo solo entra al repositorio mediante `Pull`. El script no elimina archivos y se detiene si el destino contiene una versión más reciente o una diferencia ambigua. `-Force` permite que el origen prevalezca después de revisar `Status`. Debe guardarse el trabajo abierto en 3DEN antes de sincronizar.
+
+La prueba automatizada usa únicamente carpetas temporales:
+
+```powershell
+.\tools\Test-Sync-MissionWorkspace.ps1
+```
+
+La existencia de la copia local de 3DEN no cambia por sí sola el estado del repositorio ni acredita validación en el editor.
 
 ## Convenciones esenciales
 
@@ -88,15 +176,46 @@ No debe editarse `mission.sqm` como texto generado libremente; es propiedad del 
 
 Claude dispone además de registros locales aprobados para este proyecto. Codex tiene los tres servidores habilitados en su configuración MCP; una sesión que estuviera abierta antes de configurarlos debe reiniciarse para cargar las herramientas nuevas.
 
+## Personalización de agentes
+
+| Elemento | Ubicación | Función |
+| --- | --- | --- |
+| Reglas comunes | `AGENTS.md` | restricciones permanentes |
+| Adaptador Claude | `CLAUDE.md` | comportamiento específico |
+| Fuente de skills | `agent-skills-src/` | autoría de las 18 skills `if-*` |
+| Skills Claude | `.claude/skills/` | copia generada |
+| Skills Codex | `.agents/skills/` | copia generada |
+| Sincronización | `tools/Sync-AgentSkills.ps1` | copia, hashes y protección contra ediciones manuales |
+| MCP | `.mcp.json` | capacidades externas |
+| Semgrep | `.semgrep.yml` | reglas deterministas |
+
+No edites las copias generadas. Modifica `agent-skills-src/` y ejecuta:
+
+```powershell
+.\tools\Sync-AgentSkills.ps1
+.\tools\Sync-AgentSkills.ps1 -Check
+```
+
+Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0–M1.
+
+## Límites actuales
+
+- No añadir dependencias de mods antes de aprobar la matriz vanilla/mod.
+- No publicar una versión jugable inexistente.
+- No modificar `mission.sqm` manualmente.
+- No incorporar assets sin licencia o procedencia comprobada.
+- No añadir documentos a `docs/` sin respetar el límite de 20.
+- No convertir una propuesta narrativa en canon rector silenciosamente.
+
 ## Comprobación documental
 
 ```powershell
-Get-ChildItem .\docs -Recurse -File |
+Get-ChildItem .\docs -File |
 Where-Object { $_.Extension -in ".md", ".txt", ".pdf" } |
 Measure-Object
 ```
 
-El resultado debe ser igual o inferior a 20.
+El resultado de fuentes consolidadas debe ser igual a 20. Los anexos de `docs/validation/` se cuentan y revisan por separado.
 
 ## Licencia
 

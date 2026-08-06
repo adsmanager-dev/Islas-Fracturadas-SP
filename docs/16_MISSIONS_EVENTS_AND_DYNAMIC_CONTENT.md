@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Registro autoritativo de consecuencias](#registro-autoritativo-de-consecuencias)
 - [NARRATIVE ACTS AND MISSION SYSTEM](#fuente-narrative-acts-and-mission-system)
 - [DYNAMIC MISSIONS AND EMERGENT EVENTS](#fuente-dynamic-missions-and-emergent-events)
 
@@ -39,6 +40,80 @@ Fuentes auditadas: `NARRATIVE_ACTS_AND_MISSION_SYSTEM.md`, `DYNAMIC_MISSIONS_AND
 - Las fuentes declaradas para 16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="registro-autoritativo-de-consecuencias"></a>
+## Registro autoritativo de consecuencias
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Regla:** toda misión principal y toda misión dinámica con efecto persistente usa este contrato; éxito, parcial, fracaso, desastre, expiración, delegación y transformación producen causalidad, no ausencia de contenido.
+
+### Contrato unificado
+
+```text
+missionId
+triggerCause
+availableWindow
+actorsAndAutonomousPlans
+playerDecisionOrOmission
+resolutionState
+immediateConsequence
+strategicConsequence
+politicalConsequence
+civilConsequence
+relationalConsequence
+informationalConsequence
+deferredConsequences[]
+endingVariables[]
+replacementOrDerivedMission
+presentationChannels[]
+saveTrace
+```
+
+| Clase | Pregunta obligatoria | Ejemplos de salida |
+| --- | --- | --- |
+| Inmediata | ¿qué cambió al terminar o expirar? | bajas, rescate, objetivo escapado, depósito perdido |
+| Estratégica | ¿qué fuerza, ruta, recurso o sector cambia? | presión de frente, reserva, convoy, acceso |
+| Política | ¿quién gana autoridad, legitimidad o dependencia? | Markou/Kallas, Ward/Hale, Gobierno/municipio |
+| Civil | ¿qué comunidad, servicio, agravio o desplazamiento cambia? | hospital, huelga, retorno, radicalización |
+| Relacional | ¿quién recuerda, aprueba, desconfía o rompe? | unidad, mando, aliado, testigo |
+| Informativa | ¿qué se aprende, contamina, autentica o pierde? | fuente, hipótesis, cadena de custodia |
+| Diferida | ¿cuándo y bajo qué condición reaparece? | arma reconocida, promesa reclamada, aliado ausente |
+| Final | ¿qué viabilidad o módulo recibe trazabilidad? | familia política, Helios, Argos, región, unidad |
+| Presentación | ¿cómo lo comprende el jugador sin ver la fórmula? | radio, mundo, misión derivada, diálogo, debriefing, epílogo |
+
+### Reglas de causalidad y cruce de sistemas
+
+- Cada misión relevante afecta al menos tres clases, una de ellas diferida, y cruza al menos dos sistemas y dos actores.
+- Toda consecuencia diferida declara condición de reaparición, ventana, sustituto si el personaje murió y canal de presentación.
+- Ignorar una misión ejecuta el plan autónomo de sus actores: puede expirar, delegarse, resolverse fuera de pantalla o transformarse; nunca queda congelada.
+- Un resultado parcial conserva simultáneamente lo logrado y el coste. No se normaliza a éxito o fracaso al cargar.
+- Las variables de final guardan la causa que las modificó. Un final no puede citar una contribución sin `missionId`, evento o decisión de origen.
+- El debriefing comunica hechos observables, incertidumbre y próximos riesgos; no revela pesos, estados ocultos ni nombres técnicos de finales.
+
+### Ejemplo normativo: armas entregadas a FIA
+
+| Clase | Consecuencia |
+| --- | --- |
+| Inmediata | una célula o brigada ayuda a destruir/contener una posición Verde |
+| Estratégica | disminuye la presión sobre el frente patrocinador y cambia el inventario FIA |
+| Política | Markou gana influencia si la custodia queda bajo consejo; Kallas si controla receptor y uso |
+| Relacional | Hale puede aprobar; Ward y Laurent exigen límites; Verde registra patrocinio insurgente |
+| Civil | la comunidad asociada gana defensa o teme militarización, según conducta del receptor |
+| Informativa | números de serie y cadena de custodia quedan disponibles como evidencia |
+| Diferida | el lote reaparece en una operación aliada, disputa interna o emboscada contra un ocupante |
+| Final | modifica capacidad armada FIA y viabilidad de resistencia cívica, revolución o insurgencia posterior |
+| Presentación | arma reconocida por la unidad, radio de una patrulla, conversación con Markou/Kallas y epílogo regional |
+
+### Criterio de misión narrativamente completa
+
+Una misión está lista para producción cuando puede trazarse:
+
+```text
+causa → oferta → decisión/omisión → reacción → cambio de actor
+→ cambio estratégico → contenido derivado → recordatorio → final/epílogo
+```
+
+Si el diseñador no puede señalar el detonante, la forma de mostrar el cambio y al menos una consecuencia futura, la misión permanece `PROPUESTA` aunque su combate esté detallado.
 
 ## Contenido consolidado
 
@@ -809,7 +884,7 @@ Es una campaña persistente donde el mapa cambia, los mandos actúan, las mision
 <a id="src-narrative-acts-and-mission-system--34-localización-del-vertical-slice"></a>
 #### 34. Localización del vertical slice
 
-La primera porción jugable queda fijada en el corredor Katalaki–Neochori–Stavros–AAC–Airport West. Comprende nueve objetivos territoriales y permite validar desembarco, población, logística, bases, aeródromos, Helios y guerra dinámica sin simular toda Altis al mismo nivel.
+La primera porción jugable comienza en Panochori Bay–Neri. La extensión occidental hacia Lakka–Airport West se mantiene `POR_CALIBRAR` tras `DEC-008` y permite validar desembarco, población, logística, bases, Helios y guerra dinámica sin simular toda Altis al mismo nivel.
 
 La delimitación y las funciones de esos sectores se mantienen en [ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md#fuente-altis-geography-and-sector-map).
 
@@ -908,8 +983,8 @@ Un convoy no aparece porque el generador decidió crear una misión de escolta.
 
 Aparece porque:
 
-* Neochori tiene combustible crítico;
-* Katalaki posee existencias;
+* Neri tiene combustible crítico;
+* Panochori posee existencias;
 * la carretera está abierta;
 * FIA ha atacado esa ruta anteriormente;
 * Rourke no dispone de suficientes fuerzas;

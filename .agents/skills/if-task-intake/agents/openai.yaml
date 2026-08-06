@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recepción de tareas IF"
+  short_description: "Clasifica encargos y fija aceptación"
+  default_prompt: "Use $if-task-intake para clasificar este encargo y localizar sus fuentes de verdad."

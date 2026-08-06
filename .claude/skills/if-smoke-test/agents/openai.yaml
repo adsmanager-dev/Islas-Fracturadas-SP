@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prueba de humo IF"
+  short_description: "Ejecuta la validación mínima del hito"
+  default_prompt: "Use $if-smoke-test para definir y ejecutar las comprobaciones mínimas disponibles."

@@ -457,7 +457,7 @@ Kouris solicita asistencia Roja auténtica pero limitada; Pallis la rechaza; Azu
 
 Ward decide intervenir a las 17:40 del Día –1 y Navid decide ejecutar asistencia limitada cuarenta minutos después. Ambas decisiones son humanas.
 
-A las 05:40, AZUR-1 abre la ruta de Katalaki; a las 05:52, RUBÍ-1 entra en Molos. Las dos fuerzas encuentran Verdes con órdenes diferentes. Stratis simula aislamiento y HELIOS-CORE inicia la Validación Integral de Teatro.
+A las 05:40, AZUR-1 abre la ruta de Panochori Bay hacia Neri; a las 05:52, RUBÍ-1 entra en Molos. Las dos fuerzas encuentran Verdes con órdenes diferentes. Stratis simula aislamiento y HELIOS-CORE inicia la Validación Integral de Teatro.
 
 La secuencia completa, documentos y oportunidades de paz se fijan en [LAST_72_HOURS_CHRONOLOGY.md](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#fuente-last-72-hours-chronology).
 
@@ -1018,7 +1018,7 @@ La definición completa se encuentra en [PLAYER_UNIT_AND_PROGRESSION.md](15_PLAY
 48. Stratis es una misión separada conectada mediante un paquete reducido de estado.
 49. Las misiones nacen del estado de campaña y admiten éxito parcial, fracaso e inacción con consecuencias.
 50. La primera implementación es vanilla, modular y orientada al rendimiento.
-51. Azul desembarca principalmente en Katalaki Bay–Neochori.
+51. Azul desembarca principalmente en Panochori Bay–Neri, como subzona operativa de `ALT_W_NERI_PANOCHORI`.
 52. Rojo desembarca principalmente en Molos Bay–Molos Airfield y depende del corredor de Sofia.
 53. El aeropuerto internacional es el corazón operacional; Pyrgos es la bisagra política y Kavala la bisagra social e insurgente.
 54. La campaña utiliza regiones y sectores derivados de la geografía de Altis, no una cuadrícula uniforme.
@@ -1031,7 +1031,7 @@ La definición completa se encuentra en [PLAYER_UNIT_AND_PROGRESSION.md](15_PLAY
 61. PROTOCOLO UMBRAL crea compromiso autónomo mediante información seleccionada; no ordena directamente las invasiones.
 62. Kouris solicita asistencia Roja auténtica pero limitada; Pallis nunca la autoriza.
 63. Ward y Navid intentan evitar inicialmente una guerra naval y deciden por voluntad propia intervenir.
-64. La Hora H es 05:40 del Día Cero en Katalaki; la entrada Roja en Molos ocurre doce minutos después.
+64. La Hora H es 05:40 del Día Cero en Panochori Bay; la entrada Roja en Molos ocurre doce minutos después.
 65. La guerra todavía podía evitarse; Argos destruye sucesivamente las oportunidades de aclaración.
 66. Ninguna evidencia individual demuestra toda la conspiración.
 67. Recuperar una prueba no equivale a autenticarla ni comprenderla.

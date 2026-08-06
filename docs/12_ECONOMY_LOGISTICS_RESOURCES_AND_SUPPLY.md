@@ -591,7 +591,7 @@ Indicadores: diferencias físico/digitales, convoyes inexistentes, consumo impos
 
 | Actor | Ventaja | Debilidad | Prioridad |
 |---|---|---|---|
-| Azul | mar, modularidad, electrónica y aire | exterior, pocos reemplazos, Katalaki/aeropuerto | abrir puerto o aeropuerto |
+| Azul | mar, modularidad, electrónica y aire | exterior, pocos reemplazos, Panochori/aeropuerto | abrir puerto o aeropuerto |
 | Rojo | volumen, pesados, planificación y mecanización | consumo y corredor Molos–Sofia | depósitos escalonados |
 | Verde | infraestructura, depósitos, rutas y civiles | división, corrupción e inventarios manipulados | coordinar y conservar |
 | FIA | bajo consumo, apoyo, rutas y cachés | poca capacidad y reparación | distribución redundante |
@@ -691,8 +691,8 @@ PROD_ALT_CW_POLIAKKO = createHashMapFromArray [
 CONVOY_BLUE_014 = createHashMapFromArray [
     ["id", "CONVOY_BLUE_014"],
     ["ownerFactionId", "FAC_BLUE"],
-    ["originHubId", "LOG_HUB_KATALAKI"],
-    ["destinationHubId", "LOG_HUB_BLUE_NEOCHORI"],
+    ["originHubId", "LOG_HUB_PANOCHORI"],
+    ["destinationHubId", "LOG_HUB_BLUE_NERI"],
     ["cargo", createHashMapFromArray [
         ["FUEL", 24],
         ["SMALL_ARMS_AMMO", 18],
@@ -772,7 +772,7 @@ Toda transferencia posee ID idempotente y se ejecuta en el servidor. Materializa
 <a id="src-economic-and-logistics-system--58-vertical-slice"></a>
 #### 58. Vertical slice
 
-Sectores: Katalaki, Neochori, Stavros–Whiskey, Lakka, AAC, Poliakko–Therisa, Xirolimni–Zaros, Airport West y Airport Terminal.
+Sector inicial: Neri–Panochori. La extensión logística hacia Aggelochori, Agios Dionysios, Kore–Topolia, Lakka y Airport West queda `POR_CALIBRAR` tras `DEC-008`; Katalaki permanece como nodo costero secundario.
 
 Recursos iniciales:
 
@@ -781,15 +781,15 @@ FOOD FUEL SMALL_ARMS_AMMO HEAVY_AMMO
 MEDICAL CONSTRUCTION SPARE_PARTS
 ```
 
-Centros: cabeza Katalaki, distribución Neochori, depósito Verde Whiskey, agricultura Poliakko, reparación AAC y reserva del aeropuerto.
+Centros: cabeza Panochori, distribución Neri, depósitos Verdes del corredor occidental, reparación avanzada y reserva del aeropuerto.
 
-Rutas: Katalaki–Neochori, Neochori–Stavros, Stavros–Lakka, Lakka–Airport West, Poliakko–Neochori y AAC–Lakka.
+Rutas: Panochori–Neri, extensión occidental hacia Lakka, Lakka–Airport West y rutas secundarias Katalaki–Neochori–Stavros/AAC.
 
 <a id="src-economic-and-logistics-system--59-pruebas"></a>
 #### 59. Pruebas
 
 1. agotar fuerzas sin convoyes;
-2. transferir Katalaki–Neochori sin duplicación;
+2. transferir Panochori–Neri sin duplicación;
 3. destruir parcialmente un convoy;
 4. cortar combustible agrícola;
 5. capturar Whiskey rápida y lentamente;

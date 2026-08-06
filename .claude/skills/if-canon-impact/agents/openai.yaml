@@ -1,0 +1,4 @@
+interface:
+  display_name: "Impacto canónico IF"
+  short_description: "Audita cambios de canon y conocimiento"
+  default_prompt: "Use $if-canon-impact para evaluar el impacto canónico de esta propuesta."

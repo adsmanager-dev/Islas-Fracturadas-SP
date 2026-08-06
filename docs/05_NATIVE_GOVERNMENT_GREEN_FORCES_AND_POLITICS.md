@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Máquina directora de evolución de Verde](#maquina-directora-de-evolucion-verde)
 - [GOVERNMENT AND GREEN FORCES](#fuente-government-and-green-forces)
 - [NATIVE ACTORS AND SECTORS](#fuente-native-actors-and-sectors)
 
@@ -39,6 +40,37 @@ Fuentes auditadas: `GOVERNMENT_AND_GREEN_FORCES.md`, `NATIVE_ACTORS_AND_SECTORS.
 - Las fuentes declaradas para 05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="maquina-directora-de-evolucion-verde"></a>
+## Máquina directora de evolución de Verde
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Umbrales numéricos y pesos:** `POR_CALIBRAR`
+> **Regla:** el cambio de etapa depende del estado acumulado y de acciones autónomas; nunca del número de acto por sí solo.
+
+El estado persistente mínimo combina `greenStage`, cohesión, comunicaciones regionales, legitimidad del Gobierno, fuerza y suministro por mando, autoridad reconocida, relación separada con Azul/Rojo/FIA/civiles, control de Asterión, memoria de agravios, pactos, armas recibidas y oficiales detenidos o protegidos. Las transiciones se evalúan al cerrar operaciones mayores y en el ciclo estratégico; un acto solo limita qué transiciones pueden presentarse de forma narrativa.
+
+### Contrato de una etapa Verde
+
+Cada etapa debe declarar: condiciones de entrada; objetivos; acciones automáticas; líderes dominantes; recursos; relaciones; acciones del jugador que aceleran o frenan; condición de ruptura; estados siguientes; impacto en familias de final; y forma diegética de mostrar el cambio. Si falta uno de estos campos, la etapa es descriptiva pero no ejecutable.
+
+| Estado | Entrada y objetivo | Iniciativas autónomas y recursos | Influencia del jugador | Ruptura y estados siguientes | Huella visible y finales |
+| --- | --- | --- | --- | --- | --- |
+| `GREEN_NATIONAL_DEFENSE` | Varos conserva comunicaciones y la mayoría de mandos reconoce Gobierno y defensa nacional; objetivo: rechazar ambas invasiones sin perder continuidad | redistribuye reservas, protege depósitos, niega corredores y aplica Asterión con cautela; dispone de cadena nacional, fuerzas regulares y legitimidad residual | respetar rendiciones, mando propio y civiles frena deterioro; destruir comunicaciones, depósitos o instituciones lo acelera | entra en `GREEN_OVERLOAD` por pérdidas sostenidas, rutas cortadas, reservas insuficientes o órdenes regionales sin ejecutar | órdenes aún coherentes, insignias comunes y partes nacionales; prepara República restaurada, alianza limitada o directorio |
+| `GREEN_OVERLOAD` | dos o más regiones no reciben refuerzo oportuno, aumentan aislados y la capacidad central ya no cubre todos los frentes; objetivo: conservar núcleos y tiempo | Varos prioriza; Sarris protege capacidad; Daskal acumula armas; Koronis abre corredores; Rallis redistribuye información; recursos desiguales y logística degradada | devolver prisioneros, sostener rutas o reconocer oficiales puede restaurar margen; subordinación, redadas indiscriminadas o entrega selectiva de armas agravan facciones internas | vuelve de forma excepcional a Defensa si recupera comunicaciones, reservas y obediencia; pasa a `GREEN_PARALLEL_COMMANDS` si autoridades regionales aceptan órdenes distintas | retrasos, unidades sin relevo y solicitudes incompatibles; prepara alianzas, resistencia o fragmentación |
+| `GREEN_PARALLEL_COMMANDS` | cohesión baja, Varos pierde enlace regional, Asterión sigue disputado y al menos dos mandos reconocen autoridades incompatibles; objetivo: impedir disolución o asegurar la propia corriente | Sarris negocia supervivencia; Daskal arma posiciones soberanistas; Koronis protege población; Rallis manipula autenticaciones; Oriente pacta con Rojo y aislados buscan acuerdos locales | armas a Daskal fortalecen soberanismo; proteger a Koronis fortalece reforma; respetar mando propio sostiene alianza Roja; subordinar a Vahid acelera rebelión; detenciones indiscriminadas dañan reunificación | vuelve a Sobrecarga solo con comunicaciones, pacto entre mandos y autoridad aceptada; pasa a `GREEN_FRAGMENTED` tras enfrentamiento interno, golpe, captura del centro o pactos regionales incompatibles | radios con códigos rivales, parches y puestos conjuntos/locales; prepara Gobierno de unidad, directorio, alianza restaurada u ocupación |
+| `GREEN_FRAGMENTED` | existen componentes gubernamental, soberanista, reformista, aliado Rojo, cooperante Azul, aislado o resistente con objetivos propios; objetivo: sobrevivir y determinar quién representa a Verde | cada fragmento recluta, pacta, defiende depósitos y administra sectores según su líder; comparten base técnica, nunca identidad política ni memoria | garantías, devolución de mando, justicia por abusos y operaciones conjuntas pueden acercar fragmentos; desarme humillante, patrocinio exclusivo o uso como auxiliares los separa | no retorna a una barra unificada; cada fragmento pasa a una transformación distinta cuando asegura patrocinio, territorio, doctrina y sucesión | órdenes, uniformes, aliados y reglas de enfrentamiento divergentes; prepara restauración, Gobierno de unidad, directorio, Estado cliente, resistencia o islas divididas |
+| `GREEN_TRANSFORMED` | un fragmento consolida función posbélica o queda desarmado; objetivo: institucionalizar ejército, fuerza provisional, Guardia, milicia, resistencia o componente nacional | protege su base social, negocia reconocimiento, integra/desmoviliza unidades o continúa insurgencia | el jugador puede legitimar, limitar, integrar o derrotar, pero no borrar la memoria que produjo la transformación | estado terminal de campaña para ese fragmento; solo cambia su viabilidad o compatibilidad final | juramentos, desarme, integración, fronteras o clandestinidad; alimenta directamente la familia política y epílogos regionales |
+
+### Condiciones de reunificación
+
+La reunificación futura exige, como mínimo, una autoridad nacional aceptable, sucesión funcional si Varos falta, comunicaciones restablecidas, ausencia de subordinación extranjera irreversible, dos o más puentes entre corrientes, tratamiento verificable de prisioneros y agravios, y una misión conjunta que demuestre obediencia compartida. Koronis, Sarris, Daskal o Neris pueden sostener funciones diferentes; ninguno sustituye automáticamente toda la legitimidad perdida.
+
+Se bloquea o degrada a reunificación parcial cuando un patrocinador controla la cadena de mando, se destruye la corriente reformista, se cometen detenciones masivas no investigadas, los fragmentos combaten entre sí sin reparación o los depósitos entregados se utilizan contra otras corrientes. El resultado debe distinguir ejército restaurado, componente de Gobierno de unidad, aliado Rojo, fuerza provisional Azul, directorio, resistencia soberanista y fragmentación permanente.
+
+### Evidencia para el jugador
+
+Toda transición debe mostrarse por al menos dos canales: conducta estratégica observable y escena, radio, briefing, composición de fuerzas o cambio administrativo. El registro interno conserva detonante, actor, fecha de campaña, operación relacionada, alternativa desplazada y familias de final afectadas; nunca se muestra como una barra única de «amistad Verde».
 
 ## Contenido consolidado
 

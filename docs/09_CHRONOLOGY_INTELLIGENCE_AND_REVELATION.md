@@ -17,6 +17,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 ## Tabla de contenido
 
 - [Conflictos o decisiones pendientes](#conflictos-o-decisiones-pendientes)
+- [Ritmo director de revelaciones](#ritmo-director-de-revelaciones)
 - [LAST 72 HOURS CHRONOLOGY](#fuente-last-72-hours-chronology)
 - [INVESTIGATION REVELATION MATRIX](#fuente-investigation-revelation-matrix)
 - [HELIOS INTELLIGENCE AND FOG OF WAR SYSTEM](#fuente-helios-intelligence-and-fog-of-war-system)
@@ -46,6 +47,37 @@ Fuentes auditadas: `LAST_72_HOURS_CHRONOLOGY.md`, `INVESTIGATION_REVELATION_MATR
 - Las fuentes declaradas para 09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="ritmo-director-de-revelaciones"></a>
+## Ritmo director de revelaciones
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Conocimiento:** secreto de autor; cada entrega conserva el nivel de acceso de su evidencia.
+> **Regla:** cada acto responde una pregunta, invalida o debilita una hipótesis, abre una duda mayor y traduce la información a una consecuencia humana.
+
+| Acto | Pregunta respondida | Verdad demostrable en ese tramo | Hipótesis falsa o incompleta que debe poder sostenerse antes | Nueva duda | Significado humano | Entrega y consecuencia |
+| --- | --- | --- | --- | --- | --- | --- |
+| I | ¿la guerra sorprendió a todos? | existieron señales, órdenes o preparativos previos incompatibles con sorpresa total | coincidencia, alerta rutinaria o simple buen espionaje | ¿quién recibió la señal y por qué algunos actuaron antes? | unidades y comunidades pagaron por decisiones tomadas sin explicarles el riesgo | radio, horarios, manifiestos y testigos; altera confianza de mando |
+| II | ¿Helios solo describe el campo? | algunas salidas anticipan decisiones y reacciones con precisión anómala | superioridad técnica convencional o filtración única | ¿predice, selecciona información o influye en la decisión? | soldados son tratados como patrones antes que como personas | comparar predicción con conducta real; cambia confianza en fuentes |
+| III | ¿las ofensivas nacieron de certezas? | una contingencia o proyección fue presentada como resultado probable/inevitable | error analítico honesto sin beneficiario | ¿quién convirtió una posibilidad en autorización política? | poblaciones quedan bajo administración por una certeza fabricada | versiones de orden y cadena de aprobación; abre investigación de responsabilidad |
+| IV | ¿PHAROS fue solo encubrimiento técnico? | muertos, familias, pagos y silencios institucionales forman un patrón | fraude aislado, bajas de guerra mal registradas o corrupción local | ¿qué vidas se sacrificaron para preservar continuidad? | la conspiración deja de ser abstracta y adquiere nombres, hospitales y hogares | registros civiles, pagos, familiares y lugares; alimenta memoria pública |
+| V | ¿Verde recibe una cadena de mando coherente? | existen órdenes auténticas pero incompatibles y autenticaciones manipuladas | una sola traición explica la fragmentación | ¿qué autoridad puede reunificar sin ser otra imposición? | oficiales y soldados deben escoger entre juramentos igualmente reales | códigos, testimonios y conducta regional; cambia fragmentación y alianzas |
+| VI | ¿Stratis es solo una pista histórica? | HELIOS-CORE sigue activo y LÁZARO conecta operadores, rutas y custodia | todos los nodos activos están en Altis o son copias sin control central | ¿quién puede acceder, controlar o apagar el núcleo? | testigos vivos arriesgan familias y futuro por decidir quién conoce la verdad | cadena de custodia, manifiestos y técnicos; define acceso y distribución |
+| VII | ¿Argos solo manipuló inteligencia? | Validación Integral trató mandos, facciones y jugador como variables | infiltrados aislados actuaron por beneficio propio | ¿quién tiene legitimidad para decidir tras descubrir que fue modelado? | obediencia, culpa y libre decisión se convierten en conflicto de mando | perfiles, nodos y reacciones; provoca crisis y advertencia de no retorno |
+| VIII | ¿qué arquitectura sobrevivió y qué puede probar esta campaña? | se resuelven HELIOS-CORE, PHAROS, Argos y la responsabilidad alcanzable por esa ruta | capturar un operador equivale a demostrar toda la cadena | ¿cómo se contará y gobernará después? | verdad, seguridad y soberanía no pueden maximizarse simultáneamente | confrontación, decisión técnica/política y epílogos; aplica `DEC-003`–`DEC-005` |
+
+### Reglas de dosificación
+
+- Ningún acto acumula preguntas sin cerrar al menos una promesa previa.
+- Una revelación exige evidencia, interpretación y consecuencia; recoger un archivo no basta.
+- Cada verdad importante aparece primero como señal, después como corroboración y por último como significado humano o político.
+- Las hipótesis falsas deben ser razonables y verificables; nunca dependen de ocultar al jugador una prueba que su personaje ya posee.
+- La reacción de personajes y facciones depende de qué evidencia recibieron, su confianza, su interés y su capacidad para autenticarla.
+- Una campaña puede demostrar dirección clandestina e inferir a Vardis, pero no confirmar su presencia física ni capturarlo; C8 y esos desenlaces personales requieren ambas campañas.
+
+### Contrato de consecuencia informativa
+
+Cada revelación registra pregunta anterior, evidencia mínima, fuentes independientes, grado de autenticación, hipótesis descartadas, actores informados, decisión de distribución, riesgo para testigos, escena de comprensión, cambio estratégico y variables de final. Si la información no cambia conducta, misión, relación, acceso o interpretación posterior, todavía no funciona como revelación jugable.
 
 ## Contenido consolidado
 
@@ -87,7 +119,7 @@ Ward decide intervenir. Navid decide ejecutar Asterión. Varos decide defender l
 
 | Hora | Acontecimiento |
 |---|---|
-| H–00:00 / 05:40 | AZUR-1 inicia reconocimiento final y apertura de Katalaki Bay |
+| H–00:00 / 05:40 | AZUR-1 inicia reconocimiento final y apertura de Panochori Bay |
 | H+00:12 / 05:52 | RUBÍ-1 alcanza Molos Bay |
 
 No existe declaración formal de guerra:
@@ -394,7 +426,7 @@ Némesis difunde rumores regionales sobre listas de opositores, armas para FIA, 
 <a id="src-last-72-hours-chronology--t1450-1450-preparación-de-azur-1"></a>
 ##### T–14:50 — 14:50 — Preparación de AZUR-1
 
-AZUR-1 recibe reconocimiento costero cancelable. Katalaki aparece como zona de menor riesgo y una señal de Helios indica una brecha real, pero Argos reduce la estimación de una batería Verde.
+AZUR-1 recibe reconocimiento costero cancelable. Panochori Bay aparece como zona de menor riesgo y una señal de Helios indica una brecha real, pero Argos reduce la estimación de una batería Verde.
 
 <a id="src-last-72-hours-chronology--t1410-1530-preparación-de-rubí-1"></a>
 ##### T–14:10 — 15:30 — Preparación de RUBÍ-1
@@ -461,10 +493,10 @@ Helios advierte actividad marítima e interrupciones sin identificar flotas ni e
 
 Cada actor recibe verdad suficiente para actuar e información insuficiente para comprender:
 
-* Ward: Molos, debilidad occidental, riesgo del aeropuerto y Katalaki.
+* Ward: Molos, debilidad occidental, riesgo del aeropuerto y Panochori.
 * Navid: entrada Azul, posible caída gubernamental y cooperación Verde exagerada.
 * Varos: dos fuerzas, códigos contradictorios, sabotaje y pérdida de Stratis.
-* Markou: invasiones, detenciones, Katalaki y acuerdo Rojo.
+* Markou: invasiones, detenciones, Panochori y acuerdo Rojo.
 
 <a id="src-last-72-hours-chronology--t0340-0200-última-reunión-de-argos"></a>
 ##### T–03:40 — 02:00 — Última reunión de Argos
@@ -510,10 +542,10 @@ VALIDACIÓN INTEGRAL registra órdenes, movimientos, decisiones, bajas y desviac
 <a id="src-last-72-hours-chronology--9-día-cero"></a>
 #### 9. Día Cero
 
-<a id="src-last-72-hours-chronology--h0000-0540-katalaki"></a>
-##### H–00:00 — 05:40 — Katalaki
+<a id="src-last-72-hours-chronology--h0000-0540-panochori"></a>
+##### H–00:00 — 05:40 — Panochori Bay
 
-AZUR-1 inicia apertura de la ruta. Una posición Verde omitida parcialmente exige identificación; falla la comunicación y el mando soberanista abre fuego. Azul continúa.
+AZUR-1 inicia apertura de la ruta hacia Neri. Una posición Verde omitida parcialmente exige identificación; falla la comunicación y el mando soberanista abre fuego. Azul continúa.
 
 Argos ocultó información, Verde decidió disparar y Azul decidió proseguir.
 
@@ -2007,7 +2039,7 @@ Campaña:
 
 Origen:
 
-* equipo Verde en Katalaki.
+* equipo Verde en Panochori.
 
 Contenido:
 
@@ -7173,7 +7205,7 @@ Conservar informes, creencias, antigüedad y acceso.
 <a id="src-helios-intelligence-and-fog-of-war-system--región"></a>
 #### Región
 
-Katalaki–Neochori–Stavros–Lakka–AAC.
+Panochori Bay–Neri; la extensión del corredor interior queda pendiente de revalidación tras `DEC-008`.
 
 <a id="src-helios-intelligence-and-fog-of-war-system--fuentes"></a>
 #### Fuentes
@@ -7196,7 +7228,7 @@ Katalaki–Neochori–Stavros–Lakka–AAC.
 <a id="src-helios-intelligence-and-fog-of-war-system--nodos"></a>
 #### Nodos
 
-* comunicaciones Katalaki;
+* comunicaciones Panochori;
 * terminal local;
 * fragmento AAC.
 

@@ -3,7 +3,7 @@
 > **Estado del contenedor:** canon rector documental
 > **Fuente de verdad para:** navegación, jerarquía documental, trazabilidad y asignación de fuentes principales
 > **Relacionados:** los 19 documentos temáticos de esta biblioteca
-> **Última consolidación:** 2026-07-25
+> **Última consolidación:** 2026-08-06
 
 ## Propósito
 
@@ -118,6 +118,50 @@ Una etiqueta colocada en una sección `Fuente integrada` gobierna sus subseccion
 - La arquitectura técnica implementará contratos de todos los sistemas sin convertir propuestas en funcionalidad existente.
 - La hoja de ruta y el plan de pruebas validan cada fuente temática y no redefinen sus reglas.
 
+<a id="mapa-director-de-trazabilidad-jugable"></a>
+## Mapa director de trazabilidad jugable
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Regla:** la fuente de campaña coordina; cada enlace temático conserva autoridad sobre su sistema. Esta matriz no afirma implementación.
+
+La cadena autoritativa de una decisión jugable es:
+
+```text
+acto y pregunta dramática
+→ iniciativa de facción
+→ reloj o arco de personaje
+→ misión/evento y decisión u omisión
+→ consecuencias inmediata y diferida
+→ variable trazable de final y epílogo
+```
+
+| Acto | Facciones y mundo autónomo | Personajes y conflictos | Misión o experiencia directora | Consecuencia que debe reaparecer | Finales que empieza o continúa preparando |
+| --- | --- | --- | --- | --- | --- |
+| I — Dos mareas | [Verde](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde), [FIA/civiles](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md#maquina-directora-de-evolucion-fia), Azul/Rojo | Torres/Darzi, Ward/Hale, Navid/Vahid | `IF_B_A01_M03`–`M04`, equivalentes Rojos, cabeza de playa y primer convoy | vida, comunidad, arma, ruta y confianza inicial | presencia extranjera, resistencia, cooperación local o colapso |
+| II — Los ojos de la isla | infiltrados, técnicos, Verde y redes locales explotan u ocultan información | Shaw/Volkov, Kessler/Sadeq, Reed/Farouk | verificación de predicción, nodo, dron y fuente contradictoria | una fuente usada o descartada cambia III o VI | destino de Argos, verdad pública y control de Helios |
+| III — Tierra prestada | potencias expanden; municipios pactan; FIA recluta; Verde prioriza reservas | Ward/Hale, Navid/Vahid, Laurent/Khoury | convoy regional, frente sacrificado, corredor y servicio | zona abandonada, dependencia logística y legitimidad administrativa | protectorado, Estado cliente, confederación o victoria sin paz |
+| IV — Las ciudades recuerdan | municipios, sindicatos, FIA y fuerzas ocupantes administran o resisten | Markou/Kallas, Koronis, Laurent/Khoury | huelga, hospital, desplazados, detención y seguridad urbana | promesa, agravio, arma o servicio vuelve en V–VII | Gobierno de unidad, resistencia, revolución, ocupación o fragmentación |
+| V — El ejército dividido | [Verde](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde), Gobierno y FIA eligen coaliciones | Varos/Gobierno, Markou/Kallas, Ward/Hale, Navid/Vahid | reconocimiento de mando, integración/desarme y operación conjunta | fragmento protegido, subordinado o humillado determina aliados posteriores | restauración, directorio, alianza, unidad o islas divididas |
+| VI — La voz de Stratis | técnicos, Petrou/Damaris y Argos mueven pruebas, testigos y copias | Kessler/Sadeq, Petrou/Damaris, Arendt/Vardis | cadena de custodia, convoy de los muertos y ruta LÁZARO | testigo, copia o hipótesis altera VII–VIII | Helios nacional, extranjero, liberado, destruido u oscuro |
+| VII — Guerra de los nodos | bloques ejecutan ofensivas y crisis de mando sin esperar mediación | [relojes Ward/Hale, Navid/Vahid y Argos](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md#arcos-ejecutables-y-relojes-de-conflicto) | operaciones múltiples, tregua, exposición y relevo/mediación | mando y coalición resueltos definen fuerzas para Stratis | todas las familias aún compatibles y módulos Argos |
+| VIII — Regreso a Stratis | coaliciones resultantes, Meridian, Argos y unidades convergen | resoluciones personales y sustitutos | decisión técnica/política sobre Helios, presencia y orden | epílogos citan causas concretas y memoria regional | [14 familias públicas y módulos](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md#capa-directora-de-campana) |
+
+### Propiedad de cada eslabón
+
+| Eslabón | Fuente principal | Contrato de salida |
+| --- | --- | --- |
+| identidad, salida y promesa del acto | [08](08_BLUE_AND_RED_CAMPAIGN_ARCHITECTURE.md#capa-directora-de-campana) | estado mínimo y familias viables |
+| transición Verde | [05](05_NATIVE_GOVERNMENT_GREEN_FORCES_AND_POLITICS.md#maquina-directora-de-evolucion-verde) | etapa, detonante, corriente y memoria |
+| transición FIA/civil | [06](06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS.md#maquina-directora-de-evolucion-fia) | etapa, corriente, armas, promesas y radicalización |
+| arco y reloj personal | [07](07_CHARACTERS_COMMAND_AND_RELATIONSHIPS.md#arcos-ejecutables-y-relojes-de-conflicto) | fase, escena, conducta, sustituto y resolución |
+| revelación | [09](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#ritmo-director-de-revelaciones) | pregunta respondida, duda, acceso y distribución |
+| autoridad del jugador | [15](15_PLAYER_UNIT_PROGRESSION_AND_DECISIONS.md#progresion-como-responsabilidad) | opción, competencia, reconocimiento y responsabilidad |
+| misión y consecuencia | [16](16_MISSIONS_EVENTS_AND_DYNAMIC_CONTENT.md#registro-autoritativo-de-consecuencias) | causa, resolución, efectos, recordatorio y variable final |
+| escena y comunicación | [17](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md#matriz-directora-de-escenas-y-recordatorios) | reacción, transición visible y callback |
+| aceptación y evidencia | [19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#criterios-de-aceptacion-de-direccion-narrativa) | caso, fixture, resultado y prueba |
+
+Una misión futura no entra en producción si no puede recorrer esta cadena en ambos sentidos: desde su detonante hasta al menos una consecuencia diferida y desde cualquier variable de final hasta una causa identificable.
+
 ## Glosario mínimo
 
 | Término | Significado |
@@ -130,7 +174,7 @@ Una etiqueta colocada en una sección `Fuente integrada` gobierna sus subseccion
 | AZUR-1 / RUBÍ-1 | Unidades protagonistas persistentes de las campañas Azul y Roja. |
 | Sector | Unidad territorial conectada con estado, capacidad, infraestructura y valor estratégico. |
 | 3DEN | Editor de escenarios de Arma 3 usado para módulos y composiciones físicas. |
-| SQF | Lenguaje de scripting de Arma 3 previsto para la implementación. |
+| SQF | Lenguaje de scripting de Arma 3 usado por la infraestructura implementada M0–M1 y por los sistemas futuros. |
 
 ## Historial de la reorganización
 
@@ -202,17 +246,28 @@ El 2026-07-24 se consolidaron 37 documentos en esta biblioteca estricta de 20 ar
 
 ## Decisiones adoptadas y pendientes
 
-La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El registro operativo y la evidencia residen en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
+La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El 2026-08-06, `DEC-008` trasladó la cabeza de playa principal Azul a Panochori Bay–Neri a partir de evidencia 3DEN parcial. El registro operativo reside en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
 | ID | Decisión adoptada | Estado |
 | --- | --- | --- |
-| `DEC-001` | Diseño conceptual y técnico consolidado; implementación jugable no iniciada. | adoptada |
+| `DEC-001` | Diseño e implementación conservan estados distintos; M0 y M1 están promovidos a `IMPLEMENTADO` y `PROBADO` mediante artefactos y evidencia. | adoptada |
 | `DEC-002` | V1 individual; cooperativo de un solo bando como ampliación futura. | adoptada |
 | `DEC-003` | Una campaña demuestra la dirección clandestina e infiere a Vardis, pero no autentica su presencia física ni permite capturarlo. | adoptada |
 | `DEC-004` | Ambas campañas desbloquean Verdad Comparada, confirmación física y desenlaces personales de Vardis. | adoptada |
 | `DEC-005` | No existe equivalente excepcional a la campaña dual en V1. | adoptada |
 | `DEC-006` | Los 38 sectores siguen siendo diseño hasta su validación física en 3DEN. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 requieren matriz vanilla y sustitutos sin DLC antes de producción. | adoptada |
+| `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri, dentro de `ALT_W_NERI_PANOCHORI`; Molos permanece como entrada Roja. | adoptada |
+
+### Evidencia complementaria
+
+La biblioteca mantiene sus 20 fuentes temáticas consolidadas. Los registros bajo `docs/validation/` son anexos de evidencia, no nuevas fuentes rectoras.
+
+| Evidencia | Alcance | Estado |
+| --- | --- | --- |
+| [Cabeza de playa Azul en Panochori](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) | carriles, salida terrestre, ruta logística y candidato de FOB | `VALIDACION_3DEN_EN_CURSO` |
+| [Smoke test técnico M0](validation/M0_SMOKE_TEST_2026-08-06.md) | carga de configuración, `CfgFunctions`, bootstrap, logging, IDs y diagnóstico | `PROBADO`; `M0 APROBADO` |
+| [Núcleo autoritativo M1](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) | estado, runtime, commands, queries, eventos, scheduler, transacciones, reloj y errores | `PROBADO`; `M1 APROBADO` |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 
@@ -223,11 +278,11 @@ Requieren revisión humana posterior, sin bloquear esta reorganización:
 - cualquier equivalente futuro a la comparación dual, fuera de V1, que requerirá una nueva decisión explícita;
 - detalles de la migración futura de SP a cooperativo/MP;
 - catálogo físico y geográfico que exige validación dentro de 3DEN;
-- diferencias entre diseño previsto, implementación no iniciada y resultados todavía no medidos.
+- diferencias entre diseño previsto, implementación limitada a M0–M1 y resultados todavía no medidos.
 
 ## Criterios de validación
 
-- La biblioteca contiene exactamente 20 documentos sustanciales.
+- La biblioteca contiene exactamente 20 fuentes temáticas sustanciales; los anexos de `docs/validation/` conservan evidencia sin convertirse en fuentes rectoras.
 - Cada uno de los 37 originales aparece una vez en las matrices.
 - Todo enlace relativo resuelve a un archivo y, cuando corresponde, a un ancla.
 - Cada tema tiene una fuente principal.

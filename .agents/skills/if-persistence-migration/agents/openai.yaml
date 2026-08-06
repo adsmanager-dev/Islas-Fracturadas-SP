@@ -1,0 +1,4 @@
+interface:
+  display_name: "Migración persistente IF"
+  short_description: "Versiona y migra estados guardados"
+  default_prompt: "Use $if-persistence-migration para diseñar una migración de estado compatible."
