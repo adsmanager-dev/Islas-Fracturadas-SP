@@ -1,0 +1,17 @@
+author = "Equipo Islas Fracturadas";
+onLoadName = "Islas Fracturadas — M0";
+onLoadMission = "Esqueleto técnico ejecutable";
+
+#include "cfg\CfgFunctions.hpp"
+#include "config\sectors.hpp"
+
+class Params
+{
+    class IF_DiagnosticsMode
+    {
+        title = "Islas Fracturadas — Diagnóstico";
+        values[] = {0, 1, 2, 3};
+        texts[] = {"OFF", "BASIC", "DEVELOPER", "VERBOSE"};
+        default = 1;
+    };
+};

@@ -26,7 +26,7 @@ param(
     ),
 
     [string]$EditorMissionPath = (
-        Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Arma 3\missions\Islas%20Fracturadas.Altis'
+        Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Arma 3\missions\IslasFracturadas.Altis'
     ),
 
     [switch]$Force

@@ -8,7 +8,7 @@ $syncScript = Join-Path $PSScriptRoot 'Sync-MissionWorkspace.ps1'
 $temporaryBase = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
 $temporaryRoot = Join-Path $temporaryBase ('IF-SyncMission-' + [guid]::NewGuid().ToString('N'))
 $projectRoot = Join-Path $temporaryRoot 'project\IslasFracturadas.Altis'
-$editorRoot = Join-Path $temporaryRoot 'editor\Islas%20Fracturadas.Altis'
+$editorRoot = Join-Path $temporaryRoot 'editor\IslasFracturadas.Altis'
 
 function Assert-Equal {
     param(
