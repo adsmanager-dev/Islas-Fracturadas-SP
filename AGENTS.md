@@ -12,7 +12,7 @@ La instrucción específica prevalece sobre la general, pero no autoriza inventa
 
 ## Estado real
 
-- El repositorio contiene 20 documentos consolidados y un esqueleto de carpetas.
+- El repositorio contiene 20 fuentes consolidadas, anexos de evidencia 3DEN, `mission.sqm` y configuración provisional; todavía no existe misión jugable.
 - No existe misión jugable ni implementación SQF confirmada.
 - No conviertas diseño, pseudocódigo, `.gitkeep` o checklists en estado implementado.
 
@@ -44,12 +44,13 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 
 1. Clasificar la tarea y leer el índice.
 2. Identificar la fuente de verdad.
-3. Revisar `git status --short` y el estado real.
+3. Revisar `git status --short` y el estado real. Para trabajo de misión, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Status`; si hay cambios guardados desde 3DEN, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Pull` antes de editar.
 4. Localizar dependencias y consumidores.
 5. Ejecutar solo el cambio solicitado.
 6. Validar según el artefacto.
-7. Revisar trazabilidad y documentación afectada.
-8. Informar cambios, pruebas, riesgos y pendientes.
+7. Tras modificar `IslasFracturadas.Altis/`, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Push -WhatIf` y después `.\tools\Sync-MissionWorkspace.ps1 -Action Push`; detenerse e informar si aparece un conflicto.
+8. Revisar trazabilidad y documentación afectada.
+9. Informar cambios, pruebas, riesgos y pendientes.
 
 ## Enrutamiento de herramientas
 
@@ -79,7 +80,7 @@ No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --c
 
 ## Convenciones y límites
 
-- Redacta documentación en español y UTF-8; mantén `docs/` en un máximo de 20 archivos.
+- Redacta documentación en español y UTF-8; mantén 20 fuentes temáticas consolidadas en `docs/*.md`. Usa `docs/validation/` solo para evidencia manual solicitada e indexada.
 - Conserva etiquetas de canon, propuesta, pendiente y nivel de conocimiento.
 - Usa `IslasFracturadas.Altis/`, prefijo `IF_`, autoridad preparada para servidor y separación de comandos, consultas y eventos.
 - No edites `mission.sqm` fuera del flujo controlado de 3DEN.
@@ -92,6 +93,7 @@ No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --c
 | Comprobación | Comando |
 | --- | --- |
 | Diferencias | `git diff --check` |
-| Documentos | `Get-ChildItem .\docs -Recurse -File \| Where-Object { $_.Extension -in ".md", ".txt", ".pdf" } \| Measure-Object` |
+| Fuentes consolidadas | `Get-ChildItem .\docs -File \| Where-Object { $_.Extension -in ".md", ".txt", ".pdf" } \| Measure-Object` |
+| Evidencias | `Get-ChildItem .\docs\validation -Recurse -File \| Measure-Object` |
 
 Al finalizar informa alcance, archivos, decisiones, validaciones, resultados, riesgos, pendientes manuales y documentación actualizada.

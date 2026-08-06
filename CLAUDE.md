@@ -15,6 +15,7 @@
 - Usa Serena cuando la navegación estructurada aporte valor.
 - Usa búsqueda textual para SQF, macros, literales y configuración.
 - Ejecuta Semgrep después de cambios funcionales.
+- Aplica al iniciar y cerrar cambios de misión el flujo local de sincronización con 3DEN definido en `AGENTS.md`.
 - No automatices trabajo que requiera interacción física con 3DEN.
 
 ## Skills del proyecto

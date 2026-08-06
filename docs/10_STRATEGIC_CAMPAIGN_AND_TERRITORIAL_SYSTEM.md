@@ -64,7 +64,7 @@ Se consideran decisiones de diseño adoptadas:
 
 * la guerra principal ocurre en Altis durante el verano;
 * el terreno no se divide mediante una cuadrícula uniforme;
-* Azul desembarca principalmente en Katalaki Bay–Neochori;
+* Azul desembarca principalmente en Panochori Bay–Neri, dentro de `ALT_W_NERI_PANOCHORI`;
 * Rojo desembarca principalmente en Molos Bay–Molos Airfield;
 * Verde comienza dominando el centro, Pyrgos y las conexiones interiores;
 * el aeropuerto internacional es el corazón operacional;
@@ -72,11 +72,13 @@ Se consideran decisiones de diseño adoptadas:
 * Kavala es la bisagra social e insurgente;
 * HELIOS-0 nació junto al aeropuerto y Stratis oculta después la continuidad avanzada;
 * la campaña completa parte de 38 sectores estratégicos;
-* el primer vertical slice utiliza el corredor Katalaki–Neochori–AAC–Airport West.
+* el primer vertical slice comienza en Panochori Bay–Neri y su extensión interior debe revalidarse tras `DEC-008`.
 
-Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA, emplazamientos de composiciones e identificadores de objetos siguen pendientes de validación en 3DEN y mediante `CfgWorlds`.
+Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA, emplazamientos de composiciones e identificadores de objetos siguen pendientes de validación en 3DEN y mediante `CfgWorlds`. La salida terrestre de Panochori y la ruta Hunter/HEMTT poseen [evidencia parcial](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md), sin validar todavía aproximación marítima, módulos ni corredor interior.
 
 > **Decisión `DEC-006`:** los 38 sectores son `DISEÑO_CONFIRMADO`, no `VALIDADO_3DEN`. Ninguna coordenada, frontera, ruta o anclaje pasa a configuración definitiva sin evidencia física de editor y motor.
+
+> **Decisión `DEC-008`:** Panochori Bay–Neri reemplaza a Katalaki Bay–Neochori como cabeza de playa principal Azul. Es una subzona del sector existente `ALT_W_NERI_PANOCHORI`; el catálogo permanece en 38 sectores y Molos conserva la entrada principal Roja.
 
 <a id="src-altis-geography-and-sector-map--2-principio-territorial"></a>
 #### 2. Principio territorial
@@ -110,10 +112,10 @@ La división regional es una interpretación de diseño, no una división admini
 
 | Código | Región | Lugares principales | Función |
 |---|---|---|---|
-| R1 | Kavala occidental | Kavala, Kastro, Aggelochori, Neri, Panochori | oposición política, población, puerto y guerra urbana |
+| R1 | Kavala occidental | Kavala, Kastro, Aggelochori, Neri, Panochori | cabeza de playa Azul, oposición política, población y guerra urbana |
 | R2 | Montañas del noroeste | Oreokastro, Abdera, Galati, Syrta, Thronos | guerrilla, observación, energía y refugios |
 | R3 | Corredor de Agios Dionysios | Kore, Topolia, Agios Dionysios, Lakka | paso decisivo entre oeste y centro |
-| R4 | Katalaki–Neochori | Katalaki Bay, Neochori, Stavros, FOB Whiskey | cabeza de playa Azul y puerta al aeropuerto |
+| R4 | Katalaki–Neochori | Katalaki Bay, Neochori, Stavros, FOB Whiskey | corredor costero secundario y puerta al aeropuerto |
 | R5 | Cuenca suroccidental | Poliakko, Therisa, Zaros, AAC, Xirolimni | logística ligera, agua, agricultura y flanqueo |
 | R6 | Centro aeroportuario | Airport, Gravia, Telos, Anthrakia | corazón operacional de Altis |
 | R7 | Norte central | Athira, Frini, Agia Triada, Kalithea | reservas, comunicaciones y flanco norte |
@@ -140,10 +142,17 @@ Oreokastro, Abdera, Galati, Syrta y Thronos forman el espacio principal de guerr
 
 Favorece minas, emboscadas, tiradores, helicópteros y control de alturas; penaliza columnas blindadas y convoyes largos.
 
+<a id="src-altis-geography-and-sector-map--panochori-bay-y-neri"></a>
+##### Panochori Bay y Neri
+
+Panochori Bay–Neri es la entrada principal Azul. La playa, el candidato de FOB y la entrada logística forman una subzona operativa de `ALT_W_NERI_PANOCHORI`; no crean un sector nuevo. La progresión interior debe conectar con la red occidental sin convertir la ruta Hunter/HEMTT ya probada en validación marítima completa.
+
+Neri aporta el primer enlace poblado y logístico. La relación exacta con Aggelochori, Agios Dionysios, Kore–Topolia y Lakka queda pendiente de validación del corredor interior.
+
 <a id="src-altis-geography-and-sector-map--katalaki-neochori-y-stavros"></a>
 ##### Katalaki, Neochori y Stavros
 
-Katalaki Bay–Neochori será la entrada principal Azul. Su posición permite establecer una base antes de combatir en una gran ciudad, conectar con AAC Airfield y avanzar hacia el aeropuerto.
+Katalaki Bay conserva valor como playa y nodo logístico secundario, pero deja de ser la cabeza de playa principal Azul. Puede sostener desvíos, refuerzo marítimo, evacuación o una ruta alternativa hacia Neochori y AAC.
 
 Neochori controla la supervivencia logística de la playa. Stavros y el antiguo FOB Whiskey constituyen la primera posición Verde importante y pueden cambiar de manos durante la campaña.
 
@@ -205,7 +214,7 @@ Los sectores agrupan objetivos que comparten función estratégica. Las ubicacio
 | `ALT_W_KAVALA_PORT` | Kavala Port | puerto |
 | `ALT_W_KAVALA_CITY` | Kavala City | urbano y político |
 | `ALT_W_AGGELOCHORI` | Aggelochori | urbano y cruce |
-| `ALT_W_NERI_PANOCHORI` | Neri–Panochori | rural y clandestino |
+| `ALT_W_NERI_PANOCHORI` | Neri–Panochori | rural, costero y logístico |
 | `ALT_W_AGIOS_DIONYSIOS` | Agios Dionysios | paso y defensa |
 | `ALT_W_KORE_TOPOLIA` | Kore–Topolia | corredor |
 
@@ -284,8 +293,8 @@ Almyra, Panagia, Feres Airfield y el extremo de Molos podrán separarse en una i
 
 | Código | Corredor | Función |
 |---|---|---|
-| C1 | Kavala–Agios Dionysios–Lakka–Telos | eje occidental |
-| C2 | Katalaki–Neochori–Stavros–Airport | avance y abastecimiento Azul |
+| C1 | Panochori–Neri–corredor occidental–Lakka–Telos | avance y abastecimiento principal Azul; tramo interior por validar |
+| C2 | Katalaki–Neochori–Stavros–Airport | eje costero secundario Azul |
 | C3 | Zaros–Poliakko–Neochori | flanqueo suroccidental |
 | C4 | Athira–Gravia–Airport | reservas del norte |
 | C5 | Telos–Rodopoli–Kalochori–Sofia | frente y logística oriental |
@@ -304,18 +313,17 @@ Los estrangulamientos prioritarios para la IA estratégica son Agios Dionysios, 
 <a id="src-altis-geography-and-sector-map--azul"></a>
 ##### Azul
 
-La primera oleada en Katalaki incluye reconocimiento costero, infantería, ingenieros, vehículos ligeros y AZUR-1.
+La primera oleada en Panochori Bay incluye reconocimiento costero, infantería, ingenieros, vehículos ligeros y AZUR-1.
 
 Objetivos iniciales:
 
-1. asegurar la playa;
-2. tomar o negociar el acceso a Neochori;
-3. abrir la ruta a Stavros;
-4. capturar o neutralizar FOB Whiskey;
-5. asegurar AAC;
-6. preparar el avance hacia el aeropuerto.
+1. asegurar los carriles de Panochori Bay;
+2. establecer la FOB sin bloquear la entrada logística;
+3. tomar o negociar el acceso a Neri;
+4. abrir y validar el corredor occidental;
+5. preparar el avance hacia Lakka y el aeropuerto.
 
-Puede ejecutar operaciones secundarias de comandos en Kavala Bay, contacto FIA en Panochori y sabotaje de comunicaciones en Magos.
+Puede ejecutar operaciones secundarias de comandos en Kavala Bay, contacto FIA en el oeste y sabotaje de comunicaciones en Magos.
 
 <a id="src-altis-geography-and-sector-map--rojo"></a>
 ##### Rojo
@@ -382,19 +390,19 @@ Cada nodo entrega capacidades parciales. HELIOS-CORE necesita la red visible de 
 <a id="src-altis-geography-and-sector-map--11-vertical-slice-territorial"></a>
 #### 11. Vertical slice territorial
 
-La primera porción jugable se limita a:
+La primera porción jugable se reorienta provisionalmente a:
 
-1. Katalaki Bay;
-2. Neochori;
-3. Stavros;
-4. FOB Whiskey;
-5. Lakka;
-6. AAC Airfield;
-7. Poliakko;
+1. Panochori Bay;
+2. Neri;
+3. candidato de FOB Azul;
+4. entrada logística;
+5. salida a la red vial;
+6. primer enlace del corredor occidental;
+7. Lakka;
 8. Airport West;
 9. Telos.
 
-Esta zona permite probar desembarco, costa, población, carreteras, aeródromos, bases, alturas, agricultura, Helios, logística, contraataques y transición hacia un objetivo de escala mayor.
+Esta zona permite probar desembarco, costa, población, carreteras, bases, alturas, Helios, logística, contraataques y transición hacia un objetivo de escala mayor. Los puntos 6–9 son `POR_CALIBRAR` hasta cerrar la ruta interior; no heredan validación del tramo playa–FOB.
 
 El slice no necesita simular Kavala, Pyrgos, Molos y el resto de Altis con el mismo detalle. Sus estados pueden mantenerse en el nivel estratégico.
 
@@ -925,7 +933,7 @@ Desembarco, consolidación, descubrimiento de Helios, fragmentación Verde, reve
 
 Su ubicación, participantes, información, consecuencias y resultado dependen del estado estratégico.
 
-El Día Cero parte de un estado rector: Azul abre Katalaki a las 05:40 y Rojo entra en Molos doce minutos después. Ward, Navid y Varos toman decisiones humanas basadas en la fragmentación informativa de PROTOCOLO UMBRAL. La simulación estratégica comienza a partir de H+06:00; no debe reescribir retroactivamente la [cronología de las últimas 72 horas](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#fuente-last-72-hours-chronology).
+El Día Cero parte de un estado rector: Azul abre Panochori Bay hacia Neri a las 05:40 y Rojo entra en Molos doce minutos después. Ward, Navid y Varos toman decisiones humanas basadas en la fragmentación informativa de PROTOCOLO UMBRAL. La simulación estratégica comienza a partir de H+06:00; no debe reescribir retroactivamente la [cronología de las últimas 72 horas](09_CHRONOLOGY_INTELLIGENCE_AND_REVELATION.md#fuente-last-72-hours-chronology).
 
 <a id="src-strategic-campaign-system--36-guerra-autónoma-y-niveles-de-simulación"></a>
 #### 36. Guerra autónoma y niveles de simulación
@@ -1132,7 +1140,7 @@ La primera aplicación concreta de este sistema utiliza diez regiones operaciona
 
 Las entradas principales son asimétricas:
 
-* Azul entra por Katalaki Bay–Neochori y compite por el aeropuerto desde el oeste.
+* Azul entra por Panochori Bay–Neri y compite por el aeropuerto desde el oeste.
 * Rojo entra por Molos Bay–Molos Airfield y depende del corredor de Sofia.
 * Verde conserva inicialmente el centro, Pyrgos y las conexiones interiores.
 

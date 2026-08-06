@@ -119,7 +119,7 @@ Ward decide intervenir. Navid decide ejecutar Asterión. Varos decide defender l
 
 | Hora | Acontecimiento |
 |---|---|
-| H–00:00 / 05:40 | AZUR-1 inicia reconocimiento final y apertura de Katalaki Bay |
+| H–00:00 / 05:40 | AZUR-1 inicia reconocimiento final y apertura de Panochori Bay |
 | H+00:12 / 05:52 | RUBÍ-1 alcanza Molos Bay |
 
 No existe declaración formal de guerra:
@@ -426,7 +426,7 @@ Némesis difunde rumores regionales sobre listas de opositores, armas para FIA, 
 <a id="src-last-72-hours-chronology--t1450-1450-preparación-de-azur-1"></a>
 ##### T–14:50 — 14:50 — Preparación de AZUR-1
 
-AZUR-1 recibe reconocimiento costero cancelable. Katalaki aparece como zona de menor riesgo y una señal de Helios indica una brecha real, pero Argos reduce la estimación de una batería Verde.
+AZUR-1 recibe reconocimiento costero cancelable. Panochori Bay aparece como zona de menor riesgo y una señal de Helios indica una brecha real, pero Argos reduce la estimación de una batería Verde.
 
 <a id="src-last-72-hours-chronology--t1410-1530-preparación-de-rubí-1"></a>
 ##### T–14:10 — 15:30 — Preparación de RUBÍ-1
@@ -493,10 +493,10 @@ Helios advierte actividad marítima e interrupciones sin identificar flotas ni e
 
 Cada actor recibe verdad suficiente para actuar e información insuficiente para comprender:
 
-* Ward: Molos, debilidad occidental, riesgo del aeropuerto y Katalaki.
+* Ward: Molos, debilidad occidental, riesgo del aeropuerto y Panochori.
 * Navid: entrada Azul, posible caída gubernamental y cooperación Verde exagerada.
 * Varos: dos fuerzas, códigos contradictorios, sabotaje y pérdida de Stratis.
-* Markou: invasiones, detenciones, Katalaki y acuerdo Rojo.
+* Markou: invasiones, detenciones, Panochori y acuerdo Rojo.
 
 <a id="src-last-72-hours-chronology--t0340-0200-última-reunión-de-argos"></a>
 ##### T–03:40 — 02:00 — Última reunión de Argos
@@ -542,10 +542,10 @@ VALIDACIÓN INTEGRAL registra órdenes, movimientos, decisiones, bajas y desviac
 <a id="src-last-72-hours-chronology--9-día-cero"></a>
 #### 9. Día Cero
 
-<a id="src-last-72-hours-chronology--h0000-0540-katalaki"></a>
-##### H–00:00 — 05:40 — Katalaki
+<a id="src-last-72-hours-chronology--h0000-0540-panochori"></a>
+##### H–00:00 — 05:40 — Panochori Bay
 
-AZUR-1 inicia apertura de la ruta. Una posición Verde omitida parcialmente exige identificación; falla la comunicación y el mando soberanista abre fuego. Azul continúa.
+AZUR-1 inicia apertura de la ruta hacia Neri. Una posición Verde omitida parcialmente exige identificación; falla la comunicación y el mando soberanista abre fuego. Azul continúa.
 
 Argos ocultó información, Verde decidió disparar y Azul decidió proseguir.
 
@@ -2039,7 +2039,7 @@ Campaña:
 
 Origen:
 
-* equipo Verde en Katalaki.
+* equipo Verde en Panochori.
 
 Contenido:
 
@@ -7205,7 +7205,7 @@ Conservar informes, creencias, antigüedad y acceso.
 <a id="src-helios-intelligence-and-fog-of-war-system--región"></a>
 #### Región
 
-Katalaki–Neochori–Stavros–Lakka–AAC.
+Panochori Bay–Neri; la extensión del corredor interior queda pendiente de revalidación tras `DEC-008`.
 
 <a id="src-helios-intelligence-and-fog-of-war-system--fuentes"></a>
 #### Fuentes
@@ -7228,7 +7228,7 @@ Katalaki–Neochori–Stavros–Lakka–AAC.
 <a id="src-helios-intelligence-and-fog-of-war-system--nodos"></a>
 #### Nodos
 
-* comunicaciones Katalaki;
+* comunicaciones Panochori;
 * terminal local;
 * fragmento AAC.
 

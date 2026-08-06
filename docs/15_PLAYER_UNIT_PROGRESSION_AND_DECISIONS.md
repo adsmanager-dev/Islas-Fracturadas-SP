@@ -4497,7 +4497,7 @@ La reserva permitirá operar durante aproximadamente 3 horas.
 
 ```text
 Demanda: 24 FUEL
-Origen disponible: Katalaki
+Origen disponible: Panochori
 Ruta principal: riesgo alto
 Ruta secundaria: capacidad baja
 ```
@@ -4713,7 +4713,7 @@ Cada alerta deberá mostrar:
 ```text
 CONVOY 014 BAJO ATAQUE
 
-Ruta: Katalaki–Neochori
+Ruta: Panochori–Neri
 Carga: combustible, medicina y munición
 Impacto si se pierde:
 Neochori pasará a estado logístico crítico.
@@ -5497,7 +5497,7 @@ Ejemplo:
 CONVOY AZUL 014
 
 Origen:
-Katalaki.
+Panochori.
 
 Destino:
 Neochori.
@@ -6535,7 +6535,7 @@ Ejemplo:
 
 ```text
 DÍA 0 — 05:40
-Azul inició desembarco en Katalaki.
+Azul inició desembarco en Panochori Bay.
 
 DÍA 0 — 07:12
 Neochori aceptó administración supervisada.
@@ -6564,7 +6564,7 @@ Cada decisión importante mostrará:
 
 ```text
 DECISIÓN:
-Consolidar Katalaki antes de avanzar.
+Consolidar Panochori antes de avanzar.
 
 Resultado conocido:
 • Defensa mejorada.
@@ -7162,13 +7162,13 @@ Se introducirán mediante:
 <a id="src-strategic-ui-and-player-experience-system--ejemplo-24"></a>
 #### Ejemplo
 
-Katalaki introduce:
+Panochori introduce:
 
 * sector;
 * prioridad;
 * logística.
 
-Neochori introduce:
+Neri introduce:
 
 * gobierno;
 * estabilidad;
@@ -7743,8 +7743,8 @@ El vertical slice Azul del Acto I debe implementar:
 * unidad;
 * mapa táctico.
 
-<a id="src-strategic-ui-and-player-experience-system--katalaki"></a>
-#### Katalaki
+<a id="src-strategic-ui-and-player-experience-system--panochori"></a>
+#### Panochori
 
 * objetivo;
 * situación;
@@ -7756,8 +7756,8 @@ El vertical slice Azul del Acto I debe implementar:
 * panel de sector;
 * prioridad.
 
-<a id="src-strategic-ui-and-player-experience-system--neochori"></a>
-#### Neochori
+<a id="src-strategic-ui-and-player-experience-system--neri"></a>
+#### Neri
 
 * gobierno;
 * civiles;

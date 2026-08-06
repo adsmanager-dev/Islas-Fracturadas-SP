@@ -246,7 +246,7 @@ El 2026-07-24 se consolidaron 37 documentos en esta biblioteca estricta de 20 ar
 
 ## Decisiones adoptadas y pendientes
 
-La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El registro operativo y la evidencia residen en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
+La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El 2026-08-06, `DEC-008` trasladó la cabeza de playa principal Azul a Panochori Bay–Neri a partir de evidencia 3DEN parcial. El registro operativo reside en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
 | ID | Decisión adoptada | Estado |
 | --- | --- | --- |
@@ -257,6 +257,15 @@ La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado 
 | `DEC-005` | No existe equivalente excepcional a la campaña dual en V1. | adoptada |
 | `DEC-006` | Los 38 sectores siguen siendo diseño hasta su validación física en 3DEN. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 requieren matriz vanilla y sustitutos sin DLC antes de producción. | adoptada |
+| `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri, dentro de `ALT_W_NERI_PANOCHORI`; Molos permanece como entrada Roja. | adoptada |
+
+### Evidencia complementaria
+
+La biblioteca mantiene sus 20 fuentes temáticas consolidadas. Los registros bajo `docs/validation/` son anexos de evidencia, no nuevas fuentes rectoras.
+
+| Evidencia | Alcance | Estado |
+| --- | --- | --- |
+| [Cabeza de playa Azul en Panochori](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) | carriles, salida terrestre, ruta logística y candidato de FOB | `VALIDACION_3DEN_EN_CURSO` |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 
@@ -271,7 +280,7 @@ Requieren revisión humana posterior, sin bloquear esta reorganización:
 
 ## Criterios de validación
 
-- La biblioteca contiene exactamente 20 documentos sustanciales.
+- La biblioteca contiene exactamente 20 fuentes temáticas sustanciales; los anexos de `docs/validation/` conservan evidencia sin convertirse en fuentes rectoras.
 - Cada uno de los 37 originales aparece una vez en las matrices.
 - Todo enlace relativo resuelve a un archivo y, cuando corresponde, a un ancla.
 - Cada tema tiene una fuente principal.

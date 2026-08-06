@@ -788,7 +788,7 @@ Ejemplo:
 ```text id="2gphxl"
 INTENCIÓN
 
-Mantener una ruta logística segura entre Katalaki y Neochori para permitir que la cabeza de playa sobreviva la primera noche.
+Mantener una ruta logística segura entre Panochori y Neri para permitir que la cabeza de playa sobreviva la primera noche.
 ```
 
 Esto permite que el jugador improvise sin perder el propósito.
@@ -2725,7 +2725,7 @@ Ejemplo:
 
 ```text id="04qgh2"
 [RADIO DE MANDO — ELENA WARD]
-Mantengan Katalaki. No persigan más allá de la carretera.
+Mantengan Panochori. No persigan más allá de la carretera.
 ```
 
 ---

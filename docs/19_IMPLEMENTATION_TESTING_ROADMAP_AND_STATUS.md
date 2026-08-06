@@ -1,9 +1,9 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** diseño técnico confirmado; implementación jugable no iniciada
+> **Estado del contenedor:** diseño técnico confirmado; Fase 0 en curso; implementación jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-25
+> **Última consolidación:** 2026-08-06
 
 ## Propósito
 
@@ -45,24 +45,24 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 ## Instantánea autoritativa del estado real
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Fecha de corte:** 2026-07-25
+> **Fecha de corte:** 2026-08-06
 > **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Preimplementación |
-| Subfase | Cierre documental y preparación de Fase 0 |
+| Fase actual | Fase 0 |
+| Subfase | Misión base 3DEN importada y validación parcial de Panochori |
 | Último gate aprobado | `DOC-GATE-02 — Integridad de dirección narrativa jugable` |
 | Hito técnico aprobado | Ninguno |
 | Próximo hito | `M0 — Esqueleto técnico ejecutable` |
 | Implementación jugable | No iniciada |
-| Entregables presentes | 20 documentos consolidados y estructura vacía de carpetas |
-| Entregables ausentes | `mission.sqm`, `description.ext`, inicializadores, SQF, configuración funcional y pruebas de motor |
-| Pruebas ejecutadas | Integridad de enlaces, anclas, IDs, Markdown, coherencia documental básica y trazabilidad narrativa entre 00, 05–09, 15–17 y 19 |
-| Pruebas de Arma 3 | Ninguna registrada |
-| Bloqueadores canónicos | Ninguno para iniciar Fase 0; Vardis y Verdad Comparada quedaron cerrados por `DEC-003`–`DEC-005` |
-| Bloqueadores técnicos posteriores | Geografía 3DEN, adaptación vanilla y benchmark provisional |
-| Estado de Fase 0 | No iniciada |
+| Entregables presentes | 20 fuentes consolidadas, anexo de evidencia 3DEN, `mission.sqm` generado por 3DEN y `config/sectors.hpp` provisional |
+| Entregables ausentes | `description.ext`, inicializadores, SQF, carga funcional de configuración, pruebas RPT y misión jugable |
+| Pruebas ejecutadas | Integridad documental previa; ruta terrestre Hunter/HEMTT y convoy de la subzona Panochori comunicadas y registradas con evidencia parcial |
+| Pruebas de Arma 3 | Arma 3 2.20, escenario `IF_00_Validacion_Cabeza_Playa_Azul`; sin captura, vídeo ni RPT adjuntos |
+| Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
+| Bloqueadores técnicos posteriores | Validación marítima y física restante de Panochori, corredor interior, adaptación vanilla y benchmark provisional |
+| Estado de Fase 0 | En curso |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -72,19 +72,19 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 
 Evidencia registrada:
 
-- la biblioteca contiene exactamente 20 documentos;
+- la biblioteca contiene exactamente 20 fuentes temáticas consolidadas; los anexos de evidencia se registran por separado;
 - no existen enlaces locales a archivos ausentes;
 - no existen anclas explícitas rotas ni IDs explícitos duplicados dentro de un archivo;
 - los bloques de código Markdown están equilibrados;
 - el estado real del repositorio se distingue del diseño previsto;
-- las decisiones `DEC-001`–`DEC-007` tienen fuente, efecto y trazabilidad.
+- las decisiones `DEC-001`–`DEC-008` tienen fuente, efecto y trazabilidad.
 
 `DOC-GATE-01` no equivale a `M0`. `M0` exige misión iniciable, funciones registradas, bootstrap, logging verificable y un RPT sin errores críticos.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
-> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006` y `DEC-007`.
+> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005` y `DEC-008`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006` y `DEC-007`.
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
@@ -95,6 +95,11 @@ Evidencia registrada:
 | `DEC-005` | No existe “equivalente excepcional” a completar ambas campañas en V1. | 03 y 09 | S4 solo se desbloquea al completar Azul y Rojo. | adoptada |
 | `DEC-006` | Los 38 sectores son arquitectura territorial de diseño hasta validar coordenadas, límites, rutas y anclajes en 3DEN. | 10, 11, 18 y 19 | Ningún dato físico recibe `VALIDADO_3DEN` antes de evidencia de editor y motor. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 no pasan a producción sin matriz vanilla completa y sustituciones sin DLC. | 13, 15 y 19 | Los perfiles protagonistas conservan `PROPUESTA` hasta aprobar la matriz. | adoptada |
+| `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri; Molos permanece como entrada principal Roja. | 00, 02, 08–19 y evidencia 3DEN | El Día Cero Azul comienza en la subzona operativa Panochori de `ALT_W_NERI_PANOCHORI`; no se crea un sector 39 y Katalaki queda como sector costero secundario. | adoptada |
+
+### Evidencia y límite de `DEC-008`
+
+El registro [3DEN_BLUE_PANOCHORI_BEACHHEAD.md](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) conserva escenario, motor, coordenadas, pruebas comunicadas y pendientes. La decisión de ubicación es canon rector; las coordenadas y rutas permanecen `VALIDACION_3DEN_EN_CURSO`. No se consideran validados todavía los carriles marítimos, lanchas, vehículo anfibio, profundidad, huella de módulos, alturas, estacionamiento múltiple ni impacto civil.
 
 Toda modificación incompatible requiere actualizar este registro, las fuentes temáticas afectadas y las pruebas correspondientes. Una futura alternativa a la comparación dual requerirá una decisión nueva; no puede reactivar silenciosamente la redacción descartada por `DEC-005`.
 
@@ -107,7 +112,7 @@ Toda modificación incompatible requiere actualizar este registro, las fuentes t
 | ID | Tarea | Dependencia | Propietario previsto | Requisito / prueba | Criterio de aceptación | Estado | Evidencia / versión |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | pendiente | — |
-| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | pendiente | — |
+| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | completada | `IF_00_Validacion_Cabeza_Playa_Azul`; Arma 3 2.20; 2026-08-06 |
 | `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | pendiente | — |
 | `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | pendiente | — |
 | `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | pendiente | — |
@@ -3751,7 +3756,7 @@ Ejemplo:
 
 ```text id="as0rhj"
 Objetivo:
-Validar convoy Katalaki–Neochori.
+Validar convoy Panochori–Neri.
 
 No evaluar:
 Narrativa completa de Argos.
@@ -3782,8 +3787,8 @@ El vertical slice Azul del Acto I no se aprobará hasta cumplir:
 1. Inicio estable.
 2. Nueve sectores registrados.
 3. Desembarco funcional.
-4. Captura de Katalaki.
-5. Administración de Neochori.
+4. Consolidación de Panochori.
+5. Administración de Neri.
 6. Convoy persistente.
 7. Contraataque Verde.
 8. Virtualización y reintegración.
@@ -4999,8 +5004,8 @@ Crear el grafo básico del vertical slice.
 <a id="src-master-implementation-and-production-plan--sectores"></a>
 #### Sectores
 
-1. Katalaki.
-2. Neochori.
+1. Neri–Panochori.
+2. primer enlace del corredor occidental.
 3. Stavros–Whiskey.
 4. Lakka.
 5. AAC.
@@ -5334,9 +5339,9 @@ Crear existencias, rutas y convoyes.
 ### 44. Primer flujo logístico
 
 ```text
-Katalaki
+Panochori
 → convoy
-→ Neochori
+→ Neri
 → descarga
 → nueva autonomía
 ```
@@ -5456,8 +5461,8 @@ Implementar el ciclo de misión.
 #### Principales
 
 * desembarco;
-* captura de Katalaki;
-* contacto con Neochori;
+* consolidación de Panochori;
+* contacto con Neri;
 * primer convoy;
 * defensa.
 
@@ -5764,7 +5769,7 @@ M14 — Historia integrada en sistemas
 El vertical slice debe incluir:
 
 1. Nueva campaña Azul.
-2. Desembarco en Katalaki.
+2. Desembarco en Panochori.
 3. Captura.
 4. Neochori.
 5. Municipio.
@@ -6667,7 +6672,7 @@ LOG-014
 EPIC-LOGISTICS
 
 Título:
-Crear convoy estratégico Katalaki–Neochori
+Crear convoy estratégico Panochori–Neri
 
 Prioridad:
 P1
@@ -7253,9 +7258,9 @@ Durante V1:
 Una primera versión interna útil puede limitarse a:
 
 * Azul;
-* Katalaki;
-* Neochori;
-* Stavros;
+* Panochori;
+* Neri;
+* corredor occidental;
 * convoy;
 * captura;
 * guardado;
@@ -7555,8 +7560,8 @@ Islas Fracturadas será técnicamente exitosa cuando:
 #### Bloque D — Vertical slice 3DEN
 
 * [ ] Capas.
-* [ ] Katalaki.
-* [ ] Neochori.
+* [ ] Neri–Panochori.
+* [ ] primer enlace del corredor occidental.
 * [ ] Stavros.
 * [ ] Rutas.
 * [ ] Anclajes.
@@ -7580,8 +7585,8 @@ Islas Fracturadas será técnicamente exitosa cuando:
 9. Crear test runner.
 10. Crear primer save.
 11. Cargar save.
-12. Registrar Katalaki.
-13. Mostrar Katalaki en diagnóstico.
+12. Registrar `ALT_W_NERI_PANOCHORI`.
+13. Mostrar Neri–Panochori en diagnóstico.
 14. Cambiar propietario por command.
 15. Guardar.
 16. Cargar y confirmar.
@@ -7609,7 +7614,7 @@ Después de la secuencia anterior:
 2. Materializar una escuadra Verde.
 3. Ejecutar combate.
 4. Registrar bajas.
-5. Capturar Katalaki.
+5. Consolidar Panochori.
 6. Reintegrar.
 7. Guardar.
 8. Cargar.
@@ -7622,8 +7627,8 @@ Este escenario debe aprobarse antes de crear el convoy.
 <a id="src-master-implementation-and-production-plan--158-segundo-escenario-jugable-técnico"></a>
 ### 158. Segundo escenario jugable técnico
 
-1. Crear stock en Katalaki.
-2. Crear demanda en Neochori.
+1. Crear stock en Panochori.
+2. Crear demanda en Neri.
 3. Reservar carga.
 4. Crear convoy.
 5. Materializarlo.

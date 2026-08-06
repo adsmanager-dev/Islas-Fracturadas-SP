@@ -139,7 +139,7 @@ decisión del jugador
 → contribución trazable a relaciones o final
 ```
 
-La prueba mínima de Neochori ofrece una decisión entre proteger civiles y perseguir una unidad Verde. Ward, Hale, Laurent y Torres reaccionan según sus prioridades; Neochori altera cooperación y memoria; Verde reorganiza el contraataque; FIA ofrece información o se distancia; `IF_B_A01_M04` cambia la ruta del convoy; una escena posterior recuerda la elección; el guardado conserva causas y efectos; el debriefing explica consecuencias observables sin revelar cálculos. No se considera demostrada la promesa narrativa si cualquiera de esos eslabones solo existe como texto fijo.
+La prueba mínima de Neri ofrece una decisión entre proteger civiles y perseguir una unidad Verde. Ward, Hale, Laurent y Torres reaccionan según sus prioridades; Neri altera cooperación y memoria; Verde reorganiza el contraataque; FIA ofrece información o se distancia; `IF_B_A01_M04` cambia la ruta del convoy; una escena posterior recuerda la elección; el guardado conserva causas y efectos; el debriefing explica consecuencias observables sin revelar cálculos. No se considera demostrada la promesa narrativa si cualquiera de esos eslabones solo existe como texto fijo.
 
 ## Contenido consolidado
 
@@ -198,7 +198,7 @@ Las ocho fases jugables principales incluyen Stratis. El Acto IX es resolución 
 | Mando | Ward frente a Hale | Navid frente a Vahid |
 | Archivo | ESPEJO AZUL | ASTERIÓN |
 | Responsabilidad | intervenir sin toda la verdad | expandir una invitación limitada |
-| Logística inicial | Katalaki y acceso futuro | Molos y corredor de Sofia |
+| Logística inicial | Panochori Bay y acceso a Neri | Molos y corredor de Sofia |
 
 Las campañas comparten hechos, pero no geografía, ritmo, relaciones, información ni misiones idénticas.
 
@@ -305,8 +305,8 @@ PNR-7 obliga a seleccionar fuerza, cerrar urgencias, aceptar pendientes y guarda
 | Fase | Teatro y propósito | Conflicto |
 |---|---|---|
 | Prólogo | Orden Horizonte Seguro | prevención basada en ESPEJO |
-| I | Katalaki–Neochori | Ward consolida; Hale avanza |
-| II | Stavros–Whiskey–AAC | Shaw parece demasiado precisa |
+| I | Panochori Bay–Neri | Ward consolida; Hale avanza |
+| II | corredor occidental hacia Lakka | Shaw parece demasiado precisa |
 | III | Lakka–aeropuerto | velocidad frente a Laurent y servicios |
 | IV | Kavala y oeste | aliado, protector, ocupante o enemigo FIA |
 | V | centro y Verde | Ward/Hale pueden romper |
@@ -338,7 +338,7 @@ El final Rojo resuelve alianza/Estado cliente, Helios, Argos y Gobierno. Puede i
 
 | Hora | Evento |
 |---|---|
-| 05:40 | Azul inicia Katalaki |
+| 05:40 | Azul inicia Panochori Bay |
 | 05:52 | Rojo entra en Molos |
 | H+01:00 aprox. | Verde activa órdenes incompatibles |
 | H+02:00 | apagones y bloqueos Helios |
@@ -424,13 +424,13 @@ Los rótulos históricos `B-I01`/`R-I01` quedan retirados porque `I` se reserva 
 
 Hora 05:40. Azul comienza sin territorio, con 144 efectivos estratégicos, AZUR-1, lanchas, dos Marshall, Hunter, recursos limitados y aire ligero; sin artillería, puerto ni hospital regional.
 
-Objetivos: sobrevivir, asegurar Katalaki, conectar Neochori, gestionar población, activar logística, resistir Verde, interpretar Helios y decidir consolidación/avance.
+Objetivos: sobrevivir, asegurar Panochori Bay, conectar Neri, gestionar población, activar logística, resistir Verde, interpretar Helios y decidir consolidación/avance.
 
 | Ruta | Condición |
 |---|---|
-| A — completa | Katalaki, Neochori, hub, contraataque y fuerza viable |
-| B — reducida | Katalaki, Neochori disputada/neutral y logística temporal |
-| C — reubicación | Katalaki dañada, base alternativa y supervivencia |
+| A — completa | Panochori, Neri, hub, contraataque y fuerza viable |
+| B — reducida | Panochori, Neri disputada/neutral y logística temporal |
+| C — reubicación | cabeza de playa dañada, base alternativa y supervivencia |
 | D — crisis | presencia mínima; Acto II abre recuperación |
 | Derrota | acceso marítimo perdido y fuerza sin alternativa |
 
@@ -453,7 +453,7 @@ El jugador informa formalmente, comparte con Reed o ignora. No cambia el desemba
 #### 22. IF_B_A01_M01 — Costa ciega
 
 **Hora:** 05:40–06:30.
-**Sectores:** `ALT_CW_KATALAKI` y acceso a Neochori.
+**Sector:** subzona Panochori Bay y acceso a Neri dentro de `ALT_W_NERI_PANOCHORI`.
 **Propósito:** abrir descarga y mostrar discrepancia de inteligencia.
 
 Variantes: limpio, observado, bajo fuego o con civiles. Objetivos opcionales: observadores, ingenieros, ruta, civiles y comunicaciones.
@@ -477,10 +477,10 @@ Ward exige consolidar; Hale pide reconocimiento inmediato. El jugador consolida,
 - reconocer mejora información con riesgo;
 - avanzar habilita sorpresa, expone playa y favorece a Hale.
 
-<a id="src-blue-red-campaign-architecture--24-ifba01m03-neochori-no-está-vacía"></a>
-#### 24. IF_B_A01_M03 — Neochori no está vacía
+<a id="src-blue-red-campaign-architecture--24-ifba01m03-neri-no-está-vacía"></a>
+#### 24. IF_B_A01_M03 — Neri no está vacía
 
-Objetivo: acceso funcional a Neochori, no necesariamente conquista por asalto.
+Objetivo: acceso funcional a Neri, no necesariamente conquista por asalto.
 
 Métodos: asalto, negociación, infiltración, cerco o cooperación civil.
 
@@ -496,14 +496,14 @@ Opcionales: clínica, saqueo, depósito, armas FIA y prisioneros.
 <a id="src-blue-red-campaign-architecture--25-ifba01m04-el-primer-convoy"></a>
 #### 25. IF_B_A01_M04 — El primer convoy
 
-Conecta Katalaki con Neochori o el hub alternativo. Transporta combustible, medicina, munición y construcción.
+Conecta Panochori con Neri o el hub alternativo. Transporta combustible, medicina, munición y construcción.
 
 El jugador escolta, despeja, desvía, engaña o divide. Éxito activa centro; parcial entrega parte; fracaso reduce defensa y abre recuperación. Ignorada, otra unidad la resuelve según ruta, escolta y amenaza.
 
 <a id="src-blue-red-campaign-architecture--26-ifba01m05-primera-línea"></a>
 #### 26. IF_B_A01_M05 — Primera línea
 
-Verde contraataca desde Stavros, Whiskey, Lakka o combinación según reconocimiento, Argos y Neochori.
+Verde contraataca desde los accesos terrestres occidentales según reconocimiento, Argos y el estado de Neri; el origen exacto queda sujeto a la revalidación del corredor interior.
 
 Objetivo: conservar una conexión logística. El jugador prioriza orientación, reserva, vehículo, evacuación y medicina, sin colocar objetos.
 
@@ -538,7 +538,7 @@ El jugador protege/rastrea y entrega `E-S-FN-002A` a Rourke, Kessler, Ward, Shaw
 #### 29. Estado de salida Azul
 
 ```text
-blueBeachheadState katalakiControl neochoriControl
+blueBeachheadState panochoriControl neriControl
 firstConvoyResult greenCounterattackResult blueCasualtiesAct1
 civilianDamageAct1 wardTrust haleTrust rourkeTrust
 shawSuspicion s26FragmentKnown coastEvidenceState
@@ -686,7 +686,7 @@ Cada conflicto ofrece prioridades incompatibles; el jugador no satisface a todos
 <a id="src-blue-red-campaign-architecture--42-cierre-hacia-acto-ii"></a>
 #### 42. Cierre hacia Acto II
 
-Azul necesita base logística, supervivientes, frente y ruta a Stavros, Lakka o AAC. Neochori no es obligatoria.
+Azul necesita base logística, supervivientes, frente y una ruta interior hacia el corredor occidental. Neri no es obligatoria.
 
 Rojo necesita Molos o aeródromo, logística marítima/terrestre, relación Verde y plan a Sofia o alternativa.
 
@@ -713,7 +713,7 @@ Primero se implementa solo la rama Azul del Acto I:
 1. prólogo abreviado;
 2. Costa ciega;
 3. cabeza de playa;
-4. Neochori;
+4. Neri;
 5. convoy;
 6. contraataque;
 7. primera noche.

@@ -884,7 +884,7 @@ Es una campaña persistente donde el mapa cambia, los mandos actúan, las mision
 <a id="src-narrative-acts-and-mission-system--34-localización-del-vertical-slice"></a>
 #### 34. Localización del vertical slice
 
-La primera porción jugable queda fijada en el corredor Katalaki–Neochori–Stavros–AAC–Airport West. Comprende nueve objetivos territoriales y permite validar desembarco, población, logística, bases, aeródromos, Helios y guerra dinámica sin simular toda Altis al mismo nivel.
+La primera porción jugable comienza en Panochori Bay–Neri. La extensión occidental hacia Lakka–Airport West se mantiene `POR_CALIBRAR` tras `DEC-008` y permite validar desembarco, población, logística, bases, Helios y guerra dinámica sin simular toda Altis al mismo nivel.
 
 La delimitación y las funciones de esos sectores se mantienen en [ALTIS_GEOGRAPHY_AND_SECTOR_MAP.md](10_STRATEGIC_CAMPAIGN_AND_TERRITORIAL_SYSTEM.md#fuente-altis-geography-and-sector-map).
 
@@ -983,8 +983,8 @@ Un convoy no aparece porque el generador decidió crear una misión de escolta.
 
 Aparece porque:
 
-* Neochori tiene combustible crítico;
-* Katalaki posee existencias;
+* Neri tiene combustible crítico;
+* Panochori posee existencias;
 * la carretera está abierta;
 * FIA ha atacado esa ruta anteriormente;
 * Rourke no dispone de suficientes fuerzas;

@@ -534,7 +534,7 @@ Dynamic Simulation optimiza grupos ya físicos; no reemplaza este sistema de rep
 <a id="src-military-system-order-of-battle-and-force-catalog--teatro"></a>
 ##### Teatro
 
-Katalaki–Neochori–Stavros–FOB Whiskey–AAC.
+Panochori Bay–Neri y extensión occidental hacia Lakka/Airport West; el tramo interior permanece `POR_CALIBRAR`.
 
 <a id="src-military-system-order-of-battle-and-force-catalog--azul"></a>
 ##### Azul
@@ -546,8 +546,8 @@ Katalaki–Neochori–Stavros–FOB Whiskey–AAC.
 
 220–280 efectivos estratégicos:
 
-- Katalaki: observadores y puesto;
-- Neochori: G2, reservistas y vehículo;
+- Panochori: observadores y puesto de cabeza de playa;
+- Neri: G2, reservistas y vehículo;
 - Stavros: G3 y refuerzo regional;
 - FOB Whiskey: mando, armas pesadas, comunicaciones y 35–55 efectivos;
 - AAC: seguridad, medio aéreo limitado y reserva.
