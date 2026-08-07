@@ -10,7 +10,7 @@ Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto comb
 
 Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
 
-> **Estado actual:** `M1 — Núcleo autoritativo estable` aprobado. La misión principal inicia `IF_config`, `IF_runtime` e `IF_campaignState`, y prueba commands, queries, eventos idempotentes de sesión, scheduler, transacciones, reloj y errores. Todavía no existe campaña jugable ni persistencia entre sesiones. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+> **Estado actual:** `M2 — Campaña persistente mínima` aprobado. La misión principal conserva `IF_campaignState` entre procesos mediante envelopes schema 1, snapshots A/B, checksum, carga, recuperación y migración inicial. Todavía no existe campaña jugable ni mundo estratégico. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Estado real del repositorio
 
@@ -18,13 +18,14 @@ Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohem
 | --- | --- | --- |
 | Biblioteca documental | consolidada | `docs/00–19` |
 | Decisiones rectoras | registradas | `DEC-001`–`DEC-008` |
-| Estructura de carpetas | M1 materializada | 31 funciones registradas bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| Estructura de carpetas | M2 materializada | 46 funciones registradas bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
 | `mission.sqm` | misión principal vanilla | generado por 3DEN; validación física conservada en misión separada |
 | Configuración de Panochori | cargada y validada en M1; geografía provisional | `IF_config` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
 | `description.ext` | implementado y cargado | `F0-003` completada |
 | Bootstrap y logger SQF | implementados y probados | `F0-006`–`F0-007` completadas |
 | Núcleo autoritativo | implementado y probado en SP | estado, eventos, scheduler, transacciones, reloj y errores |
-| Pruebas dentro de Arma 3 | 17 comprobaciones PASS en M1 | [evidencia M1](docs/validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) |
+| Persistencia mínima | implementada y probada en SP | guardado manual/autosave, A/B, carga, recuperación y migración |
+| Pruebas dentro de Arma 3 | 26 comprobaciones PASS en regresión M2 | [evidencia M2](docs/validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) |
 | Validación 3DEN | parcial en Panochori | faltan pruebas marítimas, huellas y alturas |
 
 ## Requisitos de desarrollo
@@ -111,14 +112,14 @@ Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sist
 
 ## Continuación del desarrollo
 
-`M1 — Núcleo autoritativo estable` está aprobado. El siguiente hito es
-**M2 — Campaña persistente mínima**:
+`M2 — Campaña persistente mínima` está aprobado. El siguiente hito es
+**M3 — Mundo estratégico mínimo**:
 
-1. Implementar el adaptador de almacenamiento sin acceso directo desde los módulos.
-2. Añadir serialización, checksum y schema versionado.
-3. Crear snapshots A/B y recuperación ante corrupción.
-4. Guardar, cargar y migrar una campaña mínima sin duplicar efectos.
-5. Cerrar M2 con reinicio real y evidencia RPT.
+1. Definir el grafo mínimo del vertical slice Neri–Panochori.
+2. Modelar sectores, enlaces, propietarios y estado estratégico sin acoplarlos al almacenamiento.
+3. Añadir comandos, consultas y eventos del mundo estratégico.
+4. Persistir el nuevo dominio mediante los contratos aprobados en M2.
+5. Cerrar M3 con pruebas repetibles y evidencia en Arma 3/3DEN donde corresponda.
 
 No debe editarse `mission.sqm` como texto generado libremente; es propiedad del Editor 3DEN.
 
@@ -196,7 +197,7 @@ No edites las copias generadas. Modifica `agent-skills-src/` y ejecuta:
 .\tools\Sync-AgentSkills.ps1 -Check
 ```
 
-Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0–M1.
+Las 18 skills cubren recepción, canon, dirección narrativa, facciones, consecuencias, sincronización documental, módulos y revisión SQF, eventos, persistencia, configuración, rendimiento, 3DEN, RPT, smoke tests, regresión, gates e informes de defectos. Las skills describen procedimientos; solo los artefactos y evidencias enlazados acreditan la implementación M0–M2.
 
 ## Límites actuales
 

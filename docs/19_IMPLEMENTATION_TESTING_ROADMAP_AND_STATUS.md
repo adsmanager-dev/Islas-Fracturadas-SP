@@ -1,9 +1,9 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** Fases 0–1 completadas; `M1` aprobado; Fase 2 en preparación; campaña jugable no iniciada
+> **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; Fase 3 en preparación; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-08-06
+> **Última consolidación:** 2026-08-07
 
 ## Propósito
 
@@ -45,25 +45,26 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 ## Instantánea autoritativa del estado real
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Fecha de corte:** 2026-08-06
+> **Fecha de corte:** 2026-08-07
 > **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Fase 2 — preparación de persistencia mínima |
-| Subfase | M1 cerrado; recepción y desglose de M2 pendientes |
-| Último gate aprobado | `M1 — Núcleo autoritativo estable` |
-| Hito técnico aprobado | `M1`, 2026-08-06 |
-| Próximo hito | `M2 — Campaña persistente mínima` |
-| Implementación jugable | Infraestructura M1 ejecutable; campaña jugable todavía ausente |
-| Entregables presentes | misión vanilla; configuración M1; `IF_campaignState`; `IF_runtime`; errors e IDs; commands y queries; bus de eventos idempotente de sesión; scheduler; transacciones; reloj; diagnóstico y test runner |
-| Entregables ausentes | storage adapter, serialización, snapshots A/B, checksum, carga, recuperación, migración inicial y módulos jugables de campaña |
-| Pruebas ejecutadas | suites estáticas M0/M1 PASS, Semgrep sin hallazgos, 31 archivos SQF sin errores de parseo y 17 comprobaciones internas PASS en Arma 3 |
-| Pruebas de Arma 3 | Arma 3 2.20.152984 x86; escenario `IslasFracturadas`; RPT registrado en [evidencia M1](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) |
+| Fase actual | Fase 3 — preparación del mundo estratégico mínimo |
+| Subfase | M2 cerrado; recepción y desglose de M3 pendientes |
+| Último gate aprobado | `M2 — Campaña persistente mínima` |
+| Hito técnico aprobado | `M2`, 2026-08-07 |
+| Próximo hito | `M3 — Mundo estratégico mínimo` |
+| Implementación jugable | Infraestructura M2 ejecutable y persistente en SP; campaña jugable todavía ausente |
+| Entregables presentes | misión vanilla; núcleo M1; storage adapter; serialización canónica; checksum; envelopes schema 1; snapshots A/B; guardado manual y autosave; carga, recuperación y migración inicial; diagnóstico y test runner |
+| Entregables ausentes | grafo estratégico, sectores simulados, frentes, facciones autónomas, economía, misiones y campaña jugable |
+| Pruebas ejecutadas | suites estáticas M0/M1/M2 PASS, Semgrep sin hallazgos y 26 comprobaciones internas PASS en la regresión final de Arma 3 |
+| Pruebas de Arma 3 | Arma 3 2.20.152984 x64; reinicio completo y regresión final registrados en [evidencia M2](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) |
 | Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
-| Bloqueadores técnicos posteriores | Ninguno para iniciar M2; usar x64 antes de rendimiento y completar validación física de Panochori antes de contenido territorial dependiente |
+| Bloqueadores técnicos posteriores | Ninguno para iniciar M3; completar validación física de Panochori antes de contenido territorial dependiente y medir rendimiento cuando exista carga estratégica representativa |
 | Estado de Fase 0 | Completada; `M0 APROBADO` |
 | Estado de Fase 1 | Completada; `M1 APROBADO` |
+| Estado de Fase 2 | Completada; `M2 APROBADO` |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -119,6 +120,26 @@ La evidencia repetible, versión, digest del RPT y límites se conservan en [M0_
 
 La evidencia repetible, digest del RPT, matriz y límites se conservan en [M1_AUTHORITATIVE_CORE_2026-08-06.md](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md). La idempotencia acreditada es de sesión; persistir IDs procesados, snapshots y schema entre reinicios pertenece a M2.
 
+### M2 — Campaña persistente mínima
+
+> **Estado:** `APROBADO` el 2026-08-07.
+> **Alcance:** persistencia mínima de campaña en SP; no acredita mundo estratégico, campaña jugable, MP/JIP ni rendimiento.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Un estado modificado sobrevive al reinicio | guardado, cierre total y carga desde un proceso x64 nuevo | `PASS` |
+| No se duplican efectos | `M2 event.noDuplicateAfterLoad` conserva el ID procesado | `PASS` |
+| El snapshot anterior se conserva | rotación `AUTOSAVE_A/B` | `PASS` |
+| Un save corrupto no sobrescribe uno válido | fallback a B, reparación del marcador activo y rotación posterior segura | `PASS` |
+| El schema aparece en logs | envelopes y carga registran `schemaVersion=1` | `PASS` |
+| Guardado manual y guards funcionan | manual válido; transacción abierta y estado incompleto rechazados | `PASS` |
+| La migración inicial es segura | v0→v1 idempotente y original preservado | `PASS` |
+| Los tests pasan | nueve M2, diez M1 y siete smoke M0 | `PASS` |
+| No hay hallazgos estáticos | suites PowerShell, `git diff --check` y Semgrep sobre 61 archivos | `PASS` |
+| Existe implementación estable | `5012cc9` y corrección `ded248a` | `PASS` |
+
+La evidencia, los hashes de tres RPT, la matriz completa y los límites se conservan en [M2_CAMPAIGN_PERSISTENCE_2026-08-07.md](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md). El checksum acredita detección de corrupción accidental, no integridad criptográfica; M3 deberá consumir la persistencia sin convertirla en acceso directo desde dominios.
+
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
@@ -126,7 +147,7 @@ La evidencia repetible, digest del RPT, matriz y límites se conservan en [M1_AU
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
-| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0 y M1 son `IMPLEMENTADO` y `PROBADO`; persistencia, campaña y sistemas posteriores permanecen sin implementar. | adoptada |
+| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0–M2 son `IMPLEMENTADO` y `PROBADO`; campaña jugable y sistemas posteriores permanecen sin implementar. | adoptada |
 | `DEC-002` | La V1 es campaña individual; el cooperativo de un solo bando es una ampliación futura preparada arquitectónicamente. | 01, 15, 18 y 19 | Ningún requisito cooperativo bloquea Fase 0 ni la primera campaña SP. | adoptada |
 | `DEC-003` | Una campaña puede demostrar Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y una dirección clandestina; puede inferir a Vardis, pero no autenticar su presencia física ni capturarlo. | 03, 08, 09, 15–19 | `vardisConfirmed == false` durante una campaña aislada. | adoptada |
 | `DEC-004` | Completar ambas campañas desbloquea Verdad Comparada, sala de dirección, confirmación física y desenlaces de captura, muerte, juicio, negociación o fuga de Vardis. | 03, 08, 09, 15–19 | Todo desenlace físico de Vardis exige `dualCampaignCompleted == true` y operación dual desbloqueada. | adoptada |
@@ -7574,25 +7595,25 @@ Islas Fracturadas será técnicamente exitosa cuando:
 <a id="src-master-implementation-and-production-plan--bloque-b-core"></a>
 #### Bloque B — Core
 
-* [ ] Logger.
-* [ ] Error service.
-* [ ] IDs.
-* [ ] Bootstrap.
-* [ ] Config loader.
-* [ ] Estado.
-* [ ] Event bus.
-* [ ] Scheduler.
-* [ ] Transacciones.
-* [ ] Test runner.
+* [x] Logger.
+* [x] Error service.
+* [x] IDs.
+* [x] Bootstrap.
+* [x] Config loader.
+* [x] Estado.
+* [x] Event bus.
+* [x] Scheduler.
+* [x] Transacciones.
+* [x] Test runner.
 
 <a id="src-master-implementation-and-production-plan--bloque-c-persistencia"></a>
 #### Bloque C — Persistencia
 
-* [ ] Storage adapter.
-* [ ] Save envelope.
-* [ ] Snapshot A/B.
-* [ ] Validación.
-* [ ] Migración inicial.
+* [x] Storage adapter.
+* [x] Save envelope.
+* [x] Snapshot A/B.
+* [x] Validación.
+* [x] Migración inicial.
 
 <a id="src-master-implementation-and-production-plan--bloque-d-vertical-slice-3den"></a>
 #### Bloque D — Vertical slice 3DEN
