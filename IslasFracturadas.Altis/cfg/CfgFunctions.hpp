@@ -21,6 +21,7 @@ class CfgFunctions
         {
             file = "core\runtime";
             class runtimeCreate {};
+            class runtimeRebuildAfterLoad {};
         };
 
         class Utilities
@@ -91,6 +92,34 @@ class CfgFunctions
             class clockAdvance {};
         };
 
+        class Serialization
+        {
+            file = "core\serialization";
+            class serializeValue {};
+            class deserializeValue {};
+            class checksumCreate {};
+        };
+
+        class Storage
+        {
+            file = "core\storage";
+            class storageSave {};
+            class storageLoad {};
+            class storageList {};
+            class storageDelete {};
+        };
+
+        class Persistence
+        {
+            file = "core\persistence";
+            class saveCreateSnapshot {};
+            class saveValidate {};
+            class saveMigrateV0ToV1 {};
+            class saveMigrate {};
+            class saveCampaign {};
+            class loadCampaign {};
+        };
+
         class Diagnostics
         {
             file = "diagnostics";
@@ -103,6 +132,7 @@ class CfgFunctions
             file = "tests";
             class smokeTest {};
             class m1CoreTest {};
+            class m2PersistenceTest {};
         };
     };
 };

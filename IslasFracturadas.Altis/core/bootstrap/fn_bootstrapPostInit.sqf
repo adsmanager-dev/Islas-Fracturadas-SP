@@ -51,12 +51,28 @@ private _smokePassed = [] call IF_fnc_smokeTest;
 missionNamespace setVariable ["IF_smokeTestPassed", _smokePassed];
 
 private _m1Passed = true;
+private _m2Passed = true;
+private _persistenceLoaded = false;
+private _persistenceSlot = "";
+private _probeMode = paramsArray param [1, 0, [0]];
+private _probePassed = true;
 if (isServer) then {
     missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_30_SERVICES"];
     private _runtimeResult = [] call IF_fnc_runtimeCreate;
 
     missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_40_STATE"];
-    private _stateResult = [] call IF_fnc_stateCreate;
+    private _loadResult = if (_runtimeResult # 0) then {
+        [] call IF_fnc_loadCampaign
+    } else {
+        [false, createHashMap, "", false, false, "RUNTIME_MISSING"]
+    };
+    _persistenceLoaded = _loadResult # 0;
+    _persistenceSlot = _loadResult # 2;
+    private _stateResult = if (_persistenceLoaded) then {
+        [true, _loadResult # 1]
+    } else {
+        [] call IF_fnc_stateCreate
+    };
     private _stateValidation = [] call IF_fnc_stateValidate;
 
     private _eventTaskResult = [
@@ -94,8 +110,73 @@ if (isServer) then {
         missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_50_WORLD"];
         missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_60_TESTS"];
         _m1Passed = [] call IF_fnc_m1CoreTest;
+        _m2Passed = [] call IF_fnc_m2PersistenceTest;
+
+        if (_probeMode isEqualTo 1) then {
+            private _probeValue = format ["M2_RESTART_%1", systemTimeUTC];
+            private _probeCommand = [["progression", "m2RestartProbe"], _probeValue] call IF_fnc_stateCommandSet;
+            private _probeSave = if (_probeCommand # 0) then {
+                ["AUTO"] call IF_fnc_saveCampaign
+            } else {
+                [false, "", "PROBE_COMMAND_FAILED"]
+            };
+            _probePassed = _probeSave # 0;
+            missionNamespace setVariable ["IF_m2PersistenceProbeValue", _probeValue];
+            missionNamespace setVariable ["IF_m2PersistenceProbeSaved", _probePassed];
+            [
+                if (_probePassed) then {"INFO"} else {"ERROR"},
+                "TEST",
+                format ["M2 persistence.restart.stage1: %1", if (_probePassed) then {"PASS"} else {"FAIL"}],
+                [["slot", _probeSave # 1], ["reason", _probeSave # 2]]
+            ] call IF_fnc_log;
+        };
+
+        if (_probeMode isEqualTo 2) then {
+            private _probeQuery = [["progression", "m2RestartProbe"]] call IF_fnc_stateQueryGet;
+            _probePassed = _persistenceLoaded && {_probeQuery # 0} && {!((_probeQuery # 1) isEqualTo "")};
+            missionNamespace setVariable ["IF_m2PersistenceProbeLoaded", _probePassed];
+            [
+                if (_probePassed) then {"INFO"} else {"ERROR"},
+                "TEST",
+                format ["M2 persistence.restart.stage2: %1", if (_probePassed) then {"PASS"} else {"FAIL"}],
+                [["slot", _persistenceSlot], ["loaded", _persistenceLoaded]]
+            ] call IF_fnc_log;
+        };
+
+        if (_probeMode isEqualTo 3) then {
+            private _probeQuery = [["progression", "m2RestartProbe"]] call IF_fnc_stateQueryGet;
+            private _probeFound = _persistenceLoaded && {_probeQuery # 0} && {!((_probeQuery # 1) isEqualTo "")};
+            if (_probeFound) then {
+                _probePassed = true;
+                missionNamespace setVariable ["IF_m2PersistenceProbeLoaded", true];
+                [
+                    "INFO",
+                    "TEST",
+                    "M2 persistence.restart.auto.stage2: PASS",
+                    [["slot", _persistenceSlot], ["loaded", true]]
+                ] call IF_fnc_log;
+            } else {
+                private _probeValue = format ["M2_RESTART_%1", systemTimeUTC];
+                private _probeCommand = [["progression", "m2RestartProbe"], _probeValue] call IF_fnc_stateCommandSet;
+                private _probeSave = if (_probeCommand # 0) then {
+                    ["AUTO"] call IF_fnc_saveCampaign
+                } else {
+                    [false, "", "PROBE_COMMAND_FAILED"]
+                };
+                _probePassed = _probeSave # 0;
+                missionNamespace setVariable ["IF_m2PersistenceProbeValue", _probeValue];
+                missionNamespace setVariable ["IF_m2PersistenceProbeSaved", _probePassed];
+                [
+                    if (_probePassed) then {"INFO"} else {"ERROR"},
+                    "TEST",
+                    format ["M2 persistence.restart.auto.stage1: %1", if (_probePassed) then {"PASS"} else {"FAIL"}],
+                    [["slot", _probeSave # 1], ["reason", _probeSave # 2]]
+                ] call IF_fnc_log;
+            };
+        };
     } else {
         _m1Passed = false;
+        _m2Passed = false;
         [
             "IF_ERR_BOOTSTRAP_M1",
             "CRITICAL",
@@ -112,12 +193,16 @@ if (isServer) then {
     };
 
     missionNamespace setVariable ["IF_m1CoreTestPassed", _m1Passed];
+    missionNamespace setVariable ["IF_m2PersistenceTestPassed", _m2Passed];
+    missionNamespace setVariable ["IF_persistenceLoaded", _persistenceLoaded];
+    missionNamespace setVariable ["IF_persistenceSlot", _persistenceSlot];
     missionNamespace setVariable [
         "IF_bootstrapPhase",
-        if (_m1Passed) then {"PHASE_90_RUNNING"} else {"PHASE_99_DEGRADED"}
+        if (_m1Passed && {_m2Passed} && {_probePassed}) then {"PHASE_90_RUNNING"} else {"PHASE_99_DEGRADED"}
     ];
 } else {
     missionNamespace setVariable ["IF_m1CoreTestPassed", false];
+    missionNamespace setVariable ["IF_m2PersistenceTestPassed", false];
     missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_30_CLIENT_READY"];
 };
 
@@ -134,6 +219,11 @@ if !(_diagnosticsMode isEqualTo "OFF") then {
         ["diagnostics", _diagnosticsMode],
         ["smokePassed", _smokePassed],
         ["m1Passed", _m1Passed],
+        ["m2Passed", _m2Passed],
+        ["persistenceLoaded", _persistenceLoaded],
+        ["persistenceSlot", _persistenceSlot],
+        ["persistenceProbe", _probeMode],
+        ["persistenceProbePassed", _probePassed],
         ["isAuthority", isServer]
     ]
 ] call IF_fnc_log;

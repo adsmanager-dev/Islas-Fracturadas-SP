@@ -26,6 +26,11 @@ private _runtime = createHashMapFromArray [
     ["uiSubscribers", []],
     ["networkClients", createHashMap],
     ["debugFlags", createHashMap],
+    ["storageAdapter", "STORAGE_PROFILE_NAMESPACE"],
+    ["testStorage", createHashMap],
+    ["storageLastError", ""],
+    ["materializationInProgress", false],
+    ["ownershipConfirmed", true],
     ["degraded", false]
 ];
 

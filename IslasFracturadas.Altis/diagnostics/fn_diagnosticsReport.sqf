@@ -14,6 +14,9 @@ private _report = [
     ["postInit", missionNamespace getVariable ["IF_bootstrapPostInitComplete", false]],
     ["smokePassed", missionNamespace getVariable ["IF_smokeTestPassed", false]],
     ["m1Passed", missionNamespace getVariable ["IF_m1CoreTestPassed", false]],
+    ["m2Passed", missionNamespace getVariable ["IF_m2PersistenceTestPassed", false]],
+    ["persistenceLoaded", missionNamespace getVariable ["IF_persistenceLoaded", false]],
+    ["persistenceSlot", missionNamespace getVariable ["IF_persistenceSlot", ""]],
     ["configReady", missionNamespace getVariable ["IF_configReady", false]],
     ["hasCanonicalState", !(isNil {missionNamespace getVariable "IF_campaignState"})]
 ];
@@ -38,6 +41,6 @@ if (_mode isEqualTo "VERBOSE") then {
     ];
 };
 
-["INFO", "BOOT", "Informe de diagnóstico M1", _report] call IF_fnc_log;
+["INFO", "BOOT", "Informe de diagnóstico M2", _report] call IF_fnc_log;
 
 _report

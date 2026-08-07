@@ -1,6 +1,7 @@
 author = "Equipo Islas Fracturadas";
-onLoadName = "Islas Fracturadas — M1";
-onLoadMission = "Núcleo autoritativo en validación";
+onLoadName = "Islas Fracturadas — M2";
+onLoadMission = "Persistencia mínima de campaña en validación";
+missionGroup = "IF_MAIN_CAMPAIGN";
 
 #include "cfg\CfgFunctions.hpp"
 #include "config\sectors.hpp"
@@ -13,5 +14,13 @@ class Params
         values[] = {0, 1, 2, 3};
         texts[] = {"OFF", "BASIC", "DEVELOPER", "VERBOSE"};
         default = 1;
+    };
+
+    class IF_M2PersistenceProbe
+    {
+        title = "M2 — Prueba de persistencia entre reinicios";
+        values[] = {0, 1, 2, 3};
+        texts[] = {"OFF", "1 — GUARDAR", "2 — VERIFICAR TRAS REINICIO", "AUTO — DOS ARRANQUES"};
+        default = 0;
     };
 };

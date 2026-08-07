@@ -27,13 +27,13 @@ if (_install && {!(isNil {missionNamespace getVariable "IF_campaignState"})}) ex
 private _state = createHashMapFromArray [
     ["meta", createHashMapFromArray [
         ["schemaVersion", 1],
-        ["campaignVersion", "0.1.0-m1"],
+        ["campaignVersion", "0.2.0-m2"],
         ["saveFormat", "IF_STATE_V1"],
         ["saveSlot", ""],
         ["createdAt", diag_tickTime],
         ["updatedAt", diag_tickTime],
         ["playTimeSeconds", 0],
-        ["buildId", "M1_AUTHORITATIVE_CORE"],
+        ["buildId", "M2_PERSISTENCE"],
         ["stateRevision", 0],
         ["checksum", ""],
         ["migrationHistory", []],

@@ -23,6 +23,7 @@ _checks pushBack ["state.new", (_candidateResult # 0) && {_candidateValidation #
 private _duplicateIdResult = [["M1_DUPLICATE", "M1_DUPLICATE"]] call IF_fnc_validateIds;
 _checks pushBack ["ids.duplicateRejected", !(_duplicateIdResult # 0)];
 
+private _phaseBeforeTest = [["campaign", "currentPhase"]] call IF_fnc_stateQueryGet;
 private _transactionResult = ["M1_TEST", "IF_TX_M1_ROLLBACK"] call IF_fnc_transactionBegin;
 private _commandResult = if (_transactionResult # 0) then {
     [["campaign", "currentPhase"], "BEACHHEAD", "IF_TX_M1_ROLLBACK"] call IF_fnc_stateCommandSet
@@ -42,7 +43,8 @@ _checks pushBack [
 ];
 _checks pushBack [
     "transaction.rollback",
-    (_rollbackResult # 0) && {_restoredQuery # 0} && {(_restoredQuery # 1) isEqualTo "APPROACH"}
+    (_rollbackResult # 0) && {_restoredQuery # 0} && {_phaseBeforeTest # 0}
+    && {(_restoredQuery # 1) isEqualTo (_phaseBeforeTest # 1)}
 ];
 
 IF_runtime set ["m1EventHandlerCount", 0];
@@ -112,6 +114,7 @@ _checks pushBack [
     && {!("IF_TASK_M1_ONCE" in _tasks)}
 ];
 
+private _timeBeforeTest = [] call IF_fnc_clockGetStrategicTime;
 private _clockTransaction = ["M1_TEST", "IF_TX_M1_CLOCK"] call IF_fnc_transactionBegin;
 private _clockAdvance = if (_clockTransaction # 0) then {
     [90, "IF_TX_M1_CLOCK"] call IF_fnc_clockAdvance
@@ -128,9 +131,9 @@ private _restoredTime = [] call IF_fnc_clockGetStrategicTime;
 _checks pushBack [
     "clock.advance",
     (_clockAdvance # 0)
-    && {_strategicTime isEqualTo 90}
+    && {_strategicTime isEqualTo (_timeBeforeTest + 90)}
     && {_clockRollback # 0}
-    && {_restoredTime isEqualTo 0}
+    && {_restoredTime isEqualTo _timeBeforeTest}
 ];
 
 private _criticalError = [
