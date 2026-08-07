@@ -72,7 +72,8 @@ foreach ($slot in @('AUTOSAVE_A', 'AUTOSAVE_B', 'CHECKPOINT', 'MANUAL_1')) {
 $testSuite = Get-Content -Raw -LiteralPath (Join-Path $missionRoot 'tests\fn_m2PersistenceTest.sqf')
 foreach ($check in @(
     'save.abRotation', 'load.latest', 'recovery.corruptAFallsBackB',
-    'save.manual', 'save.openTransactionRejected', 'save.incompleteStateRejected',
+    'event.noDuplicateAfterLoad', 'save.manual',
+    'save.openTransactionRejected', 'save.incompleteStateRejected',
     'migration.v0ToV1Idempotent', 'migration.preservesOriginal'
 )) {
     if (-not $testSuite.Contains($check)) {

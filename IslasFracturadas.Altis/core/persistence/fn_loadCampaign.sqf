@@ -74,11 +74,22 @@ if (_loadedSlot isEqualTo "") exitWith {
     [false, createHashMap, "", false, false, _reason]
 };
 
+private _autosaveSlots = ["IF_MAIN_CAMPAIGN_AUTOSAVE_A", "IF_MAIN_CAMPAIGN_AUTOSAVE_B"];
+private _recovered = (_loadedSlot in _autosaveSlots) && {!(_loadedSlot isEqualTo _active)};
+if (_recovered) then {
+    private _markerRepair = ["IF_MAIN_CAMPAIGN_ACTIVE", _loadedSlot] call IF_fnc_storageSave;
+    if !(_markerRepair # 0) exitWith {
+        _loadedSlot = "";
+    };
+};
+if (_loadedSlot isEqualTo "") exitWith {
+    [false, createHashMap, "", true, _migrated, "ACTIVE_MARKER_REPAIR_FAILED"]
+};
+
 missionNamespace setVariable ["IF_campaignState", _loadedState];
 private _rebuild = [] call IF_fnc_runtimeRebuildAfterLoad;
 if !(_rebuild # 0) exitWith {[false, createHashMap, _loadedSlot, false, _migrated, "RUNTIME_REBUILD_FAILED"]};
 
-private _recovered = !(_active isEqualTo "") && {!(_loadedSlot isEqualTo _active)};
 [
     "INFO", "SAVE", "Campaña cargada",
     [["slot", _loadedSlot], ["recovered", _recovered], ["migrated", _migrated], ["schemaVersion", 1]]

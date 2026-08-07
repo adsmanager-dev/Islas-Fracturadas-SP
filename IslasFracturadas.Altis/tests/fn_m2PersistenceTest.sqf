@@ -47,12 +47,55 @@ private _corruptA = if (_readA # 0) then {
 };
 private _recovery = [] call IF_fnc_loadCampaign;
 private _recoveredMarker = [["progression", "m2Fixture"]] call IF_fnc_stateQueryGet;
+private _repairedActive = ["IF_MAIN_CAMPAIGN_ACTIVE"] call IF_fnc_storageLoad;
 _checks pushBack [
     "recovery.corruptAFallsBackB",
     (_corruptA # 0) && {_recovery # 0} && {_recovery # 3}
     && {(_recovery # 2) isEqualTo "IF_MAIN_CAMPAIGN_AUTOSAVE_B"}
     && {_recoveredMarker # 0} && {(_recoveredMarker # 1) isEqualTo "V1"}
+    && {_repairedActive # 0} && {(_repairedActive # 1) isEqualTo "IF_MAIN_CAMPAIGN_AUTOSAVE_B"}
 ];
+
+IF_runtime set ["m2ReloadEventCount", 0];
+private _reloadSubscription = [
+    "IF_EVENT_M2_RELOAD_ONCE",
+    "IF_M2_RELOAD_CONSUMER",
+    {
+        IF_runtime set [
+            "m2ReloadEventCount",
+            (IF_runtime getOrDefault ["m2ReloadEventCount", 0]) + 1
+        ];
+        true
+    }
+] call IF_fnc_eventSubscribe;
+private _reloadEvent = [
+    "IF_EVENT_M2_RELOAD_ONCE",
+    createHashMapFromArray [["fixture", "M2_RELOAD"]],
+    true,
+    "TEST",
+    "M2",
+    false,
+    "IF_EVT_M2_RELOAD_ONCE"
+] call IF_fnc_eventPublish;
+private _reloadSave = ["AUTO"] call IF_fnc_saveCampaign;
+private _reloadLoad = [] call IF_fnc_loadCampaign;
+private _reloadRepeated = [
+    "IF_EVENT_M2_RELOAD_ONCE",
+    createHashMapFromArray [["fixture", "M2_RELOAD"]],
+    true,
+    "TEST",
+    "M2",
+    false,
+    "IF_EVT_M2_RELOAD_ONCE"
+] call IF_fnc_eventPublish;
+_checks pushBack [
+    "event.noDuplicateAfterLoad",
+    (_reloadSubscription # 0) && {_reloadEvent # 0} && {_reloadSave # 0} && {_reloadLoad # 0}
+    && {_reloadRepeated # 0}
+    && {(IF_runtime getOrDefault ["m2ReloadEventCount", 0]) isEqualTo 1}
+    && {((_reloadRepeated # 2) # 2) >= 1}
+];
+(IF_runtime get "eventSubscribers") deleteAt "IF_EVENT_M2_RELOAD_ONCE";
 
 private _manual = ["MANUAL"] call IF_fnc_saveCampaign;
 private _manualRead = ["IF_MAIN_CAMPAIGN_MANUAL_1"] call IF_fnc_storageLoad;
