@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Helios — marca de instalación</title>
+  <desc>v2. Canon: docs/15 §128, Identidad Helios — "diagramas de red; procedencia; auditoría; datos institucionales; advertencias de integridad" (cita corregida: no §123, que es la regla general de arquitectura visual). Principio rector: Helios correlaciona. v1 leía como mira telescópica por el aspa central y los radios largos; v2 se reconstruye como diagrama de red con un nodo central y ocho nodos terminales, sin ninguna línea que cruce todo el círculo. La marca maestra se mantiene perfectamente simétrica: la corrupción/manipulación de Argos es material de variantes futuras, no del símbolo institucional base. Original, sin material de terceros.</desc>
+
+  <rect width="128" height="128" fill="#101214"/>
+
+  <!-- Círculo de cota, como en un plano técnico: línea fina -->
+  <circle cx="64" cy="64" r="44" fill="none" stroke="#3E484D" stroke-width="1.5"/>
+  <!-- Graduación mínima en los cuatro cardinales, no un aspa que cruce el círculo -->
+  <g stroke="#3E484D" stroke-width="2">
+    <path d="M64 18 V24 M64 104 V110 M18 64 H24 M104 64 H110"/>
+  </g>
+
+  <!-- Nodo central: el núcleo de la red, no un punto de mira -->
+  <circle cx="64" cy="64" r="10" fill="none" stroke="#C8B26A" stroke-width="4"/>
+
+  <!-- Ocho conexiones cortas del nodo central a nodos terminales: diagrama de red -->
+  <g stroke="#C8B26A" stroke-width="2.5">
+    <path d="M74 64 L92 64"/>
+    <path d="M71 71 L83 83"/>
+    <path d="M64 74 L64 92"/>
+    <path d="M57 71 L45 83"/>
+    <path d="M54 64 L36 64"/>
+    <path d="M57 57 L45 45"/>
+    <path d="M64 54 L64 36"/>
+    <path d="M71 57 L83 45"/>
+  </g>
+
+  <!-- Ocho nodos terminales: cuadrados, no flechas ni puntas -->
+  <g fill="#C8B26A">
+    <rect x="89" y="61" width="6" height="6"/>
+    <rect x="80.5" y="80.5" width="6" height="6"/>
+    <rect x="61" y="89" width="6" height="6"/>
+    <rect x="41.5" y="80.5" width="6" height="6"/>
+    <rect x="33" y="61" width="6" height="6"/>
+    <rect x="41.5" y="41.5" width="6" height="6"/>
+    <rect x="61" y="33" width="6" height="6"/>
+    <rect x="80.5" y="41.5" width="6" height="6"/>
+  </g>
+
+  <!-- Placa de identificación inferior: procedencia y datos institucionales -->
+  <rect x="38" y="106" width="52" height="8" fill="none" stroke="#5C6B72" stroke-width="2"/>
+  <rect x="44" y="109" width="18" height="2" fill="#5C6B72"/>
+  <rect x="66" y="109" width="10" height="2" fill="#5C6B72"/>
+</svg>

@@ -4,7 +4,7 @@
  */
 private _validIdsResult = [["ALT_W_NERI_PANOCHORI"]] call IF_fnc_validateIds;
 private _invalidIdsResult = [["", "DUPLICATE", "DUPLICATE"]] call IF_fnc_validateIds;
-private _sectorConfig = missionConfigFile >> "ALT_W_NERI_PANOCHORI";
+private _sectorConfig = missionConfigFile >> "IF_Sectors" >> "ALT_W_NERI_PANOCHORI";
 
 private _checks = [
     ["function.log", !(isNil { IF_fnc_log })],

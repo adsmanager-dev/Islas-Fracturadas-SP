@@ -120,6 +120,19 @@ class CfgFunctions
             class loadCampaign {};
         };
 
+        class World
+        {
+            file = "modules\world";
+            class worldInitialize {};
+            class worldValidate {};
+            class worldQueryGetSector {};
+            class worldQueryGetNeighbors {};
+            class worldQueryFindPath {};
+            class worldQueryCalculateDepth {};
+            class worldCommandSetSectorOwner {};
+            class worldDiagnosticsReport {};
+        };
+
         class Diagnostics
         {
             file = "diagnostics";
@@ -133,6 +146,7 @@ class CfgFunctions
             class smokeTest {};
             class m1CoreTest {};
             class m2PersistenceTest {};
+            class m3WorldTest {};
         };
     };
 };

@@ -1,9 +1,9 @@
 # Arquitectura técnica, 3DEN, SQF y multijugador
 
-> **Estado del contenedor:** diseño técnico confirmado; esqueleto M0 implementado y probado; campaña jugable no iniciada
+> **Estado del contenedor:** diseño técnico confirmado; M0–M2 aprobados; mundo M3 implementado y probado en SP, pendiente de validación física 3DEN; campaña jugable no iniciada
 > **Fuente de verdad para:** arquitectura técnica, persistencia, 3DEN, SQF, SP y MP futuro
 > **Relacionados:** [17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md](17_DIALOGUE_RADIO_BRIEFINGS_AND_CINEMATICS.md); [19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-08-06
+> **Última consolidación:** 2026-08-07
 
 ## Propósito
 
@@ -1699,7 +1699,9 @@ Centralizar configuraciones cargadas por `description.ext`.
 <a id="configuracion-de-datos-de-campana"></a>
 #### 14.1 Carpeta `config`
 
-`config/` conserva datos declarativos de campaña separados de las clases de motor de `cfg/`. `config/sectors.hpp` centraliza provisionalmente las coordenadas de `ALT_W_NERI_PANOCHORI`. Desde M0, `description.ext` incluye el archivo, `IF_fnc_bootstrapPostInit` valida su ID y el diagnóstico `DEVELOPER`/`VERBOSE` puede leer sus carriles. Esta carga técnica no promueve las coordenadas a `VALIDADO_3DEN` ni implementa todavía el sistema territorial.
+`config/` conserva datos declarativos de campaña separados de las clases de motor de `cfg/`. En M3, `config/sectors.hpp` declara 5 regiones, 9 sectores y 9 conexiones del vertical slice; `IF_fnc_configLoad` los materializa en `IF_config` y `IF_fnc_configValidate` comprueba IDs, membresías y referencias. Las coordenadas del sector, radios, rutas y anclajes aún no medidos usan arrays vacíos o `-1` y conservan `POR_CALIBRAR`. La evidencia parcial de la subzona Panochori continúa separada y no promueve el sector completo a `VALIDADO_3DEN`.
+
+El dominio reside en `modules/world/`: inicializa las raíces persistentes ya reservadas por schema 1, rechaza estados parciales, consulta sectores y vecinos, recorre rutas, calcula profundidad derivada, cambia propietario mediante command y publica `IF_EVENT_SECTOR_MILITARY_OWNER_CHANGED`. Los saves M2 con raíces territoriales vacías reciben defaults M3 y registran el cambio de build sin incrementar `schemaVersion`; un mundo no vacío nunca se sobrescribe silenciosamente. Las suites destructivas de integración M1–M3 son opt-in para no penalizar cada arranque normal.
 
 ---
 

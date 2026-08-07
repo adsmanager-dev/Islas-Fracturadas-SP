@@ -38,7 +38,10 @@ function Get-SourceManifest {
 }
 
 function Assert-ManagedDestination {
-    param([string]$Destination)
+    param(
+        [string]$Destination,
+        [switch]$AllowStaleManifestWhenMatchingSource
+    )
     if (-not (Test-Path -LiteralPath $Destination)) {
         return
     }
@@ -65,6 +68,12 @@ function Assert-ManagedDestination {
         }
         $hash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash
         if ($hash -ne $recordedByPath[$relative]) {
+            $sourceFile = Join-Path $sourceRoot $relative
+            $matchesCurrentSource = (Test-Path -LiteralPath $sourceFile) -and
+                ((Get-FileHash -LiteralPath $sourceFile -Algorithm SHA256).Hash -eq $hash)
+            if ($AllowStaleManifestWhenMatchingSource -and $matchesCurrentSource) {
+                continue
+            }
             throw "Modificación manual detectada en destino: $relative"
         }
     }
@@ -82,7 +91,7 @@ if (-not (Test-Path -LiteralPath $sourceRoot)) {
 
 $sourceManifest = Get-SourceManifest
 foreach ($destination in $destinations) {
-    Assert-ManagedDestination -Destination $destination
+    Assert-ManagedDestination -Destination $destination -AllowStaleManifestWhenMatchingSource:(-not $Check)
     if ($Check) {
         $destinationFiles = Get-SkillFiles -Root $destination
         if ($destinationFiles.Count -ne $sourceManifest.Count) {

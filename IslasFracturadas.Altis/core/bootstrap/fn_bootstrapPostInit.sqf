@@ -11,37 +11,31 @@ missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_10_ENGINE_READY"];
 private _diagnosticsIndex = paramsArray param [0, 1, [0]];
 private _diagnosticsMode = [_diagnosticsIndex] call IF_fnc_diagnosticsSetMode;
 
-private _sectorConfig = missionConfigFile >> "ALT_W_NERI_PANOCHORI";
-private _sectorId = if (isClass _sectorConfig) then {
-    getText (_sectorConfig >> "id")
-} else {
-    ""
-};
-private _configValidation = [[_sectorId]] call IF_fnc_validateIds;
-missionNamespace setVariable ["IF_configValidation", _configValidation];
 missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_20_CONFIG"];
 private _configLoadResult = [] call IF_fnc_configLoad;
 private _configServiceValidation = [] call IF_fnc_configValidate;
-private _configReady = (
-    (_configValidation # 0)
-    && {_configLoadResult # 0}
-    && {_configServiceValidation # 0}
-);
+private _configReady = (_configLoadResult # 0) && {_configServiceValidation # 0};
+missionNamespace setVariable ["IF_configValidation", _configServiceValidation];
 missionNamespace setVariable ["IF_configReady", _configReady];
 
 if (_configReady) then {
+    private _loadedConfig = _configLoadResult # 1;
     [
         "INFO",
         "CONFIG",
-        "Configuración mínima validada",
-        [["sectorId", _sectorId]]
+        "Configuración estratégica M3 validada",
+        [
+            ["regions", count (_loadedConfig get "regions")],
+            ["sectors", count (_loadedConfig get "sectors")],
+            ["connections", count (_loadedConfig get "connections")]
+        ]
     ] call IF_fnc_log;
 } else {
     [
         "ERROR",
         "CONFIG",
         "Falló la validación de configuración",
-        _configValidation # 1
+        _configServiceValidation # 1
     ] call IF_fnc_log;
 };
 
@@ -52,10 +46,12 @@ missionNamespace setVariable ["IF_smokeTestPassed", _smokePassed];
 
 private _m1Passed = true;
 private _m2Passed = true;
+private _m3Passed = true;
 private _persistenceLoaded = false;
 private _persistenceSlot = "";
 private _probeMode = paramsArray param [1, 0, [0]];
 private _probePassed = true;
+private _runIntegrationTests = (paramsArray param [2, 0, [0]]) isEqualTo 1;
 if (isServer) then {
     missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_30_SERVICES"];
     private _runtimeResult = [] call IF_fnc_runtimeCreate;
@@ -74,6 +70,18 @@ if (isServer) then {
         [] call IF_fnc_stateCreate
     };
     private _stateValidation = [] call IF_fnc_stateValidate;
+
+    missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_50_WORLD"];
+    private _worldResult = if ((_stateResult # 0) && {_stateValidation # 0} && {_configReady}) then {
+        [] call IF_fnc_worldInitialize
+    } else {
+        [false, false, "PREREQUISITES_MISSING"]
+    };
+    private _worldValidation = if (_worldResult # 0) then {
+        [] call IF_fnc_worldValidate
+    } else {
+        [false, [[_worldResult # 2]]]
+    };
 
     private _eventTaskResult = [
         "IF_TASK_EVENT_QUEUE",
@@ -103,14 +111,23 @@ if (isServer) then {
         && {_configReady}
         && {_stateResult # 0}
         && {_stateValidation # 0}
+        && {_worldResult # 0}
+        && {_worldValidation # 0}
         && {_eventTaskResult # 0}
     );
 
     if (_servicesReady) then {
-        missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_50_WORLD"];
         missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_60_TESTS"];
-        _m1Passed = [] call IF_fnc_m1CoreTest;
-        _m2Passed = [] call IF_fnc_m2PersistenceTest;
+        if (_runIntegrationTests) then {
+            _m1Passed = [] call IF_fnc_m1CoreTest;
+            _m2Passed = [] call IF_fnc_m2PersistenceTest;
+            _m3Passed = [] call IF_fnc_m3WorldTest;
+        } else {
+            _m1Passed = false;
+            _m2Passed = false;
+            _m3Passed = false;
+            ["INFO", "TEST", "Suites M1-M3 omitidas; ejecución no solicitada"] call IF_fnc_log;
+        };
 
         if (_probeMode isEqualTo 1) then {
             private _probeValue = format ["M2_RESTART_%1", systemTimeUTC];
@@ -177,16 +194,19 @@ if (isServer) then {
     } else {
         _m1Passed = false;
         _m2Passed = false;
+        _m3Passed = false;
         [
-            "IF_ERR_BOOTSTRAP_M1",
+            "IF_ERR_BOOTSTRAP_M3",
             "CRITICAL",
             "BOOT",
-            "No se pudieron iniciar todos los servicios M1",
+            "No se pudieron iniciar todos los servicios hasta M3",
             [
                 ["runtime", _runtimeResult # 0],
                 ["config", _configReady],
                 ["state", _stateResult # 0],
                 ["validation", _stateValidation # 0],
+                ["world", _worldResult # 0],
+                ["worldValidation", _worldValidation # 0],
                 ["scheduler", _eventTaskResult # 0]
             ]
         ] call IF_fnc_errorCreate;
@@ -194,15 +214,23 @@ if (isServer) then {
 
     missionNamespace setVariable ["IF_m1CoreTestPassed", _m1Passed];
     missionNamespace setVariable ["IF_m2PersistenceTestPassed", _m2Passed];
+    missionNamespace setVariable ["IF_m3WorldTestPassed", _m3Passed];
+    missionNamespace setVariable ["IF_integrationTestsRun", _runIntegrationTests];
     missionNamespace setVariable ["IF_persistenceLoaded", _persistenceLoaded];
     missionNamespace setVariable ["IF_persistenceSlot", _persistenceSlot];
     missionNamespace setVariable [
         "IF_bootstrapPhase",
-        if (_m1Passed && {_m2Passed} && {_probePassed}) then {"PHASE_90_RUNNING"} else {"PHASE_99_DEGRADED"}
+        if (_servicesReady && {(!_runIntegrationTests || {_m1Passed && {_m2Passed} && {_m3Passed}})} && {_probePassed}) then {"PHASE_90_RUNNING"} else {"PHASE_99_DEGRADED"}
     ];
 } else {
+    _m1Passed = false;
+    _m2Passed = false;
+    _m3Passed = false;
+    _runIntegrationTests = false;
     missionNamespace setVariable ["IF_m1CoreTestPassed", false];
     missionNamespace setVariable ["IF_m2PersistenceTestPassed", false];
+    missionNamespace setVariable ["IF_m3WorldTestPassed", false];
+    missionNamespace setVariable ["IF_integrationTestsRun", false];
     missionNamespace setVariable ["IF_bootstrapPhase", "PHASE_30_CLIENT_READY"];
 };
 
@@ -220,6 +248,8 @@ if !(_diagnosticsMode isEqualTo "OFF") then {
         ["smokePassed", _smokePassed],
         ["m1Passed", _m1Passed],
         ["m2Passed", _m2Passed],
+        ["m3Passed", _m3Passed],
+        ["integrationTestsRun", _runIntegrationTests],
         ["persistenceLoaded", _persistenceLoaded],
         ["persistenceSlot", _persistenceSlot],
         ["persistenceProbe", _probeMode],

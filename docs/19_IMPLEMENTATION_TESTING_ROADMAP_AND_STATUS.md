@@ -1,6 +1,6 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; Fase 3 en preparación; campaña jugable no iniciada
+> **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; implementación técnica M3 probada, gate pendiente de 3DEN; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
 > **Última consolidación:** 2026-08-07
@@ -35,6 +35,8 @@ El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION
 
 Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_IMPLEMENTATION_AND_PRODUCTION_PLAN.md`. No se identificó una pareja explícita de cánones mutuamente excluyentes. Las alternativas, hipótesis, cifras por calibrar y decisiones pendientes conservadas en esas fuentes requieren confirmación humana; su fecha no resuelve su autoridad.
 
+M3 mantiene una decisión territorial pendiente: la hoja de ruta actual sustituyó Neochori por “primer enlace del corredor occidental”, mientras la guía física V0 heredada todavía enumera Neochori. `ALT_W_AGIOS_DIONYSIOS` se usa como `PROPUESTA_M3` para probar el grafo, sin modificar `DEC-008`, el catálogo de 38 sectores ni promover la ruta a diseño confirmado. La elección física debe resolverse con evidencia humana de 3DEN.
+
 ## Criterios de validación
 
 - Las fuentes declaradas para 19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS mantienen reglas, estados, secretos y pendientes.
@@ -50,21 +52,22 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Fase 3 — preparación del mundo estratégico mínimo |
-| Subfase | M2 cerrado; recepción y desglose de M3 pendientes |
+| Fase actual | Fase 3 — validación física del mundo estratégico mínimo |
+| Subfase | implementación SQF y pruebas M3 completas; 3DEN pendiente |
 | Último gate aprobado | `M2 — Campaña persistente mínima` |
 | Hito técnico aprobado | `M2`, 2026-08-07 |
 | Próximo hito | `M3 — Mundo estratégico mínimo` |
-| Implementación jugable | Infraestructura M2 ejecutable y persistente en SP; campaña jugable todavía ausente |
-| Entregables presentes | misión vanilla; núcleo M1; storage adapter; serialización canónica; checksum; envelopes schema 1; snapshots A/B; guardado manual y autosave; carga, recuperación y migración inicial; diagnóstico y test runner |
-| Entregables ausentes | grafo estratégico, sectores simulados, frentes, facciones autónomas, economía, misiones y campaña jugable |
-| Pruebas ejecutadas | suites estáticas M0/M1/M2 PASS, Semgrep sin hallazgos y 26 comprobaciones internas PASS en la regresión final de Arma 3 |
-| Pruebas de Arma 3 | Arma 3 2.20.152984 x64; reinicio completo y regresión final registrados en [evidencia M2](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) |
+| Implementación jugable | Infraestructura M2 y grafo lógico M3 ejecutables en SP; campaña jugable todavía ausente |
+| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
+| Entregables ausentes | coordenadas y anclajes M3 validados; límites y rutas físicas; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
+| Pruebas ejecutadas | suites estáticas M0–M3 PASS, Semgrep sin hallazgos y 38 comprobaciones internas PASS en Arma 3 |
+| Pruebas de Arma 3 | Arma 3 2.20.152984 x64; M2 aprobada y ejecución M3 registrada en [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) |
 | Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
-| Bloqueadores técnicos posteriores | Ninguno para iniciar M3; completar validación física de Panochori antes de contenido territorial dependiente y medir rendimiento cuando exista carga estratégica representativa |
+| Bloqueadores técnicos posteriores | El gate M3 requiere elección humana del primer enlace, coordenadas, anclajes y rutas desde 3DEN; la UI diagnóstica física sigue ausente |
 | Estado de Fase 0 | Completada; `M0 APROBADO` |
 | Estado de Fase 1 | Completada; `M1 APROBADO` |
 | Estado de Fase 2 | Completada; `M2 APROBADO` |
+| Estado de Fase 3 | Implementación técnica `PROBADA`; `M3 NO APROBADO`, pendiente de 3DEN |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -139,6 +142,25 @@ La evidencia repetible, digest del RPT, matriz y límites se conservan en [M1_AU
 | Existe implementación estable | `5012cc9` y corrección `ded248a` | `PASS` |
 
 La evidencia, los hashes de tres RPT, la matriz completa y los límites se conservan en [M2_CAMPAIGN_PERSISTENCE_2026-08-07.md](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md). El checksum acredita detección de corrupción accidental, no integridad criptográfica; M3 deberá consumir la persistencia sin convertirla en acceso directo desde dominios.
+
+### M3 — Mundo estratégico mínimo
+
+> **Estado:** implementación técnica `PROBADA` el 2026-08-07; gate `NO APROBADO`.
+> **Alcance acreditado:** configuración y simulación lógica SP; no acredita geografía, navegación, anclajes, UI diagnóstica ni rendimiento representativo.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Nueve sectores registrados | `IF_config` y `IF_campaignState` contienen exactamente nueve IDs del slice | `PASS` |
+| Conexiones transitables | BFS Neri–Agios–Lakka–Airport West–Airport Terminal | `PASS` lógico; físico pendiente |
+| Profundidad calculada | nueve sectores alcanzables; Neri P0 y Terminal P4 en la topología provisional | `PASS` lógico |
+| Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
+| Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
+| Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
+| Coordenadas procedentes de 3DEN | posiciones y radios siguen vacíos o `-1` | `PENDIENTE` |
+| Sectores críticos con anclaje | nueve IDs preparados, cero posiciones centrales validadas | `PENDIENTE` |
+| UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
+
+Las doce pruebas M3, el RPT, su SHA-256, los límites de rendimiento y el paquete de trabajo manual se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). La selección de `ALT_W_AGIOS_DIONYSIOS` y cinco conexiones marcadas `PROPUESTA_M3` no se convierten en canon por estar implementadas.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
@@ -5055,6 +5077,8 @@ M2 — Campaña persistente mínima
 <a id="src-master-implementation-and-production-plan--27-fase-3-mundo-estratégico-mínimo"></a>
 ### 27. Fase 3 — Mundo estratégico mínimo
 
+> **Estado de ejecución:** configuración, estado, grafo, propietario, persistencia y diagnóstico RPT implementados y probados. Las tareas de 3DEN y la UI visual permanecen abiertas; por ello el hito M3 no está aprobado.
+
 <a id="src-master-implementation-and-production-plan--objetivo-3"></a>
 #### Objetivo
 
@@ -5072,6 +5096,8 @@ Crear el grafo básico del vertical slice.
 7. Xirolimni–Zaros.
 8. Airport West.
 9. Airport Terminal.
+
+La implementación técnica usa provisionalmente `ALT_W_AGIOS_DIONYSIOS` como el punto 2. La guía V0 heredada que enumera Neochori no se modifica hasta que una revisión humana en 3DEN determine el enlace correcto.
 
 <a id="src-master-implementation-and-production-plan--entregables-3"></a>
 #### Entregables

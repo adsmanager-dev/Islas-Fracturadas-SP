@@ -7,8 +7,8 @@ private _stateValidation = [_copy] call IF_fnc_stateValidate;
 if !(_stateValidation # 0) exitWith {[false, createHashMap, "INVALID_STATE"]};
 
 private _meta = _copy get "meta";
-_meta set ["campaignVersion", "0.2.0-m2"];
-_meta set ["buildId", "M2_PERSISTENCE"];
+_meta set ["campaignVersion", "0.3.0-m3-dev"];
+_meta set ["buildId", "M3_WORLD_GRAPH_DEV"];
 _meta set ["updatedAt", diag_tickTime];
 _meta set ["checksum", ""];
 
@@ -18,7 +18,7 @@ private _clock = _copy get "clock";
 private _envelope = createHashMapFromArray [
     ["format", "IF_SAVE_ENVELOPE"],
     ["schemaVersion", 1],
-    ["gameVersion", "0.2.0-m2"],
+    ["gameVersion", "0.3.0-m3-dev"],
     ["campaignId", _campaign getOrDefault ["campaignId", ""]],
     ["campaignSide", _campaign getOrDefault ["campaignSide", ""]],
     ["createdAt", +systemTimeUTC],

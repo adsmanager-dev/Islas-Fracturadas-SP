@@ -23,6 +23,7 @@ private _runtime = createHashMapFromArray [
     ["runtimeIds", createHashMap],
     ["errors", []],
     ["materializedEntities", createHashMap],
+    ["sectorDepth", createHashMap],
     ["uiSubscribers", []],
     ["networkClients", createHashMap],
     ["debugFlags", createHashMap],

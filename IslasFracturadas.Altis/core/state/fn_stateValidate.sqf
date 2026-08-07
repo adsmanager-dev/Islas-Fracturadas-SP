@@ -20,6 +20,12 @@ private _requiredRoots = [
     };
 } forEach _requiredRoots;
 
+{
+    if (_x in _state && {!((_state get _x) isEqualType createHashMap)}) then {
+        _errors pushBack ["INVALID_ROOT_TYPE", _x, typeName (_state get _x)];
+    };
+} forEach _requiredRoots;
+
 if !([_state] call IF_fnc_valueIsPersistable) then {
     _errors pushBack ["NON_PERSISTABLE_VALUE"];
 };
@@ -56,6 +62,33 @@ if ("clock" in _state) then {
     } else {
         if ((_clock getOrDefault ["campaignMinutes", -1]) < 0) then {
             _errors pushBack ["INVALID_CAMPAIGN_TIME", _clock getOrDefault ["campaignMinutes", -1]];
+        };
+    };
+};
+
+private _worldRootsReady = ({_x in _state && {(_state get _x) isEqualType createHashMap}} count [
+    "world", "regions", "sectors", "connections"
+]) isEqualTo 4;
+if (_worldRootsReady) then {
+    private _worldCounts = [
+        count (_state get "world"),
+        count (_state get "regions"),
+        count (_state get "sectors"),
+        count (_state get "connections")
+    ];
+    private _hasWorldData = (_worldCounts findIf {_x > 0}) >= 0;
+    if (_hasWorldData) then {
+        if ((_worldCounts findIf {_x isEqualTo 0}) >= 0) then {
+            _errors pushBack ["PARTIAL_WORLD_STATE", _worldCounts];
+        } else {
+            if (isNil {missionNamespace getVariable "IF_fnc_worldValidate"}) then {
+                _errors pushBack ["WORLD_VALIDATOR_MISSING"];
+            } else {
+                private _worldValidation = [_state] call IF_fnc_worldValidate;
+                if !(_worldValidation # 0) then {
+                    _errors pushBack ["INVALID_WORLD", _worldValidation # 1];
+                };
+            };
         };
     };
 };

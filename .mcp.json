@@ -35,6 +35,19 @@
         "claude"
       ],
       "env": {}
+    },
+    "if-media": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "D:/Proyectos/Islas Fracturadas/tools/if-media-mcp/dist/index.js",
+        "--project-root",
+        "D:/Proyectos/Islas Fracturadas"
+      ],
+      "env": {
+        "IF_INKSCAPE": "D:/Programas/Inkscape/bin/inkscape.com",
+        "IF_MEDIA_REMOTE_MODE": "disabled"
+      }
     }
   }
 }

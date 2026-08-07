@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>AZUR-1 «Vanguardia» — Fuerza Expedicionaria de la Coalición Atlántica</title>
+  <desc>v2. Canon: docs/15 §124 (azul grisáceo, paneles modulares, información técnica, estructura de coalición); docs/04 §2 (Fuerza de Tarea Tridente). Principio rector: Azul conecta. Marco técnico interrumpido en vez de escudo cerrado; tres puntas independientes que convergen en un eje común, sin tocarse en el vértice. Original, sin material de terceros.</desc>
+
+  <rect width="128" height="128" fill="#161C22"/>
+
+  <!-- Marco técnico INCOMPLETO: dos esquinas abiertas declaran "estructura, no blasón" -->
+  <path d="M40 10 H88 L112 33 V78
+           M112 84 V95 L64 120 L16 95 V52
+           M16 46 V33 L40 10"
+        fill="none" stroke="#8FA5B8" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Marcas de alineación en las esquinas abiertas: leen como cota técnica, no decoración -->
+  <path d="M88 10 h6 M112 78 v6 M16 52 v-6 M40 10 h-6" stroke="#5A7386" stroke-width="2.5"/>
+
+  <!-- Tres puntas INDEPENDIENTES: alturas y anchos distintos, sin fusionarse en el vértice -->
+  <!-- Izquierda: la más corta y ancha -->
+  <path d="M34 74 L42 44 L50 74 Z" fill="#C9D6E0"/>
+  <!-- Centro: la más alta y estrecha -->
+  <path d="M58 74 L64 26 L70 74 Z" fill="#EDF3F7"/>
+  <!-- Derecha: intermedia -->
+  <path d="M78 74 L86 40 L94 74 Z" fill="#C9D6E0"/>
+
+  <!-- Espacio negativo real entre puntas: NO se tocan, cada una respira -->
+  <!-- Travesaño estructural único, fino: el eje común, no una base sólida -->
+  <rect x="32" y="74" width="64" height="4" fill="#8FA5B8"/>
+  <!-- Núcleo de convergencia: pequeño rombo donde el ojo entiende "un mismo mando de enlace" -->
+  <path d="M64 74 l6 8 l-6 8 l-6 -8 Z" fill="#EDF3F7"/>
+
+  <!-- Astil corto: ancla visual, no decorativo -->
+  <rect x="61" y="90" width="6" height="18" fill="#5A7386"/>
+</svg>

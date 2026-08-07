@@ -1,6 +1,6 @@
 author = "Equipo Islas Fracturadas";
-onLoadName = "Islas Fracturadas — M2";
-onLoadMission = "Persistencia mínima de campaña en validación";
+onLoadName = "Islas Fracturadas — M3 en desarrollo";
+onLoadMission = "Grafo estratégico mínimo pendiente de validación 3DEN";
 missionGroup = "IF_MAIN_CAMPAIGN";
 
 #include "cfg\CfgFunctions.hpp"
@@ -21,6 +21,14 @@ class Params
         title = "M2 — Prueba de persistencia entre reinicios";
         values[] = {0, 1, 2, 3};
         texts[] = {"OFF", "1 — GUARDAR", "2 — VERIFICAR TRAS REINICIO", "AUTO — DOS ARRANQUES"};
+        default = 0;
+    };
+
+    class IF_RunIntegrationTests
+    {
+        title = "Desarrollo — Ejecutar suites M1-M3";
+        values[] = {0, 1};
+        texts[] = {"NO", "SÍ"};
         default = 0;
     };
 };

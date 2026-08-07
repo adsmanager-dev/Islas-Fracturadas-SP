@@ -10,7 +10,7 @@ Campaña persistente para Arma 3 ambientada en Altis y Stratis. El proyecto comb
 
 Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohemia Interactive.
 
-> **Estado actual:** `M2 — Campaña persistente mínima` aprobado. La misión principal conserva `IF_campaignState` entre procesos mediante envelopes schema 1, snapshots A/B, checksum, carga, recuperación y migración inicial. Todavía no existe campaña jugable ni mundo estratégico. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
+> **Estado actual:** `M2 — Campaña persistente mínima` aprobado y `M3 — Mundo estratégico mínimo` implementado técnicamente, pero todavía no aprobado. El grafo M3 registra 5 regiones, 9 sectores y 9 conexiones; sus rutas, límites y anclajes permanecen `POR_CALIBRAR` hasta validarlos manualmente en 3DEN. Todavía no existe campaña jugable. La [instantánea autoritativa](docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#instantanea-autoritativa-del-estado-real) mantiene el estado verificable.
 
 ## Estado real del repositorio
 
@@ -18,14 +18,15 @@ Este es un proyecto comunitario no oficial, sin afiliación ni respaldo de Bohem
 | --- | --- | --- |
 | Biblioteca documental | consolidada | `docs/00–19` |
 | Decisiones rectoras | registradas | `DEC-001`–`DEC-008` |
-| Estructura de carpetas | M2 materializada | 46 funciones registradas bajo `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| Estructura de carpetas | M3 técnico materializado | 55 funciones registradas bajo `cfg/`, `core/`, `modules/`, `diagnostics/` y `tests/` |
 | `mission.sqm` | misión principal vanilla | generado por 3DEN; validación física conservada en misión separada |
-| Configuración de Panochori | cargada y validada en M1; geografía provisional | `IF_config` + `config/sectors.hpp`; `VALIDACION_3DEN_EN_CURSO` |
+| Configuración territorial M3 | cargada y validada; geografía provisional | 5 regiones, 9 sectores y 9 conexiones en `IF_config`; coordenadas y rutas pendientes de 3DEN |
 | `description.ext` | implementado y cargado | `F0-003` completada |
 | Bootstrap y logger SQF | implementados y probados | `F0-006`–`F0-007` completadas |
 | Núcleo autoritativo | implementado y probado en SP | estado, eventos, scheduler, transacciones, reloj y errores |
 | Persistencia mínima | implementada y probada en SP | guardado manual/autosave, A/B, carga, recuperación y migración |
-| Pruebas dentro de Arma 3 | 26 comprobaciones PASS en regresión M2 | [evidencia M2](docs/validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) |
+| Mundo estratégico mínimo | implementado y probado en SP; gate abierto | rutas lógicas, profundidad, propietarios, evento de dominio, persistencia y diagnóstico RPT |
+| Pruebas dentro de Arma 3 | 38 comprobaciones PASS en la ejecución M3 | [evidencia M3](docs/validation/M3_STRATEGIC_WORLD_2026-08-07.md) |
 | Validación 3DEN | parcial en Panochori | faltan pruebas marítimas, huellas y alturas |
 
 ## Requisitos de desarrollo
@@ -112,14 +113,15 @@ Las carpetas vacías contienen `.gitkeep`. Su presencia no significa que el sist
 
 ## Continuación del desarrollo
 
-`M2 — Campaña persistente mínima` está aprobado. El siguiente hito es
-**M3 — Mundo estratégico mínimo**:
+`M2 — Campaña persistente mínima` está aprobado. **M3 — Mundo estratégico
+mínimo** ya tiene implementación técnica y pruebas SQF; para cerrar el gate
+faltan las tareas físicas de 3DEN:
 
-1. Definir el grafo mínimo del vertical slice Neri–Panochori.
-2. Modelar sectores, enlaces, propietarios y estado estratégico sin acoplarlos al almacenamiento.
-3. Añadir comandos, consultas y eventos del mundo estratégico.
-4. Persistir el nuevo dominio mediante los contratos aprobados en M2.
-5. Cerrar M3 con pruebas repetibles y evidencia en Arma 3/3DEN donde corresponda.
+1. Confirmar qué sector representa físicamente el primer enlace occidental; `ALT_W_AGIOS_DIONYSIOS` es todavía `PROPUESTA_M3`.
+2. Colocar y medir los nueve anclajes centrales sin editar `mission.sqm` a mano.
+3. Validar rutas, límites preliminares y accesos con los vehículos requeridos.
+4. Registrar capturas, coordenadas, orientación, resultado y RPT.
+5. Incorporar esa evidencia a configuración y evaluar formalmente el gate M3.
 
 No debe editarse `mission.sqm` como texto generado libremente; es propiedad del Editor 3DEN.
 

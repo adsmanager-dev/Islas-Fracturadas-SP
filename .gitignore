@@ -58,3 +58,26 @@ test-results/
 # Metadatos locales de agentes
 .codebase-memory/
 .serena/
+
+# Material de referencia de terceros (ver asset/PROCEDENCIA.md).
+# Nunca es fuente de un asset del proyecto; no se versiona salvo excepción
+# explícita registrada en PROCEDENCIA.md con origen, titular y licencia.
+# asset/reference/ es la única excepción: material con procedencia y uso
+# registrados en PROCEDENCIA.md (mapas base de Altis/Stratis).
+asset/*
+!asset/PROCEDENCIA.md
+!asset/reference/
+
+# Rasterizado intermedio: se regenera con tools/Build-Assets.ps1 desde art/identity/*.svg
+art/export/
+
+# Borradores y auditoría local del flujo visual asistido por IA.
+# Los manifiestos de procedencia permanecen versionables.
+production/media/drafts/
+production/media/audit/
+tools/if-media-mcp/node_modules/
+tools/if-media-mcp/dist/
+
+# Binarios locales de terceros (HEMTT, resvg, VTracer, SQF-VM) para tools/if-media-mcp.
+# Se descargan aparte (ver README); no se versionan binarios de plataforma.
+tools/if-media-mcp/bin/

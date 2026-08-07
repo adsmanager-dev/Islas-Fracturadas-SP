@@ -15,6 +15,7 @@ La instrucción específica prevalece sobre la general, pero no autoriza inventa
 - El repositorio contiene 20 fuentes consolidadas, anexos de evidencia, una misión principal separada y el núcleo técnico M0–M1 probado en Arma 3.
 - Existe implementación SQF confirmada para M0–M1; todavía no existe campaña jugable, persistencia entre sesiones ni simulación estratégica.
 - No conviertas diseño, pseudocódigo, `.gitkeep` o checklists en estado implementado.
+- `art/identity/*.svg` contiene emblemas originales por facción como `PROPUESTA` (ver `art/IDENTIDAD_VISUAL.md`), derivados de `docs/15` §123–127. No existen `.paa`: la máquina de desarrollo no tiene Arma 3 Tools/ImageToPAA instalado. `IslasFracturadas.Altis/ui/cfg/CfgUnitInsignia.hpp` existe pero no está incluido desde `description.ext`; no lo incluyas hasta que existan las texturas, o el motor registrará rutas inválidas en el RPT.
 
 ## Fuentes principales
 
@@ -26,6 +27,7 @@ La instrucción específica prevalece sobre la general, pero no autoriza inventa
 | Canon secreto Helios | `docs/03_HELIOS_PHAROS_AND_ARGOS_DOSSIER.md` |
 | Arquitectura técnica | `docs/18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md` |
 | Estado, pruebas y hoja de ruta | `docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md` |
+| Identidad visual (propuesta) y procedencia de referencia | `art/IDENTIDAD_VISUAL.md`, `asset/PROCEDENCIA.md` |
 
 ## Clasificación de tareas
 
@@ -65,6 +67,8 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 | Canon | documentos 00–19 | nunca inferir desde código |
 
 No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis`.
+
+Para assets visuales: fuente editable en `art/identity/*.svg`, nunca en `asset/` (solo referencia de terceros, no versionable sin procedencia registrada en `asset/PROCEDENCIA.md`). `.\tools\Build-Assets.ps1` convierte `art/identity/*.svg` en `IslasFracturadas.Altis/ui/insignia/*.paa`; requiere un rasterizador SVG (Inkscape/ImageMagick/rsvg-convert) e ImageToPAA (Arma 3 Tools, Steam) instalados localmente — el script detecta su ausencia y falla con instrucciones en vez de generar salidas parciales.
 
 ## Evidencia y terminado
 

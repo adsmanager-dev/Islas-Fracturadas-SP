@@ -268,6 +268,8 @@ La biblioteca mantiene sus 20 fuentes temáticas consolidadas. Los registros baj
 | [Cabeza de playa Azul en Panochori](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) | carriles, salida terrestre, ruta logística y candidato de FOB | `VALIDACION_3DEN_EN_CURSO` |
 | [Smoke test técnico M0](validation/M0_SMOKE_TEST_2026-08-06.md) | carga de configuración, `CfgFunctions`, bootstrap, logging, IDs y diagnóstico | `PROBADO`; `M0 APROBADO` |
 | [Núcleo autoritativo M1](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) | estado, runtime, commands, queries, eventos, scheduler, transacciones, reloj y errores | `PROBADO`; `M1 APROBADO` |
+| [Persistencia mínima M2](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) | schema 1, snapshots A/B, guardado, carga, recuperación y migración inicial | `PROBADO`; `M2 APROBADO` |
+| [Mundo estratégico M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) | grafo, profundidad, propietario, evento, persistencia y paquete de trabajo manual | `PROBADO` en SP; `PENDIENTE_VALIDACION_3DEN`; gate abierto |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 

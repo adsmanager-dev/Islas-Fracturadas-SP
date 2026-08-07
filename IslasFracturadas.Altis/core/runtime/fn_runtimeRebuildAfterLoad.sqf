@@ -21,4 +21,18 @@ IF_runtime set ["eventQueue", []];
 IF_runtime set ["activeTransactions", createHashMap];
 IF_runtime set ["materializedEntities", createHashMap];
 
-[true, count _processed]
+private _sectorDepth = createHashMap;
+if !(isNil {missionNamespace getVariable "IF_fnc_worldQueryCalculateDepth"}) then {
+    private _world = IF_campaignState getOrDefault ["world", createHashMap];
+    private _graph = _world getOrDefault ["graph", createHashMap];
+    private _sources = _graph getOrDefault ["depthSourceSectorIds", []];
+    if !(_sources isEqualTo []) then {
+        private _depthResult = [_sources] call IF_fnc_worldQueryCalculateDepth;
+        if (_depthResult # 0) then {
+            _sectorDepth = _depthResult # 1;
+        };
+    };
+};
+IF_runtime set ["sectorDepth", _sectorDepth];
+
+[true, count _processed, count _sectorDepth]

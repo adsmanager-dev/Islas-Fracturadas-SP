@@ -15,6 +15,8 @@ private _report = [
     ["smokePassed", missionNamespace getVariable ["IF_smokeTestPassed", false]],
     ["m1Passed", missionNamespace getVariable ["IF_m1CoreTestPassed", false]],
     ["m2Passed", missionNamespace getVariable ["IF_m2PersistenceTestPassed", false]],
+    ["m3Passed", missionNamespace getVariable ["IF_m3WorldTestPassed", false]],
+    ["integrationTestsRun", missionNamespace getVariable ["IF_integrationTestsRun", false]],
     ["persistenceLoaded", missionNamespace getVariable ["IF_persistenceLoaded", false]],
     ["persistenceSlot", missionNamespace getVariable ["IF_persistenceSlot", ""]],
     ["configReady", missionNamespace getVariable ["IF_configReady", false]],
@@ -22,7 +24,7 @@ private _report = [
 ];
 
 if (_mode in ["DEVELOPER", "VERBOSE"]) then {
-    private _sectorConfig = missionConfigFile >> "ALT_W_NERI_PANOCHORI";
+    private _sectorConfig = missionConfigFile >> "IF_Sectors" >> "ALT_W_NERI_PANOCHORI";
     _report append [
         ["sectorId", getText (_sectorConfig >> "id")],
         ["sectorValidationStatus", getText (_sectorConfig >> "validationStatus")],
@@ -30,6 +32,9 @@ if (_mode in ["DEVELOPER", "VERBOSE"]) then {
         ["landingBravo", getArray (_sectorConfig >> "BlueBeachhead" >> "landingBravo")],
         ["landingCharlie", getArray (_sectorConfig >> "BlueBeachhead" >> "landingCharlie")]
     ];
+    if (isServer && {!(isNil {missionNamespace getVariable "IF_campaignState"})}) then {
+        _report append [["world", [] call IF_fnc_worldDiagnosticsReport]];
+    };
 };
 
 if (_mode isEqualTo "VERBOSE") then {
@@ -41,6 +46,6 @@ if (_mode isEqualTo "VERBOSE") then {
     ];
 };
 
-["INFO", "BOOT", "Informe de diagnóstico M2", _report] call IF_fnc_log;
+["INFO", "BOOT", "Informe de diagnóstico M3", _report] call IF_fnc_log;
 
 _report
