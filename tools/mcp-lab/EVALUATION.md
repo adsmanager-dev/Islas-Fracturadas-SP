@@ -97,6 +97,27 @@ documento — no solo "funciona en teoría":
   archivo correctamente; en ambos casos solo cambiaron `nextID`, `items=` y el bloque insertado,
   cero entidades existentes afectadas. Probado también en vivo por el protocolo MCP real (stdio,
   no solo el script directo) contra una copia desechable dentro de `IslasFracturadas.Altis/`.
+- **Borrar entidades (`arma_sqm_delete_entity`)**: simétrico de `arma_sqm_add_object` — solo
+  borra la ÚLTIMA entidad del bloque `Entities` raíz (misma razón que justifica solo-añadir-al-
+  final: renumerar `ItemN` intermedios queda fuera de alcance). Rechaza también borrar la única
+  entidad restante (dejaría el bloque vacío, el mismo caso límite sin hermana de referencia que
+  `add_object_entity` tampoco soporta al revés). Deliberadamente NO decrementa `nextID` (sin
+  evidencia de que 3DEN reutilice IDs liberados, dejarlo intacto es el lado seguro).
+  **Encontró un segundo bug real** en la prueba de ida-y-vuelta (añadir una entidad a una copia
+  real de Antistasi y borrar esa misma entidad después): el primer test unitario de simetría
+  (`test_add_then_delete_is_symmetric`) solo comparaba `armaclass.parse(resultado) ==
+  armaclass.parse(original)` — una comparación **estructural**, no de bytes — y pasaba a pesar
+  del bug porque `armaclass.parse()` ignora diferencias de espacios en blanco. El bug real: el
+  borrado anclaba la eliminación en el inicio de línea de la propia entidad a borrar, dejando
+  huérfano el salto de línea que separaba esa entidad de la anterior (el mismo salto de línea que
+  `add_object_entity` insertó al añadirla) — resultado: una línea en blanco sobrante. Solo se
+  detectó al hacer la prueba de ida-y-vuelta contra el archivo real de ~470 KB de Antistasi y
+  comparar con `diff` línea por línea. Corregido anclando el borrado en el final de la entidad
+  ANTERIOR (mismo punto donde `add_object_entity` insertó), no en el inicio de la propia línea
+  borrada; el test unitario se reforzó a `self.assertEqual(restored, SAMPLE)` (bytes, no
+  estructura) para que un caso así no pueda volver a pasar inadvertido. Tras la corrección,
+  verificado que un ciclo añadir+borrar contra la copia real de Antistasi produce un archivo
+  **byte-idéntico al original salvo `nextID`** (que se queda deliberadamente adelantado en uno).
 
 ### Resuelto por el usuario: Arma 3 Samples Pack
 

@@ -28,6 +28,7 @@ test("el servidor enumera herramientas y respeta el modo remoto desactivado", as
       "arma_graph_calls",
       "arma_read_rpt",
       "arma_sqm_add_object",
+      "arma_sqm_delete_entity",
       "arma_sqm_inspect",
       "arma_sqm_patch",
       "arma_test",

@@ -13,6 +13,8 @@ from sqm_patch import (
     apply_patch,
     add_object_entity,
     apply_add_object_entity,
+    delete_entity,
+    apply_delete_entity,
     _index_raw_entities_by_id,
     _find_root_entities_span,
     PatchError,
@@ -198,6 +200,98 @@ class ApplyAddObjectEntityIntegrationTests(unittest.TestCase):
             self.assertIn(f"id={result.new_entity_id};", draft_text)
             # El archivo original en su ruta real nunca se toca:
             self.assertEqual(mission.read_bytes(), SAMPLE.encode("utf-8"))
+
+
+class DeleteEntityTests(unittest.TestCase):
+    def test_deletes_last_entity_and_decrements_items(self):
+        data = armaclass.parse(SAMPLE)
+        patched = delete_entity(SAMPLE, data, 43)  # Item1, la última
+        self.assertIn("items=1;", patched)
+        self.assertNotIn("id=43;", patched)
+        self.assertIn("id=42;", patched)  # Item0 intacta
+
+    def test_result_is_parseable_and_only_first_entity_remains(self):
+        data = armaclass.parse(SAMPLE)
+        patched = delete_entity(SAMPLE, data, 43)
+        reparsed = armaclass.parse(patched)
+        entities = reparsed["Mission"]["Entities"]
+        self.assertNotIn("Item1", entities)
+        self.assertEqual(entities["Item0"]["id"], 42)
+
+    def test_raises_when_not_the_last_entity(self):
+        data = armaclass.parse(SAMPLE)
+        with self.assertRaises(PatchError):
+            delete_entity(SAMPLE, data, 42)  # Item0, no es la última
+
+    def test_raises_when_root_entities_empty(self):
+        empty = (
+            "version=54;\r\n"
+            "class Mission\r\n{\r\n\tclass Entities\r\n\t{\r\n\t\titems=0;\r\n\t};\r\n};\r\n"
+        )
+        data = armaclass.parse(empty)
+        with self.assertRaises(PatchError):
+            delete_entity(empty, data, 1)
+
+    def test_add_then_delete_is_symmetric(self):
+        # Comparación BYTE A BYTE, no solo estructural: armaclass.parse() ignora
+        # diferencias de espacios en blanco fuera de strings, así que una
+        # comparación solo estructural no habría detectado el bug real encontrado
+        # en la prueba de estrés contra Antistasi (una línea en blanco sobrante
+        # porque el borrado anclaba en el inicio de la propia línea borrada en vez
+        # de en el final de la entidad anterior).
+        data = armaclass.parse(SAMPLE)
+        added_text, new_id = add_object_entity(SAMPLE, data, "B_Soldier_F", [1.0, 2.0, 3.0])
+        added_data = armaclass.parse(added_text)
+        restored = delete_entity(added_text, added_data, new_id)
+        self.assertEqual(restored, SAMPLE)
+
+    def test_raises_when_only_one_entity_remains(self):
+        one_entity = SAMPLE.replace(
+            "items=2;\r\n", "items=1;\r\n"
+        ).replace(
+            '\t\tclass Item1\r\n\t\t{\r\n\t\t\tdataType="Object";\r\n\t\t\tclass PositionInfo\r\n'
+            "\t\t\t{\r\n\t\t\t\tposition[]={300,5,400};\r\n\t\t\t};\r\n\t\t\tid=43;\r\n"
+            '\t\t\ttype="B_Soldier_F";\r\n\t\t};\r\n',
+            "",
+        )
+        data = armaclass.parse(one_entity)
+        item_keys = [k for k in data["Mission"]["Entities"] if k.startswith("Item")]
+        self.assertEqual(item_keys, ["Item0"])  # sanity: solo Item0 quedó
+        with self.assertRaises(PatchError):
+            delete_entity(one_entity, data, 42)
+
+
+class ApplyDeleteEntityIntegrationTests(unittest.TestCase):
+    def test_full_apply_delete_removes_last_entity(self):
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(SAMPLE.encode("utf-8"))
+            draft = tmp_path / "patched.sqm"
+            backups = tmp_path / "backups"
+
+            result = apply_delete_entity(mission, None, 43, draft, backups)
+
+            self.assertTrue(result.ok)
+            self.assertEqual(result.entities_after, result.entities_before - 1)
+            self.assertEqual(result.unrelated_entities_changed, [])
+            self.assertTrue(Path(result.backup_path).is_file())
+            self.assertEqual(Path(result.backup_path).read_bytes(), SAMPLE.encode("utf-8"))
+            draft_text = draft.read_text(encoding="utf-8")
+            self.assertNotIn("id=43;", draft_text)
+            self.assertIn("id=42;", draft_text)
+            self.assertEqual(mission.read_bytes(), SAMPLE.encode("utf-8"))
+
+    def test_raises_for_nonexistent_id(self):
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(SAMPLE.encode("utf-8"))
+            draft = tmp_path / "patched.sqm"
+            backups = tmp_path / "backups"
+
+            with self.assertRaises(PatchError):
+                apply_delete_entity(mission, None, 9999, draft, backups)
 
 
 # Item0: unidad con name/skill anidados en class Attributes (patrón real verificado

@@ -621,6 +621,50 @@ export class MediaService {
     });
   }
 
+  async deleteMissionSqmEntity(input: {
+    mission_sqm_path: string;
+    entity_id: number;
+    confirmation: "PATCH_MISSION_SQM_APPROVED";
+  }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
+    const draftTarget = await this.workspace.draftPath(`sqm_delete_${input.entity_id}_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
+    const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const args = [
+      scriptPath,
+      "--mission-sqm", missionSource,
+      "--draft-output", draftTarget,
+      "--backup-dir", backupDir
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    args.push("delete_entity", "--entity-id", String(input.entity_id));
+    const result = await runCommand(python, args, 60_000);
+    const parsed = JSON.parse(result.stdout.trim() || "{}") as {
+      ok?: boolean; error?: string; backup_path?: string; draft_path?: string;
+      deleted_entity_id?: number; entities_before?: number; entities_after?: number; unrelated_entities_changed?: string[];
+    };
+    if (result.code !== 0 || !parsed.ok) {
+      await this.workspace.appendAudit("arma_sqm_delete_entity", "blocked", { entity_id: input.entity_id, reason: parsed.error || result.stderr });
+      throw new Error(`Borrado rechazado, mission.sqm NO fue tocado: ${parsed.error || result.stderr || result.stdout}`);
+    }
+
+    const patchedText = await readFile(parsed.draft_path!, "utf8");
+    await writeFile(missionSource, patchedText, { encoding: "utf8" });
+
+    await this.workspace.appendAudit("arma_sqm_delete_entity", "ok", { entity_id: input.entity_id });
+    return textResult({
+      applied: true,
+      deleted_entity_id: parsed.deleted_entity_id,
+      backup: this.workspace.relative(parsed.backup_path!),
+      entities_before: parsed.entities_before,
+      entities_after: parsed.entities_after,
+      note: "mission.sqm perdió la entidad indicada (era la última del bloque Entities raíz; items se decrementó, nextID se deja intacto a propósito). Backup del original guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
+    });
+  }
+
   async readLatestRpt(input: { tail_kb: number }) {
     const rptDir = process.env.IF_ARMA3_RPT_DIR || (process.env.LOCALAPPDATA ? path.join(process.env.LOCALAPPDATA, "Arma 3") : undefined);
     if (!rptDir) throw new Error("No se pudo determinar la carpeta de RPT. Define IF_ARMA3_RPT_DIR.");
@@ -863,6 +907,19 @@ export function createMediaServer(service: MediaService): McpServer {
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
   }, async (input) => {
     try { return await service.addMissionSqmObject(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_delete_entity", {
+    title: "Borrar la última entidad de mission.sqm",
+    description: "Borra una entidad de mission.sqm, pero SOLO si es la ÚLTIMA (id máximo índice ItemN) del bloque Entities raíz — verificado que los índices ItemN son siempre contiguos 0..N-1 en archivos reales, así que borrar cualquier otra posición exigiría renumerar todas las posteriores (no soportado). Si el id indicado no es la última entidad, o si es la única que queda en el bloque, la operación se rechaza sin tocar el archivo. Deliberadamente NO decrementa EditorData.ItemIDProvider.nextID (queda intacto, el lado seguro). Crea backup automático, valida por round-trip (la entidad desaparece, ninguna otra cambió) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      entity_id: z.number().int().nonnegative(),
+      confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.deleteMissionSqmEntity(input); } catch (error) { return errorResult(error); }
   });
 
   server.registerTool("media_build_identity", {

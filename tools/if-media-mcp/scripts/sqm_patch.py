@@ -413,6 +413,10 @@ def delete_entity(text: str, data: dict, entity_id: int) -> str:
     declared_items = int(items_match.group(1))
     if declared_items == 0:
         raise PatchError("El bloque Entities raíz ya está vacío — no hay nada que borrar.")
+    if declared_items == 1:
+        raise PatchError("v1 no borra la única entidad restante del bloque raíz — dejaría el bloque vacío, "
+                          "el mismo caso límite que add_object_entity tampoco soporta al revés (sin una entidad "
+                          "hermana de referencia, no hay un punto de anclaje seguro para el borrado).")
 
     last_index = declared_items - 1
     root_entities = data.get("Mission", data)["Entities"]
@@ -424,23 +428,30 @@ def delete_entity(text: str, data: dict, entity_id: int) -> str:
         raise PatchError(f"id={entity_id} no es la ÚLTIMA entidad del bloque Entities raíz (esa es id={last_sibling_id}, "
                           f"Item{last_index}) — v1 solo borra la última, para no tener que renumerar las posteriores.")
 
-    block_start, block_end = find_entity_block_span(text, entity_id)
+    _, block_end = find_entity_block_span(text, entity_id)
     k = block_end
     while k < len(text) and text[k] in " \t":
         k += 1
     if k < len(text) and text[k] == ";":
         block_end = k + 1
 
-    class_kw_pos = text.rfind("class", root_start, block_start)
-    if class_kw_pos == -1:
-        raise PatchError("No se pudo localizar `class ItemN` de la entidad a borrar.")
-    line_start = text.rfind("\n", 0, class_kw_pos) + 1
-    prefix = text[line_start:class_kw_pos]
-    # Si solo hay whitespace entre el inicio de línea y "class ItemN", se borra la
-    # línea completa (sin dejar una línea en blanco huérfana); si no, se borra
-    # justo desde "class" (caso, no visto en archivos reales, de varias
-    # declaraciones en una misma línea).
-    remove_from = line_start if prefix.strip() == "" else class_kw_pos
+    # Se borra desde el final de la entidad ANTERIOR (inclusive su ';'), no desde
+    # el inicio de la línea de la entidad a borrar — así se elimina exactamente el
+    # mismo tramo "\n + bloque" que add_object_entity insertó (el salto de línea
+    # que separa a las entidades pertenece lógicamente a la entidad borrada, no a
+    # la anterior). Anclar en el inicio de línea de la propia entidad, en cambio,
+    # dejaba huérfano ese salto de línea — encontrado en la prueba real de
+    # ida-y-vuelta añadir+borrar contra Antistasi (sobraba una línea en blanco).
+    prev_sibling = root_entities.get(f"Item{last_index - 1}")
+    prev_sibling_id = prev_sibling.get("id") if isinstance(prev_sibling, dict) else None
+    if prev_sibling_id is None:
+        raise PatchError(f"Item{last_index - 1} del bloque raíz no tiene id — no se puede usar como referencia.")
+    _, remove_from = find_entity_block_span(text, prev_sibling_id)
+    k2 = remove_from
+    while k2 < len(text) and text[k2] in " \t":
+        k2 += 1
+    if k2 < len(text) and text[k2] == ";":
+        remove_from = k2 + 1
 
     patched_text = text[:remove_from] + text[block_end:]
 
@@ -633,6 +644,71 @@ def apply_add_object_entity(mission_sqm: Path, hemtt_exe: Optional[str], classna
     )
 
 
+@dataclass
+class DeleteResult:
+    ok: bool
+    backup_path: str
+    draft_path: str
+    deleted_entity_id: int
+    entities_before: int
+    entities_after: int
+    unrelated_entities_changed: list[str]
+
+
+def apply_delete_entity(mission_sqm: Path, hemtt_exe: Optional[str], entity_id: int,
+                         draft_output: Path, backup_dir: Path) -> DeleteResult:
+    raw = mission_sqm.read_bytes()
+    is_rapified = raw[:4] == b"\0raP"
+    if is_rapified:
+        original_text_data = derapify_if_needed(mission_sqm, hemtt_exe)
+        base_text = armaclass.generate(original_text_data)
+    else:
+        base_text = raw.decode("utf-8-sig", errors="replace")
+
+    data_before = armaclass.parse(base_text)
+    entities_root_before = data_before.get("Mission", data_before).get("Entities", {})
+    entities_before = flatten_entities(entities_root_before)
+    if not any(e["id"] == entity_id for e in entities_before):
+        raise PatchError(f"No existe ninguna entidad con id={entity_id} en mission.sqm.")
+
+    patched_text = delete_entity(base_text, data_before, entity_id)
+
+    try:
+        data_after = armaclass.parse(patched_text)
+    except Exception as e:
+        raise PatchError(f"El resultado no es un mission.sqm válido tras borrar la entidad: {e}") from e
+    entities_root_after = data_after.get("Mission", data_after).get("Entities", {})
+    entities_after = flatten_entities(entities_root_after)
+
+    raw_before_by_id = _index_raw_entities_by_id(entities_root_before)
+    raw_after_by_id = _index_raw_entities_by_id(entities_root_after)
+    unrelated_changed: list[str] = []
+    for eid, before_node in raw_before_by_id.items():
+        if eid == entity_id:
+            continue
+        if raw_after_by_id.get(eid) != before_node:
+            unrelated_changed.append(f"id={eid}")
+
+    if any(e["id"] == entity_id for e in entities_after):
+        raise PatchError(f"La entidad id={entity_id} sigue apareciendo tras el borrado — abortando sin tocar el archivo real.")
+
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    backup_path = backup_dir / f"mission.sqm.{timestamp}.bak"
+    backup_path.write_bytes(raw)
+    draft_output.write_text(patched_text, encoding="utf-8", newline="")
+
+    return DeleteResult(
+        ok=(len(unrelated_changed) == 0 and len(entities_after) == len(entities_before) - 1),
+        backup_path=str(backup_path),
+        draft_path=str(draft_output),
+        deleted_entity_id=entity_id,
+        entities_before=len(entities_before),
+        entities_after=len(entities_after),
+        unrelated_entities_changed=unrelated_changed,
+    )
+
+
 def _main_patch_field(args) -> int:
     if args.field in ARRAY_FIELD_PATTERN:
         value = [float(v) for v in args.value.split(",")]
@@ -669,6 +745,18 @@ def _main_add_object(args) -> int:
     return 0 if result.ok else 1
 
 
+def _main_delete_entity(args) -> int:
+    try:
+        result = apply_delete_entity(args.mission_sqm, args.hemtt, args.entity_id,
+                                      args.draft_output, args.backup_dir)
+    except PatchError as e:
+        print(json.dumps({"ok": False, "error": str(e)}, ensure_ascii=False))
+        return 1
+
+    print(json.dumps(result.__dict__, ensure_ascii=False))
+    return 0 if result.ok else 1
+
+
 def main() -> int:
     import argparse
     all_fields = sorted(ARRAY_FIELD_PATTERN) + sorted(SCALAR_FIELD_PATTERN)
@@ -696,10 +784,16 @@ def main() -> int:
     add_parser.add_argument("--init", default=None, help="Código init, opcional")
     add_parser.add_argument("--skill", default=None, help="Skill de IA (0-1), opcional")
 
+    delete_parser = subparsers.add_parser("delete_entity")
+    delete_parser.add_argument("--entity-id", required=True, type=int,
+                                help="Debe ser la id de la ÚLTIMA entidad del bloque Entities raíz.")
+
     args = parser.parse_args()
     if args.op == "patch_field":
         return _main_patch_field(args)
-    return _main_add_object(args)
+    if args.op == "add_object":
+        return _main_add_object(args)
+    return _main_delete_entity(args)
 
 
 if __name__ == "__main__":
