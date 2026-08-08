@@ -66,7 +66,7 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 | Ejecución real | Arma 3 + RPT | pruebas disponibles |
 | Canon | documentos 00–19 | nunca inferir desde código |
 
-No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis`.
+No edites `.codebase-memory/`. Tras cambios de código ejecuta `semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis`. Desde 2026-08-08 esto (y `git diff --check`, y `npm run check` de `tools/if-media-mcp` cuando aplica) se ejecuta también automáticamente en cada commit vía `.pre-commit-config.yaml` (`pre-commit install` ya activado en este repo) — la comprobación manual sigue siendo válida y necesaria si el hook se omite (`--no-verify`) o corre en una máquina sin `pre-commit` instalado.
 
 Para assets visuales: fuente editable en `art/identity/*.svg`, nunca en `asset/` (solo referencia de terceros, no versionable sin procedencia registrada en `asset/PROCEDENCIA.md`). `.\tools\Build-Assets.ps1` convierte `art/identity/*.svg` en `IslasFracturadas.Altis/ui/insignia/*.paa`; requiere un rasterizador SVG (Inkscape/ImageMagick/rsvg-convert) e ImageToPAA (Arma 3 Tools, Steam) instalados localmente — el script detecta su ausencia y falla con instrucciones en vez de generar salidas parciales.
 

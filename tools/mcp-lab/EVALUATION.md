@@ -21,6 +21,7 @@
 | [SQFvm/runtime](https://github.com/SQFvm/runtime) | `arma_test`, ejecuta `.sqf` sin abrir Arma 3 | Probado con script válido y con error de sintaxis |
 | [overfl0/Armaclass](https://github.com/overfl0/Armaclass) (Python, vía `.venv`) | `arma_graph_calls` y `arma_sqm_inspect`: parseo de `CfgFunctions`/`mission.sqm` en texto plano | Probado — ver detalle abajo |
 | [d2lang/d2](https://github.com/d2lang/d2) | Copiado también a `tools/if-media-mcp/bin/` para uso futuro en diagramas de docs | Ya probado antes (ver sección de arriba) |
+| [pre-commit/pre-commit](https://github.com/pre-commit/pre-commit) | Automatiza en un git hook lo que `AGENTS.md` ya exigía hacer a mano tras cambios funcionales | **Instalado (2026-08-08)** vía `uv tool install pre-commit` (aislado, sin tocar pip global) y `pre-commit install` — ver detalle abajo |
 
 Los binarios viven en `tools/if-media-mcp/bin/` (gitignored), autodetectados sin PATH.
 
@@ -153,22 +154,197 @@ como fuente adicional oficial de Bohemia.
 | `modelcontextprotocol/servers` (filesystem) | Redundante: Read/Write/Edit/Glob nativos ya cubren esto sin una segunda capa de permisos. |
 | `MladenSU/cli-mcp-server` | Redundante y con más superficie de riesgo que el patrón ya usado en `executables.ts` (`spawn(exe, args[], shell:false)`, sin intérprete de shell de por medio). |
 
-## Pendiente de probar, uno por uno
+## Candidatos probados en vivo (2026-08-08)
 
-Verificados como reales (existen, descripción confirmada), **no instalados todavía**. Orden por
-relevancia declarada; cada fila incluye qué habría que comprobar antes de adoptarlo.
+Los 9 primeros candidatos de la lista anterior ya se probaron de verdad (instalados/ejecutados,
+no solo leídos). Solo quedan pendientes los ítems 10-11 (ver tabla al final de esta sección).
+
+### 1. LSP para SQF: SQFvm/language-server vs SkaceKamen/sqflint — ambos descartados
+
+- **[SQFvm/language-server](https://github.com/SQFvm/language-server)**: **cero releases en GitHub**
+  (`gh api repos/SQFvm/language-server/releases` → `[]`). C++, último commit 2024-09-05 (~2 años),
+  29 issues abiertos. Sin binario ni instrucciones de build verificadas — habría que compilarlo
+  desde cero. Descartado por costo/beneficio sin llegar a compilarlo.
+- **[SkaceKamen/sqflint](https://github.com/SkaceKamen/sqflint)**: sí tiene releases reales de
+  Windows (`sqflint-070.zip`, verificado tamaño exacto 332027 bytes vs lo reportado por la API).
+  Requería un JRE que esta máquina no tenía — **se instaló un Temurin 21 portable** (zip, no
+  instalador, vendorizado en `tools/mcp-lab/bin/`, sin tocar el sistema) solo para poder probarlo
+  de verdad, a petición explícita del usuario. Con Java funcionando: el self-test del propio
+  paquete (`sqflinttest.bat`) pasó, pero al probarlo contra `IslasFracturadas.Altis/core/bootstrap/
+  fn_bootstrapPostInit.sqf` (código real, en uso) produjo **más de una docena de falsos positivos
+  de sintaxis** ("Encountered ';'... was expecting one of [lista larga sin muchos tokens válidos
+  de SQF moderno]"), incluyendo una cascada de errores repetidos al final del archivo. Se
+  confirmó con un segundo archivo real (`fn_clockAdvance.sqf`) — mismo patrón. **Contraprueba
+  decisiva**: `sqfvm` (ya adoptado) analiza el mismo `fn_clockAdvance.sqf` sin ningún error de
+  sintaxis — solo reporta `[NOT IMPLEMENTED] isserver`, el tipo de aviso esperado de un intérprete
+  headless sin todo el motor de Arma, no un fallo de parseo. Conclusión: la gramática de `sqflint`
+  está desactualizada para SQF real y actual de este proyecto — **descartado por incompatibilidad
+  funcional demostrada, no solo por antigüedad declarada**.
+
+### 2-3. MCP para Inkscape: ambos funcionan de verdad (a diferencia de candidatos previos)
+
+- **[grumpydevorg/inkscape-mcps](https://github.com/grumpydevorg/inkscape-mcps)**: metadatos de
+  plantilla sin rellenar (`authors = "Your Name" <your.email@example.com>`, URL de git
+  `yourusername/inkscape-mcp` en el propio README) — señal de alarma similar a candidatos ya
+  descartados. Pero el código **funciona de verdad**: instalado en un venv aislado (`uv venv` +
+  `uv pip install -e .`), probado por protocolo MCP real (no solo `--help`): `dom_validate` y
+  `dom_set` (cambiar `fill` de un `<circle>` por selector CSS) funcionaron correctamente,
+  verificado leyendo el SVG de salida. `action_run` (exportar a PNG vía Inkscape real) también
+  funcionó, PNG real de 1318 bytes generado. **Bug real encontrado**: `action_list` falla con
+  `'utf-8' codec can't decode byte 0xf3` — la salida de Inkscape en este Windows en español
+  (con tildes) no se decodifica con el códec correcto. No es D-Bus (usa CLI puro, por eso
+  funciona en Windows a diferencia de `Shriinivas/inkmcp`).
+- **[aravindev/inkscape_mcp](https://github.com/aravindev/inkscape_mcp)**: paquete real publicado
+  en PyPI (`inkscape-mcp`), con CI, probado explícitamente por sus autores con Inkscape 1.4.4 —
+  la misma versión que ya usa este proyecto (`IF_INKSCAPE`). Instalado desde PyPI real (no el
+  clon), probado por protocolo MCP: expone exactamente los 8 tools que documenta (`inkscape_file`,
+  `inkscape_vector`, `inkscape_analysis`, `inkscape_system`, `inkscape_gradient`,
+  `inkscape_metadata`, `inkscape_live`, `inkscape_extension`). `inkscape_system(operation=
+  "diagnostics")` detectó el Inkscape instalado correctamente (`all_passed: true`).
+  `inkscape_analysis(operation="dimensions")` funcionó pero tardó **7.6 segundos** para una sola
+  consulta (arrancar Inkscape completo tiene coste, igual que ya se había visto con
+  `sandraschi/inkscape-mcp`) y devolvió el bounding box del dibujo (60×60) en vez del `width`/
+  `height` declarado del `<svg>` (100×100) — un detalle de semántica de Inkscape a tener en
+  cuenta, no un bug. El puente `inkscape_live` (D-Bus) necesita `dbus-daemon` vía MSYS2 en
+  Windows, tal como sospechaba la entrada anterior de esta tabla — no probado, no hace falta para
+  este proyecto (no se necesita control de una ventana de Inkscape abierta).
+- **Veredicto para ambos**: funcionan genuinamente, sin necesidad concreta declarada hoy que los
+  requiera (if-media-mcp ya cubre rasterizar/vectorizar/previsualizar). Quedan como candidatos
+  viables si en el futuro hace falta edición de SVG por selector CSS o el resto de la superficie
+  de Inkscape — no se integran sin esa necesidad, mismo criterio que con `d2lang/d2`.
+
+### 4. just + just-mcp — CLI real, MCP bloqueado en Windows
+
+`just.exe` (ya descargado) funciona correctamente: se escribió un `justfile` real exponiendo
+`hemtt --version`/`resvg --version` como comandos con nombre, `just --list` y la ejecución
+funcionaron. (Se descubrió de paso que `hemtt.exe --version` sale con código 1 incluso en éxito —
+comportamiento propio de HEMTT, no de `just`; confirmado que `findHemtt()` en `executables.ts`
+solo comprueba que el archivo exista, no su código de salida, así que esto no afecta nada ya
+integrado.) Pero `just-mcp` — la capa MCP que haría esto invocable por un agente — **no tiene
+release de Windows** (solo macOS, confirmado en el clon superficial). Sin la capa MCP no hay
+forma de exponerlo como herramienta del agente en esta máquina; descartado para este uso hasta
+que exista un build de Windows.
+
+### 5. repomix — funciona, valor bajo dado que Claude Code ya tiene acceso directo a archivos
+
+Probado con `npx --yes repomix` (sin instalar nada de forma persistente) contra un subconjunto
+real (`tools/if-media-mcp/src/**/*.ts`): empaquetó 5 archivos, conteo de tokens correcto, escáner
+de secretos incorporado (no encontró nada, correcto). Funciona genuinamente. Pero su caso de uso
+real — "dale a un modelo sin acceso a archivos el código completo como un solo bloque" — no
+aplica aquí: Claude Code ya lee/busca archivos directamente, así que empaquetar todo en un blob
+no aporta sobre lo que ya hace Read/Glob/Grep de forma dirigida.
+
+### 6. watchexec — funciona, sin necesidad concreta hoy
+
+Probado el binario ya descargado (`watchexec.exe` 2.5.1) vigilando un archivo real y modificándolo
+en marcha: el log del propio watchexec mostró `[Running: touch log.txt]` dos veces (arranque +
+tras el cambio detectado), confirmando que la detección de cambios y re-ejecución funciona. El
+archivo `log.txt` no se creó porque `touch` no se resuelve igual cuando `watchexec` lanza el
+proceso directamente en Windows (detalle de cómo se invoca el comando hijo, no un fallo de
+watchexec en sí). Utilidad marginal mientras `npm run check`/`npm test` se sigan ejecutando a
+mano; no se integra sin una necesidad concreta.
+
+### 7. pre-commit — ADOPTADO (2026-08-08)
+
+Probado primero en un venv aislado (`pip install pre-commit`), `pre-commit --version` → `4.6.1`.
+Verificado explícitamente lo que pedía la fila original de esta tabla: este repo **no tenía
+ningún hook activo** (`.git/hooks/` solo tenía los `.sample` que trae Git por defecto, sin
+`.pre-commit-config.yaml`, sin `core.hooksPath` configurado) — así que adoptarlo no chocaba con
+nada existente.
+
+A petición explícita del usuario ("integra lo que funcione"), se integró de verdad:
+
+- `pre-commit` instalado como herramienta aislada vía `uv tool install pre-commit` (no toca pip
+  global, reversible con `uv tool uninstall pre-commit`).
+- `.pre-commit-config.yaml` (raíz del repo) con 3 hooks locales (`language: system`, sin
+  descargar nada de red): `git diff --check --cached` (conflictos/espacios en blanco), `npm
+  --prefix tools/if-media-mcp run check` (solo si cambian `.ts` de if-media-mcp) y `semgrep scan
+  --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis` (solo si cambian
+  `.sqf`) — **exactamente los comandos que `AGENTS.md` ya exigía correr a mano**, ahora
+  automatizados, nada nuevo inventado.
+- Hook activado con `pre-commit install` → `.git/hooks/pre-commit`.
+- **Verificado en ambas direcciones, no solo que "no falle"**: `pre-commit run --all-files` pasó
+  los 3 hooks contra el estado real del repo; una prueba negativa deliberada (un `.ts` con un
+  error de tipos real) hizo que el hook `if-media-mcp-check` fallara correctamente con el error
+  real de `tsc` y código de salida distinto de cero — confirma que el hook realmente bloquea, no
+  solo que siempre reporta éxito.
+
+### 8. act — no aplica
+
+Confirmado: este repo no tiene `.github/workflows/` (no usa GitHub Actions). `act` no tiene nada
+que ejecutar aquí. No es un descarte por defecto de la herramienta, es que la condición de uso
+("solo aplica si el proyecto usa GitHub Actions") no se cumple.
+
+### 9. SVG-MCP funciona y aporta capacidad nueva; image2svg-mcp confirmado redundante
+
+- **[botmonster/image2svg-mcp](https://github.com/botmonster/image2svg-mcp)**: su propio
+  `pyproject.toml` declara `vtracer>=0.6.15` como dependencia — el **mismo motor** que ya usa
+  `media_vectorize_raster`. Redundancia confirmada por evidencia directa (la propia dependencia),
+  sin necesidad de instalarlo para comprobarlo.
+- **[adamryczkowski/SVG-MCP](https://github.com/adamryczkowski/SVG-MCP)**: pila técnica distinta
+  (`cairosvg`, `pixelmatch`, `scour` — no `resvg`/`vtracer`). Instalado en venv aislado, probado
+  contra un emblema real del proyecto (`art/identity/if_helios.svg`):
+  - `svg-mcp validate` → `✓ SVG is valid`, 35 elementos, viewBox `0 0 128 128` (coincide con lo
+    ya sabido de estos assets).
+  - `svg-mcp lint` → `✓ SVG passed linting`, con un aviso real y accionable: "Path data could be
+    optimized for smaller file size" sugiriendo `svg_optimize`. Esto es una capacidad que
+    if-media-mcp **no tiene hoy** (ni linter de compatibilidad Inkscape/librsvg ni optimizador).
+  - `svg-mcp render` funcionó pero tardó **2.6s** para un PNG de 256×256 — mucho más lento que
+    `resvg` (ya adoptado, ~100ms por tamaño); para renderizar, `resvg` sigue siendo claramente
+    mejor. El valor real de SVG-MCP está en `lint`/`optimize`/`diff`, no en `render`.
+  - **Integración abandonada (2026-08-08) al intentarla de verdad**: todo lo anterior se probó
+    contra el clon local (versión `0.2.0` de su `pyproject.toml`, sin publicar). Al instalar el
+    paquete REAL de PyPI para integrarlo en `if-media-mcp` (`svg-mcp==0.4.4`, la única versión
+    publicada), resultó ser un proyecto **completamente distinto**: el propio resumen de PyPI dice
+    "structured, hierarchical SVG authoring with a render-and-see feedback loop" — sin
+    subcomandos `validate`/`lint`/`optimize`, solo un servidor MCP (`svg-mcp [--transport ...]`)
+    con un modelo de documento para *crear* SVG, no para *auditar* uno existente. Se inspeccionó
+    el código fuente instalado (`svg_mcp/query/`, `svg_mcp/ops/`, `svg_mcp/model/`) y no existe
+    ningún concepto de "lint" o "compatibilidad Inkscape/librsvg" en la versión publicada. El
+    autor giró el proyecto entre `0.2.0` (el CLI simple que se probó) y `0.4.4` (autoría
+    estructurada de documentos) — son, en la práctica, dos herramientas distintas bajo el mismo
+    nombre. No se ancló a la versión vieja (`0.2.0`) para forzar la integración: sería depender de
+    una versión no publicada/no mantenida solo para conseguir un comportamiento que el proyecto
+    real ya abandonó. **Veredicto final: no integrado.** Si en el futuro hace falta lint/optimize
+    de SVG, la vía más simple y estable sería envolver `scour` directamente (el optimizador que
+    `SVG-MCP 0.2.0` usaba por debajo) en vez de depender de este paquete.
+
+### Nota sobre limpieza de artefactos de prueba
+
+Para probar `sqflint` se instaló un JDK Temurin 21 portable (~525 MB, nunca tocó el sistema/PATH)
+y para los candidatos Python se crearon varios entornos virtuales de prueba (`*/.venv-test/`,
+~150 MB cada uno, más `tools/if-media-mcp/.venv-svg/` del intento de integración de SVG-MCP,
+~167 MB) — todo ignorado por Git (se añadió `.venv-svg/` al `.gitignore` explícitamente como red
+de seguridad). El borrado inicial fue bloqueado por el sistema de permisos de la sesión (denegado
+tanto por `rm -rf` como por `Remove-Item -Recurse -Force`); el usuario lo borró manualmente
+(2026-08-08) con el comando que se le indicó — **confirmado: las 5 rutas ya no existen**.
+
+**Reorganización final (2026-08-08)**: con todo ya probado, `tools/mcp-lab/downloads/` se
+reordenó en `futuros/` (candidatos que funcionan, sin necesidad concreta hoy) y `descartados/`
+(no funcionan, están bloqueados, o quedaron superados por la integración real) — ver tabla en
+"Organización de `tools/mcp-lab/` tras probar todo" más abajo. De paso: mover `inkscape-mcps/` e
+`inkscape_mcp/` con `mv` falló de forma intermitente (`Permission denied` en carpetas con
+ejecutables recién tocados, probablemente antivirus escaneándolos) incluso tras liberar espacio en
+disco — se resolvió con `robocopy /E /MOVE /R:3 /W:5`, que reintenta automáticamente en vez de
+fallar a la primera. Nota aparte, no relacionada con esta limpieza: durante el proceso se descubrió
+que el disco `D:` tenía solo ~48 MB libres (mal leídos inicialmente como ~4.7 GB por un error de
+interpretación de la salida de `wmic`, con dígitos separados por espacios) — el usuario liberó
+espacio manualmente antes de que la reorganización pudiera completarse del todo.
+
+**Incidente real durante la prueba de `watchexec`**: el proceso de vigilancia lanzado en segundo
+plano no terminó con el `kill` emitido tras la prueba (el PID capturado no correspondía al proceso
+real, un problema conocido al mezclar `nohup`/`&` de Git Bash con binarios nativos de Windows) y
+quedó corriendo varios minutos, además de crear un archivo (`watched.txt`) dentro de
+`tools/if-media-mcp/` en vez de en el directorio temporal esperado — se detectó por `git status`
+mostrando un archivo inesperado, se confirmó el proceso huérfano con `tasklist`, se terminó con
+`Stop-Process -Name watchexec -Force` (PowerShell, no `kill` de bash) y se borró el archivo. Lección
+para pruebas futuras con herramientas que lanzan procesos de larga duración en Windows vía Git
+Bash: verificar el PID real y el directorio de trabajo efectivo, no asumirlos.
+
+## Pendiente de probar, uno por uno
 
 | # | Herramienta | Para qué serviría | Qué comprobar al probarlo |
 | --- | --- | --- | --- |
-| 1 | [SQFvm/language-server](https://github.com/SQFvm/language-server) | LSP para SQF: definiciones, referencias, variables sin usar | **Aviso de mantenimiento** (nuevo, 2026-08-07): en sus propios issues, el mantenedor dice que no añadirá binarios de Linux "por falta de tiempo" (#8), y hay un issue abierto de "Outdated syntax" (#10) sin resolver. Comparar en vivo contra [SkaceKamen/sqflint](https://github.com/SkaceKamen/sqflint) (Java, más antiguo, extensión propia [vscode-sqflint](https://github.com/SkaceKamen/vscode-sqflint)) antes de decidir cuál adoptar. |
-| 2 | [grumpydevorg/inkscape-mcps](https://github.com/grumpydevorg/inkscape-mcps) | MCP Inkscape multiplataforma vía CLI puro (sin D-Bus), 53★ MIT | Latencia real por llamada (dado lo lento que fue `sandraschi/inkscape-mcp`); qué tools expone de verdad |
-| 3 | [aravindev/inkscape_mcp](https://github.com/aravindev/inkscape_mcp) | Control de Inkscape vía D-Bus + CLI, 36★ MIT | Si D-Bus funciona en Windows para Inkscape o cae en el mismo problema que `Shriinivas/inkmcp` |
-| 4 | [casey/just](https://github.com/casey/just) + [toolprint/just-mcp](https://github.com/toolprint/just-mcp) | Exponer `hemtt`/`sqfvm`/`resvg`/`vtracer` como comandos con nombre en vez de invocación directa | Si aporta algo sobre lo que ya hace `if-media-mcp` para este dominio, o si sirve para tareas fuera de él |
-| 5 | [yamadashy/repomix](https://github.com/yamadashy/repomix) | Empaquetar el repo para contexto de IA | Si aporta algo que Codebase Memory/Serena no den ya |
-| 6 | [watchexec/watchexec](https://github.com/watchexec/watchexec) | Re-ejecutar checks automáticamente al guardar | Utilidad marginal si ya se ejecuta check/test manualmente; bajo riesgo |
-| 7 | [pre-commit/pre-commit](https://github.com/pre-commit/pre-commit) | Hooks de commit para bloquear errores antes de llegar al repo | Verificar primero si ya existe algún hook configurado en este repo antes de añadir el framework |
-| 8 | [nektos/act](https://github.com/nektos/act) | Ejecutar GitHub Actions localmente | Solo aplica si el proyecto usa GitHub Actions — comprobar si existe `.github/workflows/` |
-| 9 | [adamryczkowski/SVG-MCP](https://github.com/adamryczkowski/SVG-MCP), [botmonster/image2svg-mcp](https://github.com/botmonster/image2svg-mcp) | Validación/diff visual de SVG; raster→SVG alternativo a VTracer | Si aportan algo sobre `resvg` + `vtracer` ya integrados |
 | 10 | [DavidAnson/markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) | Estilo/estructura de `docs/00-19` (encabezados, listas, MD052 referencias) — **complementa** a `lychee` (que solo verifica que el destino del enlace exista, no el estilo Markdown) | Solo npm, sin binario suelto — instalar en una carpeta aislada y correr contra 1-2 archivos de `docs/` primero, no contra los 20 de golpe |
 | 11 | [ajv-validator/ajv-cli](https://github.com/ajv-validator/ajv-cli) | Validar `production/media/manifests/*.json` contra un JSON Schema externo (hoy la validación es solo en tiempo de ejecución vía Zod dentro de `if-media-mcp`) | **Requiere escribir primero un JSON Schema** del `AssetManifest` — no es "instalar y listo"; sin eso no hay nada que validar |
 
@@ -179,27 +355,31 @@ relevancia declarada; cada fila incluye qué habría que comprobar antes de adop
 - **Formateadores/linters de SQF alternativos a HEMTT**: `LordGolias/sqf` está archivado (2023, solo lectura); `LordGolias/linter-sqf` depende del editor Atom (descontinuado); `klmunday/Sqf-Linter` se declara a sí mismo "initial research/PoC"; `smitt14ua/sqf-formatter` es solo una extensión de VS Code, no un CLI. Nada de esto mejora lo ya listado (`SQFvm/language-server`, `SkaceKamen/sqflint`).
 - **Extractores de PBO** (`landaire/pboextractor`, `KoffeinFlummi/armake`, `Dynulo/Gluon`, y las GUI `PboSpy`/`pboman3`/`PBO Viewer`): `armake` está marcado "(WIP)" por su propio autor y ya descartamos su sucesor `armake2` antes por el mismo motivo (HEMTT ya cubre este terreno mejor y mantenido). Los extractores CLI existen pero no hay ningún PBO de terceros en este proyecto que inspeccionar todavía — sin tarea concreta, no se persigue (mismo motivo por el que no se clonan CBA_A3/ACE3 por adelantado).
 
-### Descargado, todavía sin probar (2026-08-07)
+### Organización de `tools/mcp-lab/` tras probar todo (2026-08-08)
 
-Descargados a `tools/mcp-lab/downloads/` (gitignored) para poder probarlos uno por uno más
-adelante, sin instalar ni ejecutar nada todavía:
+Todo lo de esta sección ya se probó de verdad (ver "Candidatos probados en vivo" más arriba).
+`tools/mcp-lab/downloads/` quedó reorganizado en dos carpetas, para separar "puede servir más
+adelante" de "descartado, no reabrir sin una razón nueva":
 
-| Carpeta/archivo | Contenido |
-| --- | --- |
-| `watchexec/` | Binario extraído (`watchexec.exe`), release v2.5.1 |
-| `act/` | Binario extraído (`act.exe`), release v0.2.89 |
-| `just/` | Binario extraído (`just.exe`), release 1.58.0 |
-| `just-mcp/` | Clon superficial (`--depth 1`) del código fuente — sin release de Windows, solo macOS |
-| `language-server/` (SQFvm) | Clon superficial — sin releases en GitHub (se distribuye como extensión VS Code) |
-| `repomix/` | Clon superficial — paquete npm, sin binario compilado (`npx repomix`) |
-| `SVG-MCP/` | Clon superficial — sin releases |
-| `image2svg-mcp/` | Clon superficial — sin binario de Windows en su release |
-| `inkscape-mcps/` (grumpydevorg) | Clon superficial — sin releases, paquete Python |
-| `inkscape_mcp/` (aravindev) | Clon superficial — release existe pero sin asset de Windows |
-| `pre-commit/` | Clon superficial — paquete Python vía PyPI, sin binario |
+| Carpeta | Contenido | Por qué está ahí |
+| --- | --- | --- |
+| `downloads/futuros/act/` | Binario `act.exe` v0.2.89 | Funciona; solo falta que el proyecto use GitHub Actions |
+| `downloads/futuros/just/` | Binario `just.exe` 1.58.0 | Funciona como CLI; `just-mcp` (la capa agente) no |
+| `downloads/futuros/watchexec/` | Binario `watchexec.exe` 2.5.1 | Funciona (detecta cambios y re-ejecuta); sin necesidad concreta hoy |
+| `downloads/futuros/inkscape-mcps/` | Clon con historial git completo | Funciona de verdad (DOM de SVG por selector CSS); 1 bug real conocido (`action_list`) |
+| `downloads/futuros/inkscape_mcp/` | Clon con historial git completo | Funciona de verdad (8 tools), lento (~7.6s/llamada) |
+| `downloads/descartados/sqflint/` | Release extraído (`SQFLint.jar`, `sqflint.exe`) | Gramática desactualizada, falsos positivos en SQF real |
+| `downloads/descartados/language-server/` | Clon superficial (SQFvm) | Sin releases en GitHub — **pero sí se distribuye vía extensión de VS Code** (confirmado 2026-08-08: el usuario tiene `sqfvm_language_server.exe` corriendo en su propio VS Code, lanzado por una extensión SQF instalada — la extensión empaqueta su propio binario compilado por una vía distinta a GitHub Releases). No cambia el veredicto de fondo (`arma_graph_calls` ya cubre el grafo de llamadas, `sqfvm` ya cubre la ejecución), pero corrige la afirmación de que "no hay ningún binario en ningún sitio". |
+| `downloads/descartados/image2svg-mcp/` | Clon superficial | Redundante — depende literalmente de `vtracer`, ya adoptado |
+| `downloads/descartados/SVG-MCP/` | Clon superficial (versión `0.2.0`, no publicada) | La versión real de PyPI (`0.4.4`) es un proyecto distinto sin `lint`/`validate` |
+| `downloads/descartados/just-mcp/` | Clon superficial | Sin release de Windows |
+| `downloads/descartados/repomix/` | Clon superficial | Uso real es vía `npx repomix` (descarga al vuelo); el clon no aporta nada persistente |
+| `downloads/descartados/pre-commit/` | Clon superficial | El `pre-commit` real adoptado se instaló vía `uv tool install`, no desde este clon |
 
-Nada de esto se ha ejecutado ni instalado (`npm install`/`pip install`/`uv sync` pendientes).
-Antes de probar cada uno, seguir el protocolo de la sección siguiente.
+`tools/mcp-lab/bin/` quedó solo con binarios standalone realmente adoptados para uso manual
+(`biome.exe`, `ffmpeg/`, `lychee/`) — el `d2.exe` que había ahí era un duplicado del ya vendorizado
+en `tools/if-media-mcp/bin/d2.exe` (el que usa el servidor de verdad), se eliminó la copia
+redundante.
 
 ### Descargado y verificado en ejecución (2026-08-07) — de una lista de 19 candidatas nuevas
 

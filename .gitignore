@@ -78,6 +78,7 @@ production/media/audit/
 tools/if-media-mcp/node_modules/
 tools/if-media-mcp/dist/
 tools/if-media-mcp/.venv/
+tools/if-media-mcp/.venv-svg/
 
 # Binarios locales de terceros (HEMTT, resvg, VTracer, SQF-VM) para tools/if-media-mcp.
 # Se descargan aparte (ver README); no se versionan binarios de plataforma.
