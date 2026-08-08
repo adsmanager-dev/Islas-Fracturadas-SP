@@ -1,9 +1,10 @@
-import { access, open, readFile, readdir, stat, unlink } from "node:fs/promises";
+import { access, open, readFile, readdir, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/server";
 import OpenAI, { toFile } from "openai";
 import * as z from "zod/v4";
 import {
+  findGraphPython,
   findHemtt,
   findImageToPaa,
   findPowerShell,
@@ -442,6 +443,121 @@ export class MediaService {
     });
   }
 
+  async graphCalls(input: { cfgfunctions_path: string; output_name: string }) {
+    const cfgfunctionsSource = await this.workspace.resolveInput(input.cfgfunctions_path, [".hpp", ".cpp", ".ext"], MAX_SQF_BYTES);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqf_graph.py. Crea tools/if-media-mcp/.venv (python -m venv .venv; pip install armaclass) o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const altisRoot = path.join(this.workspace.projectRoot, "IslasFracturadas.Altis");
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqf_graph.py");
+    const jsonTarget = await this.workspace.draftPath(`${input.output_name}_graph`, "svg").then((p) => p.replace(/\.svg$/, ".json"));
+    const d2Target = jsonTarget.replace(/\.json$/, ".d2");
+    await requireAbsent(jsonTarget, this.workspace);
+    const args = [
+      scriptPath,
+      "--altis-root", altisRoot,
+      "--cfgfunctions", cfgfunctionsSource,
+      "--output-json", jsonTarget,
+      "--output-d2", d2Target
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    const result = await runCommand(python, args, 60_000);
+    if (result.code !== 0) throw new Error(`sqf_graph.py falló: ${result.stderr || result.stdout}`);
+    await unlink(d2Target).catch(() => undefined);
+
+    const data = JSON.parse(await readFile(jsonTarget, "utf8")) as {
+      nodes: string[]; edges: unknown[]; dynamic_calls: unknown[]; unresolved_names: string[]; missing_files: string[];
+    };
+    await this.workspace.appendAudit("arma_graph_calls", "ok", {});
+    return textResult({
+      json: this.workspace.relative(jsonTarget),
+      nodes: data.nodes.length,
+      static_edges: data.edges.length,
+      dynamic_calls: data.dynamic_calls.length,
+      unresolved_names: data.unresolved_names,
+      missing_files: data.missing_files,
+      note: "Grafo heurístico basado en tokenización propia, no en el compilador real de Arma. Lee el JSON completo (nodes/edges/dynamic_calls/function_registry) para consultar relaciones; las llamadas dinámicas (variables, macros, remoteExec no literal) van aparte en 'dynamic_calls', nunca se ocultan ni se inventan como resueltas."
+    });
+  }
+
+  async inspectMissionSqm(input: { mission_sqm_path: string; name_filter?: string | undefined }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_inspect.py. Crea tools/if-media-mcp/.venv (python -m venv .venv; pip install armaclass) o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_inspect.py");
+    const jsonTarget = await this.workspace.draftPath("mission_sqm_inspect", "svg").then((p) => p.replace(/\.svg$/, ".json"));
+    await unlink(jsonTarget).catch(() => undefined);
+    const args = [scriptPath, "--mission-sqm", missionSource, "--output-json", jsonTarget];
+    if (hemtt) args.push("--hemtt", hemtt);
+    if (input.name_filter) args.push("--name-filter", input.name_filter);
+    const result = await runCommand(python, args, 60_000);
+    if (result.code !== 0) throw new Error(`sqm_inspect.py falló: ${result.stderr || result.stdout}`);
+
+    const data = JSON.parse(await readFile(jsonTarget, "utf8")) as { summary: Record<string, unknown> };
+    await this.workspace.appendAudit("arma_sqm_inspect", "ok", {});
+    return textResult({
+      json: this.workspace.relative(jsonTarget),
+      summary: data.summary,
+      note: "Solo lectura de mission.sqm; nunca escribe nada. Lee el JSON completo para la lista aplanada de entidades (posición, classname, bando, nombre, init)."
+    });
+  }
+
+  async patchMissionSqm(input: {
+    mission_sqm_path: string;
+    entity_id: number;
+    field: "position" | "angles";
+    values: [number, number, number];
+    confirmation: "PATCH_MISSION_SQM_APPROVED";
+  }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
+    const draftTarget = await this.workspace.draftPath(`sqm_patch_${input.entity_id}_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
+    const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const args = [
+      scriptPath,
+      "--mission-sqm", missionSource,
+      "--entity-id", String(input.entity_id),
+      "--field", input.field,
+      "--values", input.values.join(","),
+      "--draft-output", draftTarget,
+      "--backup-dir", backupDir
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    const result = await runCommand(python, args, 60_000);
+    const parsed = JSON.parse(result.stdout.trim() || "{}") as {
+      ok?: boolean; error?: string; backup_path?: string; draft_path?: string;
+      entities_before?: number; entities_after?: number; unrelated_entities_changed?: string[];
+      old_values?: number[] | null; new_values?: number[];
+    };
+    if (result.code !== 0 || !parsed.ok) {
+      await this.workspace.appendAudit("arma_sqm_patch", "blocked", { entity_id: input.entity_id, reason: parsed.error || result.stderr });
+      throw new Error(`Parche rechazado, mission.sqm NO fue tocado: ${parsed.error || result.stderr || result.stdout}`);
+    }
+
+    // Solo si la validación (round-trip, mismo nº de entidades, cero cambios ajenos)
+    // pasó Y se dio la confirmación explícita, se copia el borrador ya validado sobre
+    // el mission.sqm real. El backup ya existe en disco antes de este paso.
+    const patchedText = await readFile(parsed.draft_path!, "utf8");
+    await writeFile(missionSource, patchedText, { encoding: "utf8" });
+
+    await this.workspace.appendAudit("arma_sqm_patch", "ok", { entity_id: input.entity_id, field: input.field });
+    return textResult({
+      applied: true,
+      entity_id: input.entity_id,
+      field: input.field,
+      old_values: parsed.old_values ?? null,
+      new_values: parsed.new_values,
+      backup: this.workspace.relative(parsed.backup_path!),
+      entities_before: parsed.entities_before,
+      entities_after: parsed.entities_after,
+      note: "mission.sqm fue modificado quirúrgicamente (solo esta entidad cambió, verificado por round-trip). Backup del original guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
+    });
+  }
+
   async readLatestRpt(input: { tail_kb: number }) {
     const rptDir = process.env.IF_ARMA3_RPT_DIR || (process.env.LOCALAPPDATA ? path.join(process.env.LOCALAPPDATA, "Arma 3") : undefined);
     if (!rptDir) throw new Error("No se pudo determinar la carpeta de RPT. Define IF_ARMA3_RPT_DIR.");
@@ -625,6 +741,45 @@ export function createMediaServer(service: MediaService): McpServer {
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: false }
   }, async (input) => {
     try { return await service.readLatestRpt(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_graph_calls", {
+    title: "Grafo de llamadas SQF",
+    description: "Construye un grafo heurístico de llamadas entre funciones IF_fnc_* a partir de CfgFunctions y tokenización propia de los .sqf (no un compilador real de Arma). Marca aparte las llamadas dinámicas (variables, macros) en vez de ocultarlas o inventar resoluciones. Solo lectura sobre IslasFracturadas.Altis.",
+    inputSchema: z.object({
+      cfgfunctions_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/cfg/CfgFunctions.hpp"),
+      output_name: z.string().min(1).max(60)
+    }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.graphCalls(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_inspect", {
+    title: "Inspeccionar mission.sqm",
+    description: "Lee mission.sqm (deraprifica con HEMTT si está binarizado) y devuelve un resumen: entidades por tipo/bando, entidades con nombre de variable (buscables) y con init. Solo lectura, nunca escribe nada. Excepción registrada en AGENTS.md 2026-08-08; la escritura estructurada requiere una herramienta separada con backup y validación.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      name_filter: z.string().min(1).max(120).optional()
+    }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.inspectMissionSqm(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_patch", {
+    title: "Mover/rotar una entidad en mission.sqm",
+    description: "Parche quirúrgico: cambia SOLO position[] o angles[] de una entidad existente (localizada por su id nativo, único). No añade ni borra entidades. Crea backup automático antes de tocar el archivo, valida por round-trip (mismo nº de entidades, cero cambios en otras entidades) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      entity_id: z.number().int().nonnegative(),
+      field: z.enum(["position", "angles"]),
+      values: z.tuple([z.number(), z.number(), z.number()]),
+      confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.patchMissionSqm(input); } catch (error) { return errorResult(error); }
   });
 
   server.registerTool("media_build_identity", {

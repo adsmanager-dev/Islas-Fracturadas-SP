@@ -77,7 +77,19 @@ production/media/drafts/
 production/media/audit/
 tools/if-media-mcp/node_modules/
 tools/if-media-mcp/dist/
+tools/if-media-mcp/.venv/
 
 # Binarios locales de terceros (HEMTT, resvg, VTracer, SQF-VM) para tools/if-media-mcp.
 # Se descargan aparte (ver README); no se versionan binarios de plataforma.
 tools/if-media-mcp/bin/
+
+# Binarios de herramientas en prueba (tools/mcp-lab/EVALUATION.md). No versionar.
+tools/mcp-lab/bin/
+
+# Clones y binarios de terceros descargados para probar (tools/mcp-lab/EVALUATION.md).
+# Código y binarios ajenos con sus propias licencias; nunca versionar aquí.
+tools/mcp-lab/downloads/
+
+# Misiones de terceros clonadas como referencia técnica de solo lectura (ver
+# AI_REFERENCES/README.md). Nunca es fuente de canon ni de código propio; no versionar.
+AI_REFERENCES/*/

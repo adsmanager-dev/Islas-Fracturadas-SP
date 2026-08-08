@@ -109,6 +109,23 @@ export async function findSqfvm(): Promise<string | null> {
   return await locateOnPath("sqfvm.exe") ?? await locateOnPath("sqfvm");
 }
 
+export async function findD2(): Promise<string | null> {
+  const fromEnv = await fileExists(process.env.IF_D2);
+  if (fromEnv) return fromEnv;
+  const vendored = await fileExists(path.join(packageBinDir(), "d2.exe"));
+  if (vendored) return vendored;
+  return await locateOnPath("d2.exe") ?? await locateOnPath("d2");
+}
+
+export async function findGraphPython(): Promise<string | null> {
+  const fromEnv = await fileExists(process.env.IF_GRAPH_PYTHON);
+  if (fromEnv) return fromEnv;
+  const packageRoot = path.join(packageBinDir(), "..");
+  const vendored = await fileExists(path.join(packageRoot, ".venv", "Scripts", "python.exe"));
+  if (vendored) return vendored;
+  return await locateOnPath("python.exe") ?? await locateOnPath("python");
+}
+
 export interface CommandResult {
   code: number;
   stdout: string;

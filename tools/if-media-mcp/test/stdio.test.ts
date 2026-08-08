@@ -21,7 +21,7 @@ test("el artefacto compilado funciona por stdio", async () => {
   try {
     await client.connect(transport);
     const listed = await client.listTools();
-    assert.equal(listed.tools.length, 10);
+    assert.equal(listed.tools.length, 13);
     const result = await client.callTool({ name: "media_status", arguments: {} });
     assert.equal(result.isError, undefined);
     assert.match(JSON.stringify(result.content), /disabled_by_configuration/);

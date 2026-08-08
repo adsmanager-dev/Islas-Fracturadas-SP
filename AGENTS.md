@@ -62,7 +62,7 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 | Símbolos estructurados | Serena | búsqueda textual |
 | SQF, macros, literales y config | `rg` | Serena |
 | Seguridad y `remoteExec` | Semgrep | revisión manual |
-| Geografía y composiciones | Editor 3DEN | ninguna |
+| Geografía y composiciones | Editor 3DEN | `arma_sqm_*` de `tools/if-media-mcp/` — solo lectura libre; escritura únicamente bajo la excepción registrada en «Convenciones y límites» |
 | Ejecución real | Arma 3 + RPT | pruebas disponibles |
 | Canon | documentos 00–19 | nunca inferir desde código |
 
@@ -87,7 +87,7 @@ Para assets visuales: fuente editable en `art/identity/*.svg`, nunca en `asset/`
 - Redacta documentación en español y UTF-8; mantén 20 fuentes temáticas consolidadas en `docs/*.md`. Usa `docs/validation/` solo para evidencia manual solicitada e indexada.
 - Conserva etiquetas de canon, propuesta, pendiente y nivel de conocimiento.
 - Usa `IslasFracturadas.Altis/`, prefijo `IF_`, autoridad preparada para servidor y separación de comandos, consultas y eventos.
-- No edites `mission.sqm` fuera del flujo controlado de 3DEN.
+- No edites `mission.sqm` fuera del flujo controlado de 3DEN, salvo mediante las herramientas `arma_sqm_*` de `tools/if-media-mcp/` (excepción autorizada 2026-08-08 a petición explícita del usuario). Lectura/inspección siempre permitida. Escritura solo si la herramienta crea backup automático antes de tocar el archivo, valida por round-trip (parseo → cambio → reserialización → re-parseo → comparación) y exige una confirmación explícita literal — nunca sobrescribas `mission.sqm` en sitio sin esas tres condiciones. Toda escritura debe abrirse y comprobarse en 3DEN/Arma 3 antes de considerarse definitiva; la herramienta no sustituye esa verificación humana.
 - Conserva SP inicial y preparación futura para cooperativo.
 - No implementes SQF, 3DEN o configuración jugable sin petición explícita.
 - No confirmes, publiques ni descartes cambios salvo petición explícita.
