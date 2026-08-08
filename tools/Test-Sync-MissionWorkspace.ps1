@@ -47,6 +47,14 @@ try {
         -Actual ((Get-Content -Raw -LiteralPath (Join-Path $editorRoot 'mission.sqm')).Trim()) `
         -Message 'Push modificó mission.sqm, que debe permanecer protegido.'
 
+    Set-Content -LiteralPath (Join-Path $projectRoot 'mission.sqm') -Value 'project-mission-approved'
+    (Get-Item -LiteralPath (Join-Path $projectRoot 'mission.sqm')).LastWriteTimeUtc = [datetime]::UtcNow.AddMinutes(1)
+    & $syncScript -Action Push -ProjectMissionPath $projectRoot -EditorMissionPath $editorRoot -AllowMissionSqm | Out-Null
+    Assert-Equal `
+        -Expected 'project-mission-approved' `
+        -Actual ((Get-Content -Raw -LiteralPath (Join-Path $editorRoot 'mission.sqm')).Trim()) `
+        -Message 'Push con -AllowMissionSqm no copió la misión autorizada.'
+
     Set-Content -LiteralPath (Join-Path $editorRoot 'core\fn_test.sqf') -Value 'editor-v2'
     Set-Content -LiteralPath (Join-Path $editorRoot 'mission.sqm') -Value 'editor-mission-v2'
     (Get-Item -LiteralPath (Join-Path $editorRoot 'core\fn_test.sqf')).LastWriteTimeUtc = [datetime]::UtcNow.AddMinutes(2)
@@ -89,7 +97,7 @@ try {
         -Actual ((Get-Content -Raw -LiteralPath (Join-Path $projectRoot 'core\fn_test.sqf')).Trim()) `
         -Message 'Pull con -Force no hizo prevalecer el origen.'
 
-    Write-Output 'PASS: WhatIf, Push, protección de mission.sqm, Pull, conflictos, Status y Force.'
+    Write-Output 'PASS: WhatIf, Push, protección y autorización de mission.sqm, Pull, conflictos, Status y Force.'
 }
 finally {
     $resolvedTemporaryRoot = [IO.Path]::GetFullPath($temporaryRoot)

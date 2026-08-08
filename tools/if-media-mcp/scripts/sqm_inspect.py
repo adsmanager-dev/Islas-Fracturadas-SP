@@ -39,13 +39,15 @@ def flatten_entities(entities_node: dict) -> list[dict]:
             pos_info = node.get("PositionInfo")
             if isinstance(pos_info, dict) and isinstance(pos_info.get("position"), list):
                 position = pos_info["position"]
+            direct_name = node.get("name")
+            entity_name = direct_name if isinstance(direct_name, str) else attrs.get("name")
             entry = {
                 "path": path,
                 "id": node.get("id"),
                 "data_type": data_type,
                 "type": node.get("type"),
                 "side": node.get("side", group_side),
-                "name": attrs.get("name"),
+                "name": entity_name,
                 "init": attrs.get("init") if isinstance(attrs.get("init"), str) and attrs.get("init").strip() else None,
                 "position": position,
             }

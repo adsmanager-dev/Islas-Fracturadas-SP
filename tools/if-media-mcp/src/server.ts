@@ -621,6 +621,71 @@ export class MediaService {
     });
   }
 
+  async addMissionSqmLogicsToLayer(input: {
+    mission_sqm_path: string;
+    layer_name: string;
+    entries: Array<{ name: string; position_sqm: [number, number, number] }>;
+    confirmation: "PATCH_MISSION_SQM_APPROVED";
+  }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
+    const draftTarget = await this.workspace.draftPath(`sqm_add_layer_logics_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
+    const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const args = [
+      scriptPath,
+      "--mission-sqm", missionSource,
+      "--draft-output", draftTarget,
+      "--backup-dir", backupDir
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    args.push(
+      "add_logics_to_layer",
+      "--layer-name", input.layer_name,
+      "--entries-json", JSON.stringify(input.entries)
+    );
+    const result = await runCommand(python, args, 60_000);
+    const parsed = JSON.parse(result.stdout.trim() || "{}") as {
+      ok?: boolean; error?: string; backup_path?: string; backup_sha256?: string; draft_path?: string;
+      layer_name?: string; layer_id?: number; new_entity_ids?: number[]; new_entity_names?: string[];
+      entities_before?: number; entities_after?: number; layer_items_before?: number; layer_items_after?: number;
+      root_items_before?: number; root_items_after?: number; unrelated_entities_changed?: string[];
+    };
+    if (result.code !== 0 || !parsed.ok) {
+      await this.workspace.appendAudit("arma_sqm_add_logics_to_layer", "blocked", {
+        layer_name: input.layer_name,
+        reason: parsed.error || result.stderr
+      });
+      throw new Error(`Inserción rechazada, mission.sqm NO fue tocado: ${parsed.error || result.stderr || result.stdout}`);
+    }
+
+    const patchedText = await readFile(parsed.draft_path!, "utf8");
+    await writeFile(missionSource, patchedText, { encoding: "utf8" });
+
+    await this.workspace.appendAudit("arma_sqm_add_logics_to_layer", "ok", {
+      layer_name: input.layer_name,
+      new_entity_ids: parsed.new_entity_ids
+    });
+    return textResult({
+      applied: true,
+      layer_name: parsed.layer_name,
+      layer_id: parsed.layer_id,
+      new_entity_ids: parsed.new_entity_ids,
+      new_entity_names: parsed.new_entity_names,
+      backup: this.workspace.relative(parsed.backup_path!),
+      backup_sha256: parsed.backup_sha256,
+      entities_before: parsed.entities_before,
+      entities_after: parsed.entities_after,
+      layer_items_before: parsed.layer_items_before,
+      layer_items_after: parsed.layer_items_after,
+      root_items_before: parsed.root_items_before,
+      root_items_after: parsed.root_items_after,
+      note: "mission.sqm ganó entidades Logic dentro de la Layer indicada; items de la Layer y nextID quedaron sincronizados sin cambiar las entidades existentes ni el contador raíz. Backup con hash guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
+    });
+  }
+
   async deleteMissionSqmEntity(input: {
     mission_sqm_path: string;
     entity_id: number;
@@ -907,6 +972,24 @@ export function createMediaServer(service: MediaService): McpServer {
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
   }, async (input) => {
     try { return await service.addMissionSqmObject(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_add_logics_to_layer", {
+    title: "Añadir lógicas nombradas dentro de una Layer de mission.sqm",
+    description: "Añade una o más entidades dataType/type=Logic dentro de una Layer existente identificada por su nombre. position_sqm usa el orden nativo del SQM [x, elevación, y], no [x, y, z]. Asigna IDs nuevos sin colisión y sincroniza items de la Layer y EditorData.ItemIDProvider.nextID, sin cambiar items del bloque raíz. Crea backup con hash, valida por round-trip que ninguna entidad existente cambió y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      layer_name: z.string().min(1).max(120),
+      entries: z.array(z.object({
+        name: z.string().regex(/^IF_[A-Za-z0-9_]+$/).max(120),
+        position_sqm: z.tuple([z.number(), z.number(), z.number()])
+          .describe("Coordenadas nativas del SQM: [x, elevación, y].")
+      })).min(1).max(50),
+      confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.addMissionSqmLogicsToLayer(input); } catch (error) { return errorResult(error); }
   });
 
   server.registerTool("arma_sqm_delete_entity", {

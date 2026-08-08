@@ -146,21 +146,21 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 ### M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA` el 2026-08-07; gate `NO APROBADO`.
-> **Alcance acreditado:** configuración y simulación lógica SP; no acredita geografía, navegación, anclajes, UI diagnóstica ni rendimiento representativo.
+> **Alcance acreditado:** configuración y simulación lógica SP, tres centros y transitabilidad manual inicial; no acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
 
 | Criterio obligatorio | Evidencia | Resultado |
 | --- | --- | --- |
 | Nueve sectores registrados | `IF_config` y `IF_campaignState` contienen exactamente nueve IDs del slice | `PASS` |
-| Conexiones transitables | BFS Neri–Agios–Lakka–Airport West–Airport Terminal | `PASS` lógico; físico pendiente |
+| Conexiones transitables | BFS Neri–Agios–Lakka–Airport West–Airport Terminal; pasada manual Panochori–Agios–Lakka y comparación Panochori–Neochori | `PASS` lógico; `PARCIAL` físico con Hunter/HEMTT Mover |
 | Profundidad calculada | nueve sectores alcanzables; Neri P0 y Terminal P4 en la topología provisional | `PASS` lógico |
 | Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
 | Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
 | Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
-| Coordenadas procedentes de 3DEN | posiciones y radios siguen vacíos o `-1` | `PENDIENTE` |
-| Sectores críticos con anclaje | nueve IDs preparados, cero posiciones centrales validadas | `PENDIENTE` |
+| Coordenadas procedentes de 3DEN | tres centros guardados en `mission.sqm`; arrays/radios de configuración siguen vacíos o `-1` | `PARCIAL` |
+| Sectores críticos con anclaje | tres de nueve posiciones centrales validadas; seis pendientes | `PARCIAL` |
 | UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
 
-Las doce pruebas M3, el RPT, su SHA-256, los límites de rendimiento y el paquete de trabajo manual se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). La selección de `ALT_W_AGIOS_DIONYSIOS` y cinco conexiones marcadas `PROPUESTA_M3` no se convierten en canon por estar implementadas.
+Las doce pruebas M3, ambos RPT con SHA-256, la pasada física inicial, sus límites y el paquete manual se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). Como Agios y Neochori resultaron transitables con ambos vehículos, la prueba no decide por sí sola cuál debe ser el primer enlace. `ALT_W_AGIOS_DIONYSIOS` y cinco conexiones continúan como `PROPUESTA_M3` hasta una decisión humana explícita.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones

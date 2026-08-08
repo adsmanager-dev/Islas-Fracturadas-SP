@@ -13,6 +13,10 @@ from sqm_patch import (
     apply_patch,
     add_object_entity,
     apply_add_object_entity,
+    add_logic_entities_to_layer,
+    apply_add_logic_entities_to_layer,
+    name_logic_entities_in_layer,
+    apply_name_logic_entities_in_layer,
     delete_entity,
     apply_delete_entity,
     _index_raw_entities_by_id,
@@ -46,6 +50,41 @@ SAMPLE = (
     "\t\t\t};\r\n"
     "\t\t\tid=43;\r\n"
     "\t\t\ttype=\"B_Soldier_F\";\r\n"
+    "\t\t};\r\n"
+    "\t};\r\n"
+    "};\r\n"
+)
+
+LAYER_SAMPLE = (
+    "version=54;\r\n"
+    "class EditorData\r\n"
+    "{\r\n"
+    "\tclass ItemIDProvider\r\n"
+    "\t{\r\n"
+    "\t\tnextID=4;\r\n"
+    "\t};\r\n"
+    "};\r\n"
+    "class Mission\r\n"
+    "{\r\n"
+    "\tclass Entities\r\n"
+    "\t{\r\n"
+    "\t\titems=2;\r\n"
+    "\t\tclass Item0\r\n"
+    "\t\t{\r\n"
+    "\t\t\tdataType=\"Object\";\r\n"
+    "\t\t\tclass PositionInfo\r\n"
+    "\t\t\t{\r\n"
+    "\t\t\t\tposition[]={100,5,200};\r\n"
+    "\t\t\t};\r\n"
+    "\t\t\tid=1;\r\n"
+    "\t\t\ttype=\"B_Soldier_F\";\r\n"
+    "\t\t};\r\n"
+    "\t\tclass Item1\r\n"
+    "\t\t{\r\n"
+    "\t\t\tdataType=\"Layer\";\r\n"
+    "\t\t\tname=\"IF_01_SECTOR_ANCHORS\";\r\n"
+    "\t\t\tid=3;\r\n"
+    "\t\t\tatlOffset=0;\r\n"
     "\t\t};\r\n"
     "\t};\r\n"
     "};\r\n"
@@ -158,6 +197,161 @@ class AddObjectEntityTests(unittest.TestCase):
         data = armaclass.parse(empty)
         with self.assertRaises(PatchError):
             add_object_entity(empty, data, "B_Soldier_F", [0.0, 0.0, 0.0])
+
+
+class AddLogicEntitiesToLayerTests(unittest.TestCase):
+    ENTRIES = [
+        {"name": "IF_ANCHOR_ALPHA_CENTER", "position_sqm": [5063.2212, 53.143517, 11300.441]},
+        {"name": "IF_ANCHOR_BRAVO_CENTER", "position_sqm": [9366.5664, 119.53284, 15884.586]},
+    ]
+
+    def test_creates_entities_container_in_empty_layer(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        patched, new_ids = add_logic_entities_to_layer(
+            LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS", self.ENTRIES,
+        )
+        reparsed = armaclass.parse(patched)
+        root = reparsed["Mission"]["Entities"]
+        layer = root["Item1"]
+        self.assertEqual(root["items"], 2)
+        self.assertEqual(layer["Entities"]["items"], 2)
+        self.assertEqual(new_ids, [4, 5])
+        self.assertEqual(layer["Entities"]["Item0"]["id"], 4)
+        self.assertEqual(layer["Entities"]["Item1"]["id"], 5)
+        self.assertEqual(layer["Entities"]["Item0"]["dataType"], "Logic")
+        self.assertEqual(layer["Entities"]["Item0"]["type"], "Logic")
+        self.assertEqual(layer["Entities"]["Item0"]["name"], "IF_ANCHOR_ALPHA_CENTER")
+        self.assertNotIn("Attributes", layer["Entities"]["Item0"])
+        self.assertEqual(layer["Entities"]["Item0"]["PositionInfo"]["position"],
+                         [5063.2212, 53.143517, 11300.441])
+        self.assertEqual(reparsed["EditorData"]["ItemIDProvider"]["nextID"], 6)
+
+    def test_serializes_logic_name_as_direct_field_accepted_by_eden(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        patched, _ = add_logic_entities_to_layer(
+            LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS", [self.ENTRIES[0]],
+        )
+        logic = armaclass.parse(patched)["Mission"]["Entities"]["Item1"]["Entities"]["Item0"]
+        self.assertEqual(logic.get("name"), "IF_ANCHOR_ALPHA_CENTER")
+        self.assertNotIn("Attributes", logic)
+
+    def test_appends_to_existing_layer_without_changing_root_items(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        once, first_ids = add_logic_entities_to_layer(
+            LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS", [self.ENTRIES[0]],
+        )
+        twice, second_ids = add_logic_entities_to_layer(
+            once, armaclass.parse(once), "IF_01_SECTOR_ANCHORS", [self.ENTRIES[1]],
+        )
+        reparsed = armaclass.parse(twice)
+        nested = reparsed["Mission"]["Entities"]["Item1"]["Entities"]
+        self.assertEqual(first_ids, [4])
+        self.assertEqual(second_ids, [5])
+        self.assertEqual(nested["items"], 2)
+        self.assertEqual([nested[f"Item{i}"]["id"] for i in range(2)], [4, 5])
+        self.assertEqual(reparsed["Mission"]["Entities"]["items"], 2)
+
+    def test_rejects_missing_layer_without_modifying_text(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        with self.assertRaises(PatchError):
+            add_logic_entities_to_layer(LAYER_SAMPLE, data, "IF_MISSING", self.ENTRIES)
+
+    def test_rejects_duplicate_requested_names(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        duplicate = [self.ENTRIES[0], dict(self.ENTRIES[0])]
+        with self.assertRaises(PatchError):
+            add_logic_entities_to_layer(LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS", duplicate)
+
+    def test_rejects_name_that_already_exists(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        once, _ = add_logic_entities_to_layer(
+            LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS", [self.ENTRIES[0]],
+        )
+        with self.assertRaises(PatchError):
+            add_logic_entities_to_layer(
+                once, armaclass.parse(once), "IF_01_SECTOR_ANCHORS", [self.ENTRIES[0]],
+            )
+
+
+class ApplyAddLogicEntitiesToLayerIntegrationTests(unittest.TestCase):
+    def test_creates_hashed_backup_and_validated_draft(self):
+        entries = [
+            {"name": "IF_ANCHOR_ALPHA_CENTER", "position_sqm": [5063.2212, 53.143517, 11300.441]},
+            {"name": "IF_ANCHOR_BRAVO_CENTER", "position_sqm": [9366.5664, 119.53284, 15884.586]},
+        ]
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(LAYER_SAMPLE.encode("utf-8"))
+            draft = tmp_path / "patched.sqm"
+            backups = tmp_path / "backups"
+
+            result = apply_add_logic_entities_to_layer(
+                mission, None, "IF_01_SECTOR_ANCHORS", entries, draft, backups,
+            )
+
+            self.assertTrue(result.ok)
+            self.assertEqual(result.entities_after, result.entities_before + 2)
+            self.assertEqual(result.layer_items_before, 0)
+            self.assertEqual(result.layer_items_after, 2)
+            self.assertEqual(result.root_items_before, result.root_items_after)
+            self.assertEqual(result.unrelated_entities_changed, [])
+            self.assertIn(result.backup_sha256[:12], Path(result.backup_path).name)
+            self.assertEqual(Path(result.backup_path).read_bytes(), LAYER_SAMPLE.encode("utf-8"))
+            self.assertTrue(draft.is_file())
+            self.assertEqual(mission.read_bytes(), LAYER_SAMPLE.encode("utf-8"))
+
+
+class NameLogicEntitiesInLayerTests(unittest.TestCase):
+    ENTRY = {"name": "IF_ANCHOR_ALPHA_CENTER", "position_sqm": [5063.2212, 53.143517, 11300.441]}
+
+    def _unnamed_fixture(self):
+        named, ids = add_logic_entities_to_layer(
+            LAYER_SAMPLE, armaclass.parse(LAYER_SAMPLE), "IF_01_SECTOR_ANCHORS", [self.ENTRY],
+        )
+        unnamed = named.replace(f'name="{self.ENTRY["name"]}";\r\n', "", 1)
+        self.assertNotIn(f'name="{self.ENTRY["name"]}";', unnamed)
+        return unnamed, ids[0]
+
+    def test_adds_direct_name_to_existing_unnamed_logic(self):
+        unnamed, entity_id = self._unnamed_fixture()
+        patched = name_logic_entities_in_layer(
+            unnamed, armaclass.parse(unnamed), "IF_01_SECTOR_ANCHORS",
+            [{"entity_id": entity_id, "name": self.ENTRY["name"]}],
+        )
+        logic = armaclass.parse(patched)["Mission"]["Entities"]["Item1"]["Entities"]["Item0"]
+        self.assertEqual(logic["name"], self.ENTRY["name"])
+        self.assertNotIn("Attributes", logic)
+
+    def test_rejects_entity_outside_requested_layer(self):
+        unnamed, _ = self._unnamed_fixture()
+        with self.assertRaises(PatchError):
+            name_logic_entities_in_layer(
+                unnamed, armaclass.parse(unnamed), "IF_01_SECTOR_ANCHORS",
+                [{"entity_id": 1, "name": "IF_NOT_A_LOGIC"}],
+            )
+
+    def test_apply_preserves_counts_ids_and_every_unrelated_entity(self):
+        unnamed, entity_id = self._unnamed_fixture()
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(unnamed.encode("utf-8"))
+            draft = tmp_path / "named.sqm"
+            backups = tmp_path / "backups"
+            result = apply_name_logic_entities_in_layer(
+                mission, None, "IF_01_SECTOR_ANCHORS",
+                [{"entity_id": entity_id, "name": self.ENTRY["name"]}],
+                draft, backups,
+            )
+            self.assertTrue(result.ok)
+            self.assertEqual(result.entities_before, result.entities_after)
+            self.assertEqual(result.root_items_before, result.root_items_after)
+            self.assertEqual(result.layer_items_before, result.layer_items_after)
+            self.assertEqual(result.unrelated_entities_changed, [])
+            self.assertEqual(Path(result.backup_path).read_bytes(), unnamed.encode("utf-8"))
+            named_logic = armaclass.parse(draft.read_text(encoding="utf-8"))["Mission"]["Entities"]["Item1"]["Entities"]["Item0"]
+            self.assertEqual(named_logic["name"], self.ENTRY["name"])
 
 
 class FindRootEntitiesSpanTests(unittest.TestCase):

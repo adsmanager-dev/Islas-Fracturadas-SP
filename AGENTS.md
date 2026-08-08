@@ -28,17 +28,17 @@ La instrucción específica prevalece sobre la general, pero no autoriza inventa
 | Arquitectura técnica | `docs/18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md` |
 | Estado, pruebas y hoja de ruta | `docs/19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md` |
 | Identidad visual (propuesta) y procedencia de referencia | `art/IDENTIDAD_VISUAL.md`, `asset/PROCEDENCIA.md` |
+| Referencias técnicas de IA | `AI_REFERENCES/README.md` (`A3-Antistasi/`, `KP-Liberation/`) |
+| Muestras oficiales locales de Arma 3 | `D:\Programas\Steam\steamapps\common\Arma 3 Samples` |
+
+Las referencias locales son de solo lectura y no son canon ni fuente de verdad. Extrae patrones, no copies código, narrativa, `mission.sqm` ni assets; comprueba procedencia, licencia aplicable y atribución antes de reutilizar material.
 
 ## Clasificación de tareas
 
-- `DOC_REVIEW`: revisar sin modificar.
-- `DOC_CHANGE`: cambiar documentación sin alterar canon rector.
-- `CANON_CHANGE`: registrar conflictos y requerir decisión humana.
-- `DESIGN_CHANGE`: modificar un sistema previsto no implementado.
-- `IMPLEMENTATION`: crear o modificar SQF, configuración o datos funcionales.
-- `THREEDEN_WORK`: requerir acciones manuales dentro de 3DEN.
-- `VALIDATION`: verificar una implementación existente.
-- `RELEASE_GATE`: evaluar un hito completo.
+- `DOC_REVIEW`: revisar sin modificar; `DOC_CHANGE`: cambiar documentación sin alterar canon rector.
+- `CANON_CHANGE`: registrar conflictos y requerir decisión humana; `DESIGN_CHANGE`: modificar un sistema previsto no implementado.
+- `IMPLEMENTATION`: crear o modificar SQF, configuración o datos funcionales; `THREEDEN_WORK`: requerir acciones manuales dentro de 3DEN.
+- `VALIDATION`: verificar una implementación existente; `RELEASE_GATE`: evaluar un hito completo.
 
 No conviertas una tarea documental en implementación ni una propuesta en canon.
 
@@ -46,13 +46,11 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 
 1. Clasificar la tarea y leer el índice.
 2. Identificar la fuente de verdad.
-3. Revisar `git status --short` y el estado real. Para trabajo de misión, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Status`; si hay cambios guardados desde 3DEN, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Pull` antes de editar.
-4. Localizar dependencias y consumidores.
-5. Ejecutar solo el cambio solicitado.
-6. Validar según el artefacto.
-7. Tras modificar `IslasFracturadas.Altis/`, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Push -WhatIf` y después `.\tools\Sync-MissionWorkspace.ps1 -Action Push`; detenerse e informar si aparece un conflicto.
-8. Revisar trazabilidad y documentación afectada.
-9. Informar cambios, pruebas, riesgos y pendientes.
+3. Revisar `git status --short` y el estado real. Para trabajo de misión, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Status`; si 3DEN es más nuevo, guardar y cerrar el escenario antes de ejecutar `Pull` y editar.
+4. Localizar dependencias y consumidores; ejecutar solo el cambio solicitado.
+5. Validar según el artefacto.
+6. Tras modificar `IslasFracturadas.Altis/`, ejecutar `.\tools\Sync-MissionWorkspace.ps1 -Action Push -WhatIf` y después `.\tools\Sync-MissionWorkspace.ps1 -Action Push`; si el cambio validado incluye `mission.sqm`, añadir `-AllowMissionSqm` a ambas órdenes. Detenerse e informar si aparece un conflicto.
+7. Revisar trazabilidad y documentación afectada; informar cambios, pruebas, riesgos y pendientes.
 
 ## Enrutamiento de herramientas
 
@@ -62,7 +60,7 @@ No conviertas una tarea documental en implementación ni una propuesta en canon.
 | Símbolos estructurados | Serena | búsqueda textual |
 | SQF, macros, literales y config | `rg` | Serena |
 | Seguridad y `remoteExec` | Semgrep | revisión manual |
-| Geografía y composiciones | Editor 3DEN | `arma_sqm_*` de `tools/if-media-mcp/` — solo lectura libre; escritura únicamente bajo la excepción registrada en «Convenciones y límites» |
+| Geografía y composiciones | Editor 3DEN | `arma_sqm_*` o scripts estructurados, bajo las garantías de «Convenciones y límites» |
 | Ejecución real | Arma 3 + RPT | pruebas disponibles |
 | Canon | documentos 00–19 | nunca inferir desde código |
 
@@ -72,11 +70,7 @@ Para assets visuales: fuente editable en `art/identity/*.svg`, nunca en `asset/`
 
 ## Evidencia y terminado
 
-- `DISEÑO_CONFIRMADO`: decisión presente en su fuente.
-- `IMPLEMENTADO`: artefacto funcional y referencia exacta.
-- `VALIDADO_3DEN`: evidencia registrada desde el editor.
-- `PROBADO`: prueba repetible con resultado conservado.
-- `APROBADO`: criterio y puerta formal superados.
+- Estados: `DISEÑO_CONFIRMADO` = decisión presente en su fuente; `IMPLEMENTADO` = artefacto funcional y referencia exacta; `VALIDADO_3DEN` = evidencia registrada desde el editor; `PROBADO` = prueba repetible conservada; `APROBADO` = criterio y puerta formal superados.
 - Documentación: fuente respetada, conflictos y enlaces revisados, sin duplicación ni estado exagerado.
 - SQF: contratos, localidad, prefijo `IF_`, entradas, logging, Semgrep y prueba o limitación documentada.
 - 3DEN: ejecutar dentro del editor; registrar coordenadas, navegación, composición y rendimiento.
@@ -87,7 +81,9 @@ Para assets visuales: fuente editable en `art/identity/*.svg`, nunca en `asset/`
 - Redacta documentación en español y UTF-8; mantén 20 fuentes temáticas consolidadas en `docs/*.md`. Usa `docs/validation/` solo para evidencia manual solicitada e indexada.
 - Conserva etiquetas de canon, propuesta, pendiente y nivel de conocimiento.
 - Usa `IslasFracturadas.Altis/`, prefijo `IF_`, autoridad preparada para servidor y separación de comandos, consultas y eventos.
-- No edites `mission.sqm` fuera del flujo controlado de 3DEN, salvo mediante las herramientas `arma_sqm_*` de `tools/if-media-mcp/` (excepción autorizada 2026-08-08 a petición explícita del usuario). Lectura/inspección siempre permitida. Escritura solo si la herramienta crea backup automático antes de tocar el archivo, valida por round-trip (parseo → cambio → reserialización → re-parseo → comparación) y exige una confirmación explícita literal — nunca sobrescribas `mission.sqm` en sitio sin esas tres condiciones. Toda escritura debe abrirse y comprobarse en 3DEN/Arma 3 antes de considerarse definitiva; la herramienta no sustituye esa verificación humana.
+- `mission.sqm`: ante una petición explícita de trabajo de misión queda autorizada su modificación estructural completa —crear, editar, mover o borrar capas, lógicas, marcadores, grupos, objetos y metadatos— sin pedir confirmación literal por cada operación. Usa `arma_sqm_*` o scripts estructurados y verificables; nunca edición textual ciega ni escritura directa sobre la copia abierta por 3DEN.
+- Antes de escribir: comprobar sincronización, guardar/cerrar 3DEN si es más nuevo, ejecutar `Pull`, crear backup fechado con hash y trabajar sobre staging. Validar parseo → cambio → serialización → reparseo, conteos `items`, secuencia `ItemN`, IDs únicos, `ItemIDProvider.nextID`, invariantes y diff; solo entonces promover al repositorio y ejecutar `Push -AllowMissionSqm -WhatIf` seguido de `Push -AllowMissionSqm`. Los borrados masivos requieren objetivos exactos y reversibilidad.
+- Después de escribir, abrir y comprobar en 3DEN/Arma 3, guardar y revisar el RPT cuando aplique. Ninguna validación automática sustituye la prueba humana ni autoriza declarar `VALIDADO_3DEN` sin evidencia.
 - Conserva SP inicial y preparación futura para cooperativo.
 - No implementes SQF, 3DEN o configuración jugable sin petición explícita.
 - No confirmes, publiques ni descartes cambios salvo petición explícita.

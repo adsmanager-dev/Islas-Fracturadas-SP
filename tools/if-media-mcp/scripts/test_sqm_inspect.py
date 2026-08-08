@@ -75,6 +75,19 @@ class FlattenEntitiesTests(unittest.TestCase):
         flat = flatten_entities(entities)
         self.assertIsNone(flat[0]["position"])
 
+    def test_logic_name_is_read_from_direct_eden_field(self):
+        entities = {
+            "items": 1,
+            "Item0": {
+                "dataType": "Logic",
+                "type": "Logic",
+                "name": "IF_ANCHOR_ALPHA_CENTER",
+                "id": 7,
+            },
+        }
+        flat = flatten_entities(entities)
+        self.assertEqual(flat[0]["name"], "IF_ANCHOR_ALPHA_CENTER")
+
 
 class SummaryTests(unittest.TestCase):
     def test_counts_and_named_index(self):

@@ -74,7 +74,7 @@ Se consideran decisiones de diseño adoptadas:
 * la campaña completa parte de 38 sectores estratégicos;
 * el primer vertical slice comienza en Panochori Bay–Neri y su extensión interior debe revalidarse tras `DEC-008`.
 
-Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA, emplazamientos de composiciones e identificadores de objetos siguen pendientes de validación en 3DEN y mediante `CfgWorlds`. La salida terrestre de Panochori y la ruta Hunter/HEMTT poseen [evidencia parcial](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md), sin validar todavía aproximación marítima, módulos ni corredor interior.
+Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA y emplazamientos de composiciones siguen pendientes de validación completa en 3DEN y mediante `CfgWorlds`. La [pasada 1 de M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md#resultado-de-la-pasada-1--2026-08-08) valida tres centros y transitabilidad manual Panochori–Agios–Lakka y Panochori–Neochori con Hunter y HEMTT Mover; no acredita convoy, IA bidireccional, tiempos, radios, aproximación marítima, módulos ni el corredor completo.
 
 > **Decisión `DEC-006`:** los 38 sectores son `DISEÑO_CONFIRMADO`, no `VALIDADO_3DEN`. Ninguna coordenada, frontera, ruta o anclaje pasa a configuración definitiva sin evidencia física de editor y motor.
 

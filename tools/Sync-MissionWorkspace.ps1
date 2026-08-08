@@ -4,8 +4,9 @@ Sincroniza de forma controlada la misión del repositorio con la carpeta local d
 
 .DESCRIPTION
 Status compara ambas carpetas. Pull trae archivos desde 3DEN al proyecto, incluido
-mission.sqm. Push envía archivos del proyecto a 3DEN, pero protege mission.sqm. No
-se eliminan archivos y los destinos más recientes requieren revisión o -Force.
+mission.sqm. Push envía archivos del proyecto a 3DEN y protege mission.sqm salvo que
+se autorice de forma explícita con -AllowMissionSqm. No se eliminan archivos y los
+destinos más recientes requieren revisión o -Force.
 
 .EXAMPLE
 .\tools\Sync-MissionWorkspace.ps1 -Action Status
@@ -15,6 +16,9 @@ se eliminan archivos y los destinos más recientes requieren revisión o -Force.
 
 .EXAMPLE
 .\tools\Sync-MissionWorkspace.ps1 -Action Push -WhatIf
+
+.EXAMPLE
+.\tools\Sync-MissionWorkspace.ps1 -Action Push -AllowMissionSqm -WhatIf
 #>
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
@@ -29,7 +33,9 @@ param(
         Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Arma 3\missions\IslasFracturadas.Altis'
     ),
 
-    [switch]$Force
+    [switch]$Force,
+
+    [switch]$AllowMissionSqm
 )
 
 Set-StrictMode -Version Latest
@@ -251,13 +257,15 @@ function Get-SyncPlan {
         [Parameter(Mandatory = $true)][hashtable]$SourceFiles,
         [Parameter(Mandatory = $true)][hashtable]$TargetFiles,
         [Parameter(Mandatory = $true)][ValidateSet('Pull', 'Push')][string]$Direction,
-        [Parameter(Mandatory = $true)][bool]$OverwriteNewerTarget
+        [Parameter(Mandatory = $true)][bool]$OverwriteNewerTarget,
+        [Parameter(Mandatory = $true)][bool]$AllowMissionSqmWrite
     )
 
     foreach ($relativePath in ($SourceFiles.Keys | Sort-Object)) {
         $sourceFile = $SourceFiles[$relativePath]
 
-        if ($Direction -eq 'Push' -and $relativePath.Equals('mission.sqm', [StringComparison]::OrdinalIgnoreCase)) {
+        if ($Direction -eq 'Push' -and -not $AllowMissionSqmWrite -and
+            $relativePath.Equals('mission.sqm', [StringComparison]::OrdinalIgnoreCase)) {
             [PSCustomObject]@{
                 Operacion = 'Protegido'
                 Ruta = $relativePath
@@ -337,7 +345,8 @@ $plan = @(Get-SyncPlan `
     -SourceFiles $sourceFiles `
     -TargetFiles $targetFiles `
     -Direction $Action `
-    -OverwriteNewerTarget $Force.IsPresent)
+    -OverwriteNewerTarget $Force.IsPresent `
+    -AllowMissionSqmWrite $AllowMissionSqm.IsPresent)
 
 $conflicts = @($plan | Where-Object { $_.Operacion -eq 'Conflicto' })
 if ($conflicts.Count -gt 0) {
