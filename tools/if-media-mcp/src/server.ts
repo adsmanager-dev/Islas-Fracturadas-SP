@@ -506,10 +506,18 @@ export class MediaService {
   async patchMissionSqm(input: {
     mission_sqm_path: string;
     entity_id: number;
-    field: "position" | "angles";
-    values: [number, number, number];
+    field: "position" | "angles" | "name" | "text" | "skill" | "fuel" | "healthLevel" | "damage";
+    values?: [number, number, number] | undefined;
+    value?: string | number | undefined;
     confirmation: "PATCH_MISSION_SQM_APPROVED";
   }) {
+    const isArrayField = input.field === "position" || input.field === "angles";
+    if (isArrayField && !input.values) {
+      throw new Error(`El campo "${input.field}" requiere "values": [x, y, z].`);
+    }
+    if (!isArrayField && input.value === undefined) {
+      throw new Error(`El campo "${input.field}" requiere "value" (texto o número según el campo).`);
+    }
     const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
     const python = await findGraphPython();
     if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
@@ -517,21 +525,20 @@ export class MediaService {
     const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
     const draftTarget = await this.workspace.draftPath(`sqm_patch_${input.entity_id}_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
     const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const valueArg = isArrayField ? input.values!.join(",") : String(input.value);
     const args = [
       scriptPath,
       "--mission-sqm", missionSource,
-      "--entity-id", String(input.entity_id),
-      "--field", input.field,
-      "--values", input.values.join(","),
       "--draft-output", draftTarget,
       "--backup-dir", backupDir
     ];
     if (hemtt) args.push("--hemtt", hemtt);
+    args.push("patch_field", "--entity-id", String(input.entity_id), "--field", input.field, "--value", valueArg);
     const result = await runCommand(python, args, 60_000);
     const parsed = JSON.parse(result.stdout.trim() || "{}") as {
       ok?: boolean; error?: string; backup_path?: string; draft_path?: string;
       entities_before?: number; entities_after?: number; unrelated_entities_changed?: string[];
-      old_values?: number[] | null; new_values?: number[];
+      old_value?: number[] | number | string | null; new_value?: number[] | number | string;
     };
     if (result.code !== 0 || !parsed.ok) {
       await this.workspace.appendAudit("arma_sqm_patch", "blocked", { entity_id: input.entity_id, reason: parsed.error || result.stderr });
@@ -549,12 +556,68 @@ export class MediaService {
       applied: true,
       entity_id: input.entity_id,
       field: input.field,
-      old_values: parsed.old_values ?? null,
-      new_values: parsed.new_values,
+      old_value: parsed.old_value ?? null,
+      new_value: parsed.new_value,
       backup: this.workspace.relative(parsed.backup_path!),
       entities_before: parsed.entities_before,
       entities_after: parsed.entities_after,
       note: "mission.sqm fue modificado quirúrgicamente (solo esta entidad cambió, verificado por round-trip). Backup del original guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
+    });
+  }
+
+  async addMissionSqmObject(input: {
+    mission_sqm_path: string;
+    classname: string;
+    position: [number, number, number];
+    side?: string | undefined;
+    angles?: [number, number, number] | undefined;
+    name?: string | undefined;
+    init?: string | undefined;
+    skill?: number | undefined;
+    confirmation: "PATCH_MISSION_SQM_APPROVED";
+  }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
+    const draftTarget = await this.workspace.draftPath(`sqm_add_object_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
+    const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const args = [
+      scriptPath,
+      "--mission-sqm", missionSource,
+      "--draft-output", draftTarget,
+      "--backup-dir", backupDir
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    args.push("add_object", "--classname", input.classname, "--position", input.position.join(","));
+    if (input.side) args.push("--side", input.side);
+    if (input.angles) args.push("--angles", input.angles.join(","));
+    if (input.name) args.push("--name", input.name);
+    if (input.init) args.push("--init", input.init);
+    if (input.skill !== undefined) args.push("--skill", String(input.skill));
+    const result = await runCommand(python, args, 60_000);
+    const parsed = JSON.parse(result.stdout.trim() || "{}") as {
+      ok?: boolean; error?: string; backup_path?: string; draft_path?: string;
+      new_entity_id?: number; entities_before?: number; entities_after?: number; unrelated_entities_changed?: string[];
+    };
+    if (result.code !== 0 || !parsed.ok) {
+      await this.workspace.appendAudit("arma_sqm_add_object", "blocked", { classname: input.classname, reason: parsed.error || result.stderr });
+      throw new Error(`Inserción rechazada, mission.sqm NO fue tocado: ${parsed.error || result.stderr || result.stdout}`);
+    }
+
+    const patchedText = await readFile(parsed.draft_path!, "utf8");
+    await writeFile(missionSource, patchedText, { encoding: "utf8" });
+
+    await this.workspace.appendAudit("arma_sqm_add_object", "ok", { new_entity_id: parsed.new_entity_id, classname: input.classname });
+    return textResult({
+      applied: true,
+      new_entity_id: parsed.new_entity_id,
+      classname: input.classname,
+      backup: this.workspace.relative(parsed.backup_path!),
+      entities_before: parsed.entities_before,
+      entities_after: parsed.entities_after,
+      note: "mission.sqm ganó una entidad nueva (dataType=Object) al final del bloque Entities raíz; items y nextID quedaron sincronizados. Backup del original guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
     });
   }
 
@@ -768,18 +831,38 @@ export function createMediaServer(service: MediaService): McpServer {
   });
 
   server.registerTool("arma_sqm_patch", {
-    title: "Mover/rotar una entidad en mission.sqm",
-    description: "Parche quirúrgico: cambia SOLO position[] o angles[] de una entidad existente (localizada por su id nativo, único). No añade ni borra entidades. Crea backup automático antes de tocar el archivo, valida por round-trip (mismo nº de entidades, cero cambios en otras entidades) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
+    title: "Editar un campo de una entidad en mission.sqm",
+    description: "Parche quirúrgico: cambia SOLO un campo de una entidad existente (localizada por su id nativo, único). Campos vectoriales (usan \"values\": [x,y,z]): position, angles. Campos escalares (usan \"value\"): name/text (texto), skill/fuel/healthLevel/damage (número). No añade ni borra entidades, ni crea un campo que no exista ya. Crea backup automático antes de tocar el archivo, valida por round-trip comparando el subárbol completo de cada entidad (mismo nº de entidades, cero cambios en cualquier otra entidad) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
     inputSchema: z.object({
       mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
       entity_id: z.number().int().nonnegative(),
-      field: z.enum(["position", "angles"]),
-      values: z.tuple([z.number(), z.number(), z.number()]),
+      field: z.enum(["position", "angles", "name", "text", "skill", "fuel", "healthLevel", "damage"]),
+      values: z.tuple([z.number(), z.number(), z.number()]).optional().describe("Requerido solo para position/angles."),
+      value: z.union([z.string(), z.number()]).optional().describe("Requerido solo para name/text/skill/fuel/healthLevel/damage."),
       confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
     }),
     annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false }
   }, async (input) => {
     try { return await service.patchMissionSqm(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_add_object", {
+    title: "Añadir una entidad Object nueva a mission.sqm",
+    description: "Añade una entidad dataType=\"Object\" nueva como último elemento del bloque Entities raíz (hijo directo de Mission) — nunca dentro de un Group/Layer existente, y ningún otro dataType (Marker/Logic/Layer/Group) todavía. Asigna un id nuevo sin colisión (máximo existente + 1) y mantiene sincronizados items= y, si existe, EditorData.ItemIDProvider.nextID. Crea backup automático, valida por round-trip (la nueva entidad aparece, ninguna existente cambió) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      classname: z.string().min(1).max(120),
+      position: z.tuple([z.number(), z.number(), z.number()]),
+      side: z.enum(["West", "East", "Independent", "Civilian", "Empty"]).optional(),
+      angles: z.tuple([z.number(), z.number(), z.number()]).optional(),
+      name: z.string().min(1).max(120).optional().describe("Nombre de variable de la entidad."),
+      init: z.string().max(2000).optional().describe("Código init de la entidad."),
+      skill: z.number().min(0).max(1).optional(),
+      confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.addMissionSqmObject(input); } catch (error) { return errorResult(error); }
   });
 
   server.registerTool("media_build_identity", {

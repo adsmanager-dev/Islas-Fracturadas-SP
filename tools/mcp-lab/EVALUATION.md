@@ -54,6 +54,49 @@ documento — no solo "funciona en teoría":
   real: 1 línea de 28643 cambia al mover una entidad. Encontró y corrigió además un bug real de
   saltos de línea (CRLF): escribir con `Path.write_text()` sin `newline=""` duplicaba cada
   `\r\n` a `\r\r\n` porque el texto ya traía los saltos de línea originales leídos en bytes.
+- **Extensión a campos escalares (`name`/`text`/`skill`/`fuel`/`healthLevel`/`damage`)**: mismo
+  patrón de parche quirúrgico, generalizado a un registro `SCALAR_FIELD_PATTERN` (string con
+  escapado de comillas dobles `""`, o número con notación científica). Verificado con `diff`
+  real contra `AI_REFERENCES/A3-Antistasi`: renombrar un marcador (`name="airp_mortar_1"` →
+  con comillas embebidas) y subir el `skill` de un objeto anidado dentro de dos `class
+  Attributes`/`Layer` cambiaron exactamente 1 línea cada uno. **Encontró un bug real** al
+  endurecer la validación de round-trip: comparar el subárbol crudo completo de cada entidad
+  (en vez de la proyección reducida de `sqm_inspect`, que ni siquiera conocía `skill`) hizo que
+  los dos `Layer` contenedores de la entidad parcheada aparecieran como "cambiados" — porque el
+  subárbol de un `Layer`/`Group` incluye literalmente a todos sus descendientes, así que
+  cualquier cambio en un hijo se refleja también en el padre. No era corrupción real: se
+  corrigió excluyendo la clave `Entities` de lo que se compara por contenedor (cada descendiente
+  ya se verifica por separado en su propia entrada del índice) — cubierto con un test de
+  regresión (`test_ancestor_layer_not_flagged_when_nested_child_is_patched`).
+- **Investigación de contigüidad de `ItemN`** (prerrequisito para añadir/borrar entidades):
+  se revisaron los 140 bloques `class Entities { items=N; ... }` anidados en 3 archivos reales
+  (proyecto propio + 2 mapas de Antistasi) — en los 140, los índices son siempre `0..N-1` sin
+  huecos y coinciden con `items=N`. Conclusión: **añadir** al final es seguro (basta incrementar
+  `items=`); **borrar** cualquier entidad que no sea la última exigiría renumerar todas las
+  posteriores del mismo bloque — se deja sin implementar por ahora.
+- **Añadir entidades (`arma_sqm_add_object`)**: implementado SOLO para `dataType="Object"`
+  anexado al final del bloque `Entities` raíz (hijo directo de `Mission`), reutilizando el mismo
+  patrón de parche quirúrgico. Descubrimiento real durante el diseño: `class EditorData { class
+  ItemIDProvider { nextID=...; }; }` es el contador de IDs propio de 3DEN — verificado en los 3
+  archivos reales que `nextID` es siempre exactamente `id máximo existente + 1` (2026-08-08: nuestro
+  proyecto tenía `nextID=2` con ids 0/1; Antistasi_Enoch tenía `nextID=3493` con id máximo 3492;
+  Antistasi_vt7 igual). Si no se actualiza `nextID` al añadir una entidad, un humano usando 3DEN
+  después podría recibir el mismo id que se acaba de asignar por herramienta — por eso el patch
+  sincroniza los tres lugares (`nextID`, `items=`, el bloque nuevo) en una sola operación.
+  **Encontró un bug real de inserción** en la primera prueba de estrés: `find_entity_block_span`
+  devuelve el final del bloque justo tras el `}` de cierre, SIN el `;` que Arma exige después
+  (`class ItemN { ... };`) — insertar ahí partía en dos la declaración de la entidad hermana
+  anterior (`}` quedaba separado de su propio `;`), produciendo un `mission.sqm` que ni siquiera
+  volvía a parsear. Corregido saltando ese `;` antes de insertar, con test de regresión
+  (`test_new_block_is_parseable_and_has_expected_shape`, que reparsea el resultado completo).
+  También se detectó que un fallo de re-parseo tras insertar lanzaba una excepción sin capturar
+  (`armaclass.parser.ParseError`) en vez de un `PatchError` limpio — corregido; en ambos casos
+  no se escribe nada en disco antes de que la validación pase. Verificado con `diff` real contra
+  copias de `mission.sqm` de Islas Fracturadas (indentación de 4 espacios) y de Antistasi_Enoch
+  (indentación de tabs): la herramienta detectó y replicó el estilo de indentación de cada
+  archivo correctamente; en ambos casos solo cambiaron `nextID`, `items=` y el bloque insertado,
+  cero entidades existentes afectadas. Probado también en vivo por el protocolo MCP real (stdio,
+  no solo el script directo) contra una copia desechable dentro de `IslasFracturadas.Altis/`.
 
 ### Resuelto por el usuario: Arma 3 Samples Pack
 
