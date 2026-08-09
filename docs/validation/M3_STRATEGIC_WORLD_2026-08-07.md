@@ -1,7 +1,7 @@
 # Evidencia M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA`; gate `M3 NO APROBADO`
-> **Pendiente principal:** completar seis anclajes, radios, límites, convoy/IA y UI diagnóstica
+> **Pendiente principal:** calibrar y validar físicamente seis anclajes, radios, límites, convoy/IA y UI diagnóstica
 > **Alcance:** grafo lógico SP de nueve sectores y pasada física inicial con Hunter/HEMTT Mover; no acredita campaña jugable, UI estratégica, materialización, convoy ni rendimiento representativo
 
 ## Resultado técnico
@@ -204,6 +204,96 @@ IF_ANCHOR_ALT_C_AIRPORT_WEST_CENTER
 IF_ANCHOR_ALT_C_AIRPORT_TERMINAL_CENTER
 ```
 
+#### Registro estructural de la pasada 2 — 2026-08-09
+
+Esta pasada incorpora las seis lógicas restantes dentro de
+`IF_01_SECTOR_ANCHORS`; no acredita todavía su posición física. Las semillas
+horizontales se conservaron de la extracción de `map_altis.pbo` deraprificada
+con HEMTT `1.20.1`. Para `ALT_CW_POLIAKKO_THERISA` se mantuvo Poliakko como
+semilla inicial.
+
+La sonda `IF_TerrainProbe.Altis` no produjo elevaciones utilizables. El RPT más
+reciente,
+`C:\Users\Admin\AppData\Local\Arma 3\arma3_x64_2026-08-09_15-59-18.rpt`,
+registra el argumento de arranque, pero no contiene `Starting mission`,
+`Mission world`, `Mission directory` ni salida `IF_TERRAIN_PROBE`. Conforme a
+la degradación prevista, no se insistió en automatizar Arma 3 y se escribió
+`0.0` como elevación provisional segura en los seis casos.
+
+| ID | Lógica | Posición SQM escrita `[x, elevación, y]` | Procedencia de x/y | Estado |
+| --- | --- | --- | --- | --- |
+| 17 | `IF_ANCHOR_ALT_CW_STAVROS_WHISKEY_CENTER` | `[12950.06, 0.0, 15041.63]` | `map_altis.pbo`, localidad Stavros | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+| 18 | `IF_ANCHOR_ALT_CW_AAC_CENTER` | `[11461.19, 0.0, 11661.67]` | `map_altis.pbo`, localidad AAC Airfield | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+| 19 | `IF_ANCHOR_ALT_CW_POLIAKKO_THERISA_CENTER` | `[10966.47, 0.0, 13435.28]` | `map_altis.pbo`, Poliakko como semilla inicial | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+| 20 | `IF_ANCHOR_ALT_CW_XIROLIMNI_ZAROS_CENTER` | `[9115.22, 0.0, 13959.85]` | `map_altis.pbo`, localidad Xirolimni Dam | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+| 21 | `IF_ANCHOR_ALT_C_AIRPORT_WEST_CENTER` | `[14382.4, 0.0, 15924.6]` | `map_altis.pbo`, semilla de Airport West | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+| 22 | `IF_ANCHOR_ALT_C_AIRPORT_TERMINAL_CENTER` | `[15189.6, 0.0, 16769.4]` | `map_altis.pbo`, semilla de Airport Terminal | `POR_CALIBRAR` / `PENDIENTE_VALIDACION_3DEN` |
+
+La operación estructurada creó un backup en
+`production/media/drafts/mission_sqm_backups/mission.sqm.20260809T202114474733Z.8265CA972433.bak`.
+El SHA-256 de `mission.sqm` pasó de
+`8265CA9724339CFBF6C22E4AD4A2F2D4EB462C823BDB67671CD45BFFB1C2F1C0` a
+`0E29DB55C9DC0E7187FCCB2091CE610AF0F67AC8E051132A7325482AA3362320`.
+
+La inspección estructurada inmediata confirmó:
+
+- 18 entidades aplanadas: 1 `Group`, 5 `Layer`, 9 `Logic` y 3 `Object`;
+- 9 elementos dentro de `IF_01_SECTOR_ANCHORS` y 5 elementos raíz, sin alterar
+  las 12 entidades anteriores;
+- IDs nuevos 17–22, únicos, calculados por la herramienta, con
+  `ItemIDProvider.nextID` actualizado;
+- secuencia `ItemN`, contadores `items` y round-trip estructural válidos;
+- cero entidades con propiedad `init`;
+- nombres directos y posiciones de las lógicas anteriores intactos.
+
+| Comprobación posterior | Resultado |
+| --- | --- |
+| `Test-M0MissionSkeleton.ps1` | `PASS` |
+| `Test-M1AuthoritativeCore.ps1` | `PASS` |
+| `Test-M2Persistence.ps1` | `PASS` |
+| `Test-M3StrategicWorld.ps1` | `PASS` |
+| `Test-Sync-MissionWorkspace.ps1` | `PASS` |
+| `git diff --check` | `PASS`; solo aviso informativo LF→CRLF para `mission.sqm` |
+| Semgrep | `PASS`: 3 reglas, 71 archivos, 0 hallazgos |
+| `Push -AllowMissionSqm -WhatIf` | 4 copias planificadas, 0 protegidas, sin conflicto |
+| `Push -AllowMissionSqm` | 4 copias realizadas, incluida `mission.sqm` |
+
+Ninguno de estos seis anclajes queda `VALIDADO_3DEN`. M3 continúa no aprobado:
+siguen pendientes la calibración física, radios sectoriales, límites
+preliminares, rutas/convoy/IA y los demás gates físicos documentados.
+
+#### Persistencia del guardado de 3DEN — 2026-08-09
+
+El usuario abrió la pasada 2, desplazó manualmente las seis lógicas hasta las
+posiciones que consideró adecuadas, mantuvo `Z = 0` ATL para apoyarlas sobre el
+terreno y guardó el escenario. Por tanto, las diferencias horizontales frente
+a las semillas de `map_altis.pbo` son ajustes humanos intencionales y las
+coordenadas de la tabla siguiente son la referencia actual de la pasada 2.
+`Sync-MissionWorkspace.ps1 -Action Status`
+detectó `EditorMasNuevo` únicamente para `mission.sqm`; el `Pull` importó ese
+solo archivo. La inspección estructurada del binario guardado demuestra que el
+`0` mostrado por 3DEN era altura relativa al terreno, no cota del terreno en el
+SQM: el componente central de cada posición quedó serializado con estas
+elevaciones reales.
+
+| ID | Lógica | Posición SQM guardada `[x, elevación, y]` | Elevación serializada | Estado |
+| --- | --- | --- | --- | --- |
+| 17 | `IF_ANCHOR_ALT_CW_STAVROS_WHISKEY_CENTER` | `[12948.381, 27.803102, 15032.742]` | `27.803102 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+| 18 | `IF_ANCHOR_ALT_CW_AAC_CENTER` | `[11479.819, 23.241089, 11632.228]` | `23.241089 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+| 19 | `IF_ANCHOR_ALT_CW_POLIAKKO_THERISA_CENTER` | `[10966.956, 28.47107, 13436.86]` | `28.47107 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+| 20 | `IF_ANCHOR_ALT_CW_XIROLIMNI_ZAROS_CENTER` | `[9138.721, 30.62191, 13938.911]` | `30.62191 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+| 21 | `IF_ANCHOR_ALT_C_AIRPORT_WEST_CENTER` | `[14383.358, 17.8, 15922.19]` | `17.8 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+| 22 | `IF_ANCHOR_ALT_C_AIRPORT_TERMINAL_CENTER` | `[15185.31, 17.91, 16774.15]` | `17.91 m` | apoyado al terreno; `PENDIENTE_VALIDACION_3DEN` del centro |
+
+El SHA-256 del binario guardado e importado es
+`51026FCEEC464A4A215F111D92BD86A8429DC85AC49F33A5B0BE17167CFFB2D8`.
+Persisten 18 entidades, 9 `Logic`, los nueve nombres directos, IDs 7–9 y 17–22,
+cero propiedades `init` y los conteos estructurales esperados. Esta evidencia
+confirma las cotas serializadas y el apoyo ATL comunicado; no acredita por sí
+sola accesos, espacio útil, pendiente operativa, rutas ni el resto de criterios
+físicos, por lo que ninguno de los seis centros se eleva todavía a
+`VALIDADO_3DEN`.
+
 Para cada anclaje se debe conservar: posición ATL, dirección, captura general,
 captura de accesos, terreno, carretera más próxima, espacio útil, pendiente,
 obstáculos y resultado. Después se validan límites preliminares, conexiones,
@@ -214,7 +304,7 @@ las secciones 65–73 del documento 11.
 
 M3 no puede aprobarse mientras falte cualquiera de estos puntos:
 
-- radios de los nueve sectores y seis centros aún no migrados desde 3DEN;
+- radios de los nueve sectores y validación física completa de seis centros ya apoyados al terreno;
 - seis de nueve anclajes centrales con evidencia;
 - convoy, IA bidireccional, tráfico limitado y límites preliminares;
 - una UI diagnóstica que identifique el estado, no solo el RPT;
