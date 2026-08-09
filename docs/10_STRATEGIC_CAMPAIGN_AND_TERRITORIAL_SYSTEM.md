@@ -72,13 +72,15 @@ Se consideran decisiones de diseño adoptadas:
 * Kavala es la bisagra social e insurgente;
 * HELIOS-0 nació junto al aeropuerto y Stratis oculta después la continuidad avanzada;
 * la campaña completa parte de 38 sectores estratégicos;
-* el primer vertical slice comienza en Panochori Bay–Neri y su extensión interior debe revalidarse tras `DEC-008`.
+* el primer vertical slice comienza en Panochori Bay–Neri y enlaza principalmente con Agios Dionysios; Neochori queda como alternativa civil/logística conforme a `DEC-009`.
 
 Las posiciones exactas, límites de sector, capacidad de muelles, circulación de IA y emplazamientos de composiciones siguen pendientes de validación completa en 3DEN y mediante `CfgWorlds`. La [pasada 1 de M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md#resultado-de-la-pasada-1--2026-08-08) valida tres centros y transitabilidad manual Panochori–Agios–Lakka y Panochori–Neochori con Hunter y HEMTT Mover; no acredita convoy, IA bidireccional, tiempos, radios, aproximación marítima, módulos ni el corredor completo.
 
 > **Decisión `DEC-006`:** los 38 sectores son `DISEÑO_CONFIRMADO`, no `VALIDADO_3DEN`. Ninguna coordenada, frontera, ruta o anclaje pasa a configuración definitiva sin evidencia física de editor y motor.
 
 > **Decisión `DEC-008`:** Panochori Bay–Neri reemplaza a Katalaki Bay–Neochori como cabeza de playa principal Azul. Es una subzona del sector existente `ALT_W_NERI_PANOCHORI`; el catálogo permanece en 38 sectores y Molos conserva la entrada principal Roja.
+
+> **Decisión `DEC-009`:** Agios Dionysios es el enlace interior principal M3 desde Neri. Neochori conserva sus funciones civiles y logísticas y una ruta alternativa; la decisión no valida radios, límites, convoyes, navegación IA ni el corredor completo.
 
 <a id="src-altis-geography-and-sector-map--2-principio-territorial"></a>
 #### 2. Principio territorial
@@ -147,14 +149,14 @@ Favorece minas, emboscadas, tiradores, helicópteros y control de alturas; penal
 
 Panochori Bay–Neri es la entrada principal Azul. La playa, el candidato de FOB y la entrada logística forman una subzona operativa de `ALT_W_NERI_PANOCHORI`; no crean un sector nuevo. La progresión interior debe conectar con la red occidental sin convertir la ruta Hunter/HEMTT ya probada en validación marítima completa.
 
-Neri aporta el primer enlace poblado y logístico. La relación exacta con Aggelochori, Agios Dionysios, Kore–Topolia y Lakka queda pendiente de validación del corredor interior.
+Neri aporta el primer enlace poblado y logístico. `DEC-009` fija Agios Dionysios como continuación interior principal M3; las relaciones exactas con Aggelochori, Kore–Topolia y Lakka, y la geometría completa del corredor, siguen pendientes de validación.
 
 <a id="src-altis-geography-and-sector-map--katalaki-neochori-y-stavros"></a>
 ##### Katalaki, Neochori y Stavros
 
 Katalaki Bay conserva valor como playa y nodo logístico secundario, pero deja de ser la cabeza de playa principal Azul. Puede sostener desvíos, refuerzo marítimo, evacuación o una ruta alternativa hacia Neochori y AAC.
 
-Neochori controla la supervivencia logística de la playa. Stavros y el antiguo FOB Whiskey constituyen la primera posición Verde importante y pueden cambiar de manos durante la campaña.
+Neochori conserva valor civil y logístico para la red costera secundaria y funciona como ruta alternativa hacia Stavros y AAC. Stavros y el antiguo FOB Whiskey constituyen la primera posición Verde importante y pueden cambiar de manos durante la campaña.
 
 <a id="src-altis-geography-and-sector-map--cuenca-de-zaros-y-aac"></a>
 ##### Cuenca de Zaros y AAC

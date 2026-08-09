@@ -3,7 +3,7 @@
 > **Estado del contenedor:** canon rector documental
 > **Fuente de verdad para:** navegación, jerarquía documental, trazabilidad y asignación de fuentes principales
 > **Relacionados:** los 19 documentos temáticos de esta biblioteca
-> **Última consolidación:** 2026-08-06
+> **Última consolidación:** 2026-08-09
 
 ## Propósito
 
@@ -246,7 +246,7 @@ El 2026-07-24 se consolidaron 37 documentos en esta biblioteca estricta de 20 ar
 
 ## Decisiones adoptadas y pendientes
 
-La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El 2026-08-06, `DEC-008` trasladó la cabeza de playa principal Azul a Panochori Bay–Neri a partir de evidencia 3DEN parcial. El registro operativo reside en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
+La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado previo a implementación. El 2026-08-06, `DEC-008` trasladó la cabeza de playa principal Azul a Panochori Bay–Neri a partir de evidencia 3DEN parcial. El 2026-08-09, `DEC-009` confirmó Agios Dionysios como enlace interior principal M3 y conservó Neochori como nodo civil/logístico y ruta alternativa. El registro operativo reside en el [documento 19](19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS.md#registro-autoritativo-de-decisiones).
 
 | ID | Decisión adoptada | Estado |
 | --- | --- | --- |
@@ -258,6 +258,7 @@ La revisión del 2026-07-25 cerró las divergencias de Vardis y fijó el estado 
 | `DEC-006` | Los 38 sectores siguen siendo diseño hasta su validación física en 3DEN. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 requieren matriz vanilla y sustitutos sin DLC antes de producción. | adoptada |
 | `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri, dentro de `ALT_W_NERI_PANOCHORI`; Molos permanece como entrada Roja. | adoptada |
+| `DEC-009` | Agios Dionysios es el enlace interior principal M3 desde Neri; Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. | adoptada |
 
 ### Evidencia complementaria
 

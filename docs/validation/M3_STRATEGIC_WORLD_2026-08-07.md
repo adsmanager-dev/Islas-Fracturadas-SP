@@ -1,7 +1,7 @@
 # Evidencia M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA`; gate `M3 NO APROBADO`
-> **Pendiente principal:** completar seis anclajes, límites, convoy/IA, UI diagnóstica y decisión Agios–Neochori
+> **Pendiente principal:** completar seis anclajes, radios, límites, convoy/IA y UI diagnóstica
 > **Alcance:** grafo lógico SP de nueve sectores y pasada física inicial con Hunter/HEMTT Mover; no acredita campaña jugable, UI estratégica, materialización, convoy ni rendimiento representativo
 
 ## Resultado técnico
@@ -12,10 +12,11 @@ cargado. El módulo `WORLD` aporta validación, consultas puras de sector,
 vecinos, ruta y profundidad, un command autoritativo de propietario y el evento
 persistente `IF_EVENT_SECTOR_MILITARY_OWNER_CHANGED`.
 
-`ALT_W_AGIOS_DIONYSIOS` representa provisionalmente el “primer enlace del
-corredor occidental”. Su sector usa `designStatus = PROPUESTA_M3`. Las
-conexiones inferidas también conservan `PROPUESTA_M3`; ninguna posición, radio,
-distancia o ancla se presenta como dato de 3DEN.
+`DEC-009` confirma `ALT_W_AGIOS_DIONYSIOS` como enlace interior principal M3 y
+`CONN_M3_NERI_AGIOS` como su conexión desde Neri. Neochori conserva sus
+funciones civiles/logísticas y una ruta alternativa. Los tres centros observados
+en Eden están migrados a configuración; radios, límites, convoy/IA, distancias y
+las cuatro conexiones no confirmadas restantes continúan pendientes.
 
 ## Ejecución en Arma 3
 
@@ -141,18 +142,33 @@ inventan valores.
 | Agios Dionysios–Lakka | `PASS` comunicado | `PASS` comunicado | vehículo individual conducido por jugador |
 | Panochori–Neochori, comparación | `PASS` comunicado | `PASS` comunicado | alternativa físicamente transitable; no decide por sí sola el diseño |
 
-Al guardar, Eden eliminó los primeros nombres porque el generador los había
+Al guardar por primera vez, Eden eliminó los nombres porque el generador los había
 serializado como `Attributes.name`; referencias reales de KP Liberation y las
 muestras oficiales confirman que Logic usa el campo directo `name`. El defecto
 se reprodujo, corrigió y cubrió con regresión. Se repararon únicamente los IDs
 7–9 mediante staging: 12 entidades antes/después, `items` raíz 5, `items` de la
 capa 3, mismos IDs/posiciones y cero entidades ajenas modificadas. La misión
-reparada y sincronizada tiene SHA-256
-`E0A40641FBF0EB6BCA93A699C74348C25AEFFCCF5B2EFEAA3410CAFD99A0E148`;
-queda pendiente una reapertura/guardado breve en Eden para confirmar la
-persistencia del nombre directo dentro del propio editor.
+reparada y sincronizada tenía SHA-256
+`E0A40641FBF0EB6BCA93A699C74348C25AEFFCCF5B2EFEAA3410CAFD99A0E148`.
 
-### Pasada 1 — resolver el primer enlace
+### Segunda persistencia de nombres y decisión territorial — 2026-08-09
+
+El usuario reabrió la misión, verificó visualmente en Eden los tres nombres
+directos y volvió a guardar antes de cerrar el editor. El `mission.sqm`
+binarizado importado conserva 12 entidades, las lógicas IDs 7–9, sus posiciones
+SQM y estos nombres directos:
+
+- `IF_ANCHOR_ALT_W_NERI_PANOCHORI_CENTER`;
+- `IF_ANCHOR_ALT_W_AGIOS_DIONYSIOS_CENTER`;
+- `IF_ANCHOR_ALT_CW_LAKKA_CENTER`.
+
+La inspección estructurada posterior confirma 1 grupo, 5 capas, 3 lógicas y 3
+objetos, sin `init` y sin pérdida de nombres o coordenadas. Con esa regresión
+cerrada, la decisión humana adopta Agios Dionysios como enlace interior principal
+M3 y conserva Neochori como alternativa civil/logística. Esto registra
+`DEC-009` como `DISEÑO_CONFIRMADO`; no altera el alcance rector de `DEC-008`.
+
+### Pauta ejecutada de la pasada 1
 
 1. Abrir Arma 3, entrar en Editor, seleccionar Altis y abrir
    `IslasFracturadas`.
@@ -198,9 +214,8 @@ las secciones 65–73 del documento 11.
 
 M3 no puede aprobarse mientras falte cualquiera de estos puntos:
 
-- decisión humana sobre Agios frente a Neochori como primer enlace;
-- radios y migración de coordenadas procedentes de 3DEN a configuración;
+- radios de los nueve sectores y seis centros aún no migrados desde 3DEN;
 - seis de nueve anclajes centrales con evidencia;
 - convoy, IA bidireccional, tráfico limitado y límites preliminares;
 - una UI diagnóstica que identifique el estado, no solo el RPT;
-- revisión del RPT generado por la validación manual.
+- ejecución en Arma 3 y revisión del RPT para el contrato declarativo ya migrado.

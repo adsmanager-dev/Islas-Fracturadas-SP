@@ -4,9 +4,11 @@ Estado: `IMPLEMENTADO_PENDIENTE_VALIDACION_3DEN`.
 
 El módulo posee las raíces persistentes `world`, `regions`, `sectors` y
 `connections`. Materializa exactamente nueve sectores del vertical slice sin
-crear un sector adicional. `ALT_W_AGIOS_DIONYSIOS` funciona como propuesta
-técnica para el “primer enlace del corredor occidental”; esta asignación y las
-conexiones `PROPUESTA_M3` deben confirmarse en 3DEN antes de aprobar M3.
+crear un sector adicional. `DEC-009` confirma `ALT_W_AGIOS_DIONYSIOS` y
+`CONN_M3_NERI_AGIOS` como diseño del enlace interior principal desde Neri;
+Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. Los
+tres centros observados en Eden están migrados a configuración; seis centros,
+nueve radios y cuatro conexiones `PROPUESTA_M3` siguen pendientes.
 
 ## API pública
 
@@ -45,7 +47,8 @@ silenciosa. Profundidades e índices derivados se reconstruyen tras cada carga.
 
 ## Límites verificables
 
-Las posiciones, radios, distancias y anclas vacías o `-1` significan
-`POR_CALIBRAR`. El módulo no acredita navegación, escala, cobertura, coste de
-materialización ni validez geográfica; esas pruebas requieren Editor 3DEN,
-Arma 3 y evidencia RPT.
+Las posiciones o anclas vacías y los radios o distancias `-1` significan
+`POR_CALIBRAR`. `VALIDADO_3DEN` en los tres anclajes presentes acredita solo el
+centro observado, no el sector completo. El módulo no acredita navegación IA,
+escala, cobertura, coste de materialización ni validez geográfica total; esas
+pruebas requieren Editor 3DEN, Arma 3 y evidencia RPT.

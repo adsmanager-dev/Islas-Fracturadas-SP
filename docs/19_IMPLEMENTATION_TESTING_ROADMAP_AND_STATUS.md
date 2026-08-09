@@ -3,7 +3,7 @@
 > **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; implementación técnica M3 probada, gate pendiente de 3DEN; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-08-07
+> **Última consolidación:** 2026-08-09
 
 ## Propósito
 
@@ -35,7 +35,7 @@ El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION
 
 Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_IMPLEMENTATION_AND_PRODUCTION_PLAN.md`. No se identificó una pareja explícita de cánones mutuamente excluyentes. Las alternativas, hipótesis, cifras por calibrar y decisiones pendientes conservadas en esas fuentes requieren confirmación humana; su fecha no resuelve su autoridad.
 
-M3 mantiene una decisión territorial pendiente: la hoja de ruta actual sustituyó Neochori por “primer enlace del corredor occidental”, mientras la guía física V0 heredada todavía enumera Neochori. `ALT_W_AGIOS_DIONYSIOS` se usa como `PROPUESTA_M3` para probar el grafo, sin modificar `DEC-008`, el catálogo de 38 sectores ni promover la ruta a diseño confirmado. La elección física debe resolverse con evidencia humana de 3DEN.
+La divergencia territorial M3 quedó resuelta por `DEC-009`: `ALT_W_AGIOS_DIONYSIOS` y `CONN_M3_NERI_AGIOS` forman el enlace interior principal desde Neri, mientras Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. La decisión no modifica `DEC-008`, el catálogo de 38 sectores ni valida radios, límites, convoyes, navegación IA o conexiones no observadas.
 
 ## Criterios de validación
 
@@ -47,23 +47,23 @@ M3 mantiene una decisión territorial pendiente: la hoja de ruta actual sustituy
 ## Instantánea autoritativa del estado real
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Fecha de corte:** 2026-08-07
+> **Fecha de corte:** 2026-08-09
 > **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
 
 | Campo | Estado real |
 | --- | --- |
 | Fase actual | Fase 3 — validación física del mundo estratégico mínimo |
-| Subfase | implementación SQF y pruebas M3 completas; 3DEN pendiente |
+| Subfase | implementación SQF completa; pasada física inicial y regresión de nombres en Eden completadas; validación M3 restante pendiente |
 | Último gate aprobado | `M2 — Campaña persistente mínima` |
 | Hito técnico aprobado | `M2`, 2026-08-07 |
 | Próximo hito | `M3 — Mundo estratégico mínimo` |
 | Implementación jugable | Infraestructura M2 y grafo lógico M3 ejecutables en SP; campaña jugable todavía ausente |
-| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
-| Entregables ausentes | coordenadas y anclajes M3 validados; límites y rutas físicas; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
+| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; tres centros ATL migrados; Agios como enlace interior principal; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
+| Entregables ausentes | seis centros M3; nueve radios; límites y rutas físicas completas; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
 | Pruebas ejecutadas | suites estáticas M0–M3 PASS, Semgrep sin hallazgos y 38 comprobaciones internas PASS en Arma 3 |
 | Pruebas de Arma 3 | Arma 3 2.20.152984 x64; M2 aprobada y ejecución M3 registrada en [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) |
-| Bloqueadores canónicos | Ninguno; `DEC-008` cierra el cambio de cabeza Azul y conserva Molos como entrada Roja |
-| Bloqueadores técnicos posteriores | El gate M3 requiere elección humana del primer enlace, coordenadas, anclajes y rutas desde 3DEN; la UI diagnóstica física sigue ausente |
+| Bloqueadores canónicos | Ninguno; `DEC-008` cierra la cabeza Azul y `DEC-009` elige Agios como enlace interior principal sin desplazar las funciones de Neochori |
+| Bloqueadores técnicos posteriores | El gate M3 requiere seis centros, radios, límites, convoy/IA y rutas completas desde 3DEN; la UI diagnóstica física sigue ausente |
 | Estado de Fase 0 | Completada; `M0 APROBADO` |
 | Estado de Fase 1 | Completada; `M1 APROBADO` |
 | Estado de Fase 2 | Completada; `M2 APROBADO` |
@@ -82,7 +82,7 @@ Evidencia registrada:
 - no existen anclas explícitas rotas ni IDs explícitos duplicados dentro de un archivo;
 - los bloques de código Markdown están equilibrados;
 - el estado real del repositorio se distingue del diseño previsto;
-- las decisiones `DEC-001`–`DEC-008` tienen fuente, efecto y trazabilidad.
+- las decisiones `DEC-001`–`DEC-009` tienen fuente, efecto y trazabilidad.
 
 `DOC-GATE-01` no equivale a `M0`. `M0` exige misión iniciable, funciones registradas, bootstrap, logging verificable y un RPT sin errores críticos.
 
@@ -156,16 +156,16 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 | Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
 | Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
 | Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
-| Coordenadas procedentes de 3DEN | tres centros guardados en `mission.sqm`; arrays/radios de configuración siguen vacíos o `-1` | `PARCIAL` |
+| Coordenadas procedentes de 3DEN | tres centros persistidos en `mission.sqm` y migrados a `config/sectors.hpp`; seis arrays y los nueve radios siguen vacíos o `-1` | `PARCIAL` |
 | Sectores críticos con anclaje | tres de nueve posiciones centrales validadas; seis pendientes | `PARCIAL` |
 | UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
 
-Las doce pruebas M3, ambos RPT con SHA-256, la pasada física inicial, sus límites y el paquete manual se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). Como Agios y Neochori resultaron transitables con ambos vehículos, la prueba no decide por sí sola cuál debe ser el primer enlace. `ALT_W_AGIOS_DIONYSIOS` y cinco conexiones continúan como `PROPUESTA_M3` hasta una decisión humana explícita.
+Las doce pruebas M3, ambos RPT con SHA-256, la pasada física inicial, la regresión de persistencia de nombres y sus límites se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). Agios y Neochori resultaron transitables con ambos vehículos; la decisión humana `DEC-009` selecciona Agios y `CONN_M3_NERI_AGIOS` como diseño confirmado. Las cuatro conexiones no confirmadas restantes conservan `PROPUESTA_M3` y toda validación física no observada permanece pendiente.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
-> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005` y `DEC-008`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006` y `DEC-007`.
+> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005` y `DEC-008`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006`, `DEC-007` y `DEC-009`.
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
@@ -177,10 +177,15 @@ Las doce pruebas M3, ambos RPT con SHA-256, la pasada física inicial, sus lími
 | `DEC-006` | Los 38 sectores son arquitectura territorial de diseño hasta validar coordenadas, límites, rutas y anclajes en 3DEN. | 10, 11, 18 y 19 | Ningún dato físico recibe `VALIDADO_3DEN` antes de evidencia de editor y motor. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 no pasan a producción sin matriz vanilla completa y sustituciones sin DLC. | 13, 15 y 19 | Los perfiles protagonistas conservan `PROPUESTA` hasta aprobar la matriz. | adoptada |
 | `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri; Molos permanece como entrada principal Roja. | 00, 02, 08–19 y evidencia 3DEN | El Día Cero Azul comienza en la subzona operativa Panochori de `ALT_W_NERI_PANOCHORI`; no se crea un sector 39 y Katalaki queda como sector costero secundario. | adoptada |
+| `DEC-009` | Agios Dionysios es el enlace interior principal M3 desde Neri; Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. | 00, 10, 18, 19 y evidencia M3 | `ALT_W_AGIOS_DIONYSIOS` y `CONN_M3_NERI_AGIOS` pasan a `DISEÑO_CONFIRMADO`; no se promueven radios, límites, convoy/IA, sectores completos ni otras conexiones. | adoptada |
 
 ### Evidencia y límite de `DEC-008`
 
 El registro [3DEN_BLUE_PANOCHORI_BEACHHEAD.md](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) conserva escenario, motor, coordenadas, pruebas comunicadas y pendientes. La decisión de ubicación es canon rector; las coordenadas y rutas permanecen `VALIDACION_3DEN_EN_CURSO`. No se consideran validados todavía los carriles marítimos, lanchas, vehículo anfibio, profundidad, huella de módulos, alturas, estacionamiento múltiple ni impacto civil.
+
+### Evidencia y límite de `DEC-009`
+
+La [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md#resultado-de-la-pasada-1--2026-08-08) conserva la transitabilidad manual Panochori–Agios–Lakka y Panochori–Neochori con Hunter y HEMTT Mover, los tres centros y la segunda persistencia de sus nombres directos en Eden. La decisión selecciona la función territorial, no convierte esa prueba manual en validación de convoy, IA bidireccional, radios, límites, tiempos, tráfico o corredor completo.
 
 Toda modificación incompatible requiere actualizar este registro, las fuentes temáticas afectadas y las pruebas correspondientes. Una futura alternativa a la comparación dual requerirá una decisión nueva; no puede reactivar silenciosamente la redacción descartada por `DEC-005`.
 
@@ -5097,7 +5102,7 @@ Crear el grafo básico del vertical slice.
 8. Airport West.
 9. Airport Terminal.
 
-La implementación técnica usa provisionalmente `ALT_W_AGIOS_DIONYSIOS` como el punto 2. La guía V0 heredada que enumera Neochori no se modifica hasta que una revisión humana en 3DEN determine el enlace correcto.
+`DEC-009` confirma `ALT_W_AGIOS_DIONYSIOS` como el punto 2 y enlace interior principal M3. Neochori conserva sus funciones civiles/logísticas y una ruta alternativa; la validación física restante (radios, límites, convoy/IA) no se infiere de esta decisión.
 
 <a id="src-master-implementation-and-production-plan--entregables-3"></a>
 #### Entregables
