@@ -65,6 +65,7 @@ if ($connectionClasses.Count -ne 9) {
     throw "M3 debe declarar 9 conexiones; encontró $($connectionClasses.Count)."
 }
 foreach ($match in $connectionClasses) {
+    $connectionId = $match.Groups[1].Value
     $body = $match.Groups['body'].Value
     $from = [regex]::Match($body, '\bfrom\s*=\s*"([^"]+)"').Groups[1].Value
     $to = [regex]::Match($body, '\bto\s*=\s*"([^"]+)"').Groups[1].Value
@@ -74,8 +75,50 @@ foreach ($match in $connectionClasses) {
     if ($from -eq $to) {
         throw "Conexión autorreferente: $($match.Groups[1].Value)."
     }
-    if ($body -notmatch 'validationStatus\s*=\s*"POR_CALIBRAR"') {
-        throw "Conexión sin estado POR_CALIBRAR: $($match.Groups[1].Value)."
+    $expectedValidationStatus = if ($connectionId -eq 'CONN_M3_NERI_AGIOS') {
+        'VALIDACION_3DEN_EN_CURSO'
+    }
+    else {
+        'POR_CALIBRAR'
+    }
+    if ($body -notmatch "validationStatus\s*=\s*`"$expectedValidationStatus`"") {
+        throw "Estado de validación inesperado en conexión $connectionId; esperaba $expectedValidationStatus."
+    }
+    if ($connectionId -eq 'CONN_M3_NERI_AGIOS' -and
+        $body -notmatch 'designStatus\s*=\s*"DISEÑO_CONFIRMADO"') {
+        throw 'CONN_M3_NERI_AGIOS debe quedar confirmada por DEC-009.'
+    }
+}
+
+$validatedAnchors = @{
+    'ALT_W_NERI_PANOCHORI' = @(5063.221, 11300.441, 0)
+    'ALT_W_AGIOS_DIONYSIOS' = @(9366.566, 15884.586, 0)
+    'ALT_CW_LAKKA' = @(12360.689, 15630.738, 0)
+}
+foreach ($entry in $validatedAnchors.GetEnumerator()) {
+    $nextSector = '(?=\r?\n\s*class\s+ALT_|\r?\n};\s*\r?\n\s*class\s+IF_Connections)'
+    $sectorMatch = [regex]::Match(
+        $configText,
+        "(?s)class\s+$([regex]::Escape($entry.Key))\s*\{(?<body>.*?)$nextSector"
+    )
+    if (-not $sectorMatch.Success) {
+        throw "No se pudo aislar la configuración de $($entry.Key)."
+    }
+    $body = $sectorMatch.Groups['body'].Value
+    $coordinateText = ($entry.Value | ForEach-Object { $_.ToString([Globalization.CultureInfo]::InvariantCulture) }) -join ', '
+    foreach ($field in @('positionATL', 'anchorPositionATL')) {
+        if ($body -notmatch "$field\[\]\s*=\s*\{$([regex]::Escape($coordinateText))\}\s*;") {
+            throw "$($entry.Key) no conserva $field = {$coordinateText}."
+        }
+    }
+    foreach ($statusField in @('anchorStatus', 'validationStatus')) {
+        $expectedStatus = if ($statusField -eq 'anchorStatus') {'VALIDADO_3DEN'} else {'VALIDACION_3DEN_EN_CURSO'}
+        if ($body -notmatch "$statusField\s*=\s*`"$expectedStatus`"") {
+            throw "$($entry.Key) no conserva $statusField = $expectedStatus."
+        }
+    }
+    if ($body -notmatch 'designStatus\s*=\s*"DISEÑO_CONFIRMADO"') {
+        throw "$($entry.Key) no conserva designStatus = DISEÑO_CONFIRMADO."
     }
 }
 
@@ -125,7 +168,7 @@ foreach ($check in @(
     'graph.pathTraversable', 'graph.depthCalculated',
     'world.invalidReferenceRejected', 'owner.commandPublishesEvent',
     'owner.commandIdempotent', 'persistence.ownerRoundTrip',
-    'runtime.depthRebuiltAfterLoad', 'anchors.pendingExplicit'
+    'runtime.depthRebuiltAfterLoad', 'anchors.threeValidated'
 )) {
     if (-not $testSuite.Contains($check)) {
         throw "La suite SQF M3 no cubre: $check"

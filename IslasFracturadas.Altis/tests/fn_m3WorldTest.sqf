@@ -124,13 +124,27 @@ _checks pushBack [
 ];
 
 private _pendingAnchors = 0;
+private _validatedAnchorIds = [];
 {
     private _flags = (_configSectors get _x);
     if ((count (_flags getOrDefault ["anchorPositionATL", []])) isEqualTo 0) then {
         _pendingAnchors = _pendingAnchors + 1;
+    } else {
+        if ((_flags getOrDefault ["anchorStatus", ""]) isEqualTo "VALIDADO_3DEN") then {
+            _validatedAnchorIds pushBack _x;
+        };
     };
 } forEach keys _configSectors;
-_checks pushBack ["anchors.pendingExplicit", _pendingAnchors isEqualTo 9];
+_validatedAnchorIds sort true;
+_checks pushBack [
+    "anchors.threeValidated",
+    _pendingAnchors isEqualTo 6
+    && {_validatedAnchorIds isEqualTo [
+        "ALT_CW_LAKKA",
+        "ALT_W_AGIOS_DIONYSIOS",
+        "ALT_W_NERI_PANOCHORI"
+    ]}
+];
 
 missionNamespace setVariable ["IF_campaignState", _originalState];
 IF_runtime set ["storageAdapter", _originalAdapter];

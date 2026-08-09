@@ -1,10 +1,11 @@
 /*
  * Grafo estratégico mínimo M3.
  *
- * Los sectores proceden del catálogo confirmado de 38 sectores. La selección
- * de ALT_W_AGIOS_DIONYSIOS como primer enlace occidental es una propuesta M3.
- * Ninguna posición, radio, conexión física o ancla sin evidencia recibe
- * VALIDADO_3DEN. Los valores -1 y los arrays vacíos significan POR_CALIBRAR.
+ * Los sectores proceden del catálogo confirmado de 38 sectores. DEC-009
+ * confirma ALT_W_AGIOS_DIONYSIOS como primer enlace occidental y conserva
+ * Neochori como alternativa. Ninguna posición, radio, conexión física o ancla
+ * sin evidencia recibe VALIDADO_3DEN. Los valores -1 y los arrays vacíos
+ * significan POR_CALIBRAR.
  */
 
 class IF_Regions
@@ -63,7 +64,7 @@ class IF_Sectors
         regionId = "REG_R1_KAVALA_WEST";
         displayName = "Neri-Panochori";
         sectorType = "RURAL_COASTAL_LOGISTICS";
-        positionATL[] = {};
+        positionATL[] = {5063.221, 11300.441, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_NERI_AGIOS"};
         initialMilitaryOwner = "FAC_BLUE";
@@ -72,8 +73,8 @@ class IF_Sectors
         fortificationLevel = 1;
         strategicRole = "BLUE_BEACHHEAD";
         anchorId = "ANCHOR_M3_NERI_PANOCHORI";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {5063.221, 11300.441, 0};
+        anchorStatus = "VALIDADO_3DEN";
         validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
 
@@ -99,7 +100,7 @@ class IF_Sectors
         regionId = "REG_R3_AGIOS_CORRIDOR";
         displayName = "Agios Dionysios";
         sectorType = "PASS_DEFENSE";
-        positionATL[] = {};
+        positionATL[] = {9366.566, 15884.586, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_NERI_AGIOS", "CONN_M3_AGIOS_LAKKA"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -108,10 +109,10 @@ class IF_Sectors
         fortificationLevel = 0;
         strategicRole = "WESTERN_CORRIDOR_FIRST_LINK";
         anchorId = "ANCHOR_M3_AGIOS_DIONYSIOS";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
-        designStatus = "PROPUESTA_M3";
+        anchorPositionATL[] = {9366.566, 15884.586, 0};
+        anchorStatus = "VALIDADO_3DEN";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
+        designStatus = "DISEÑO_CONFIRMADO";
     };
 
     class ALT_CW_STAVROS_WHISKEY
@@ -141,7 +142,7 @@ class IF_Sectors
         regionId = "REG_R3_AGIOS_CORRIDOR";
         displayName = "Lakka";
         sectorType = "CROSSROADS";
-        positionATL[] = {};
+        positionATL[] = {12360.689, 15630.738, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_AGIOS_LAKKA", "CONN_M3_LAKKA_STAVROS", "CONN_M3_LAKKA_AAC", "CONN_M3_LAKKA_AIRPORT_WEST"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -150,9 +151,9 @@ class IF_Sectors
         fortificationLevel = 2;
         strategicRole = "WEST_CENTER_CHOKEPOINT";
         anchorId = "ANCHOR_M3_LAKKA";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {12360.689, 15630.738, 0};
+        anchorStatus = "VALIDADO_3DEN";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -270,8 +271,8 @@ class IF_Connections
         from = "ALT_W_NERI_PANOCHORI";
         to = "ALT_W_AGIOS_DIONYSIOS";
         connectionType = "ROAD_SECONDARY";
-        designStatus = "PROPUESTA_M3";
-        validationStatus = "POR_CALIBRAR";
+        designStatus = "DISEÑO_CONFIRMADO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
     };
     class CONN_M3_AGIOS_LAKKA
     {
