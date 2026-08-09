@@ -124,6 +124,7 @@ class CfgFunctions
         {
             file = "modules\world";
             class worldInitialize {};
+            class worldReconcilePhysicalMetadata {};
             class worldValidate {};
             class worldQueryGetSector {};
             class worldQueryGetNeighbors {};

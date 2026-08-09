@@ -17,6 +17,11 @@ if (isNil {missionNamespace getVariable "IF_config"}) exitWith {
 private _regionsState = IF_campaignState getOrDefault ["regions", objNull];
 private _sectorsState = IF_campaignState getOrDefault ["sectors", objNull];
 private _connectionsState = IF_campaignState getOrDefault ["connections", objNull];
+private _worldRootNames = ["regions", "sectors", "connections"];
+private _presentRootCount = {_x in IF_campaignState} count _worldRootNames;
+if (_presentRootCount > 0 && {_presentRootCount < count _worldRootNames}) exitWith {
+    [false, false, "PARTIAL_WORLD_STATE"]
+};
 if !(
     _regionsState isEqualType createHashMap
     && {_sectorsState isEqualType createHashMap}
@@ -28,8 +33,24 @@ if ((_worldCounts findIf {_x > 0}) >= 0) exitWith {
     if ((_worldCounts findIf {_x isEqualTo 0}) >= 0) then {
         [false, false, "PARTIAL_WORLD_STATE"]
     } else {
+        private _stateValidationTarget = [IF_campaignState] call IF_fnc_valueClone;
+        private _stateValidation = [_stateValidationTarget] call IF_fnc_stateValidate;
+        if !(_stateValidation # 0) exitWith {[false, false, "INVALID_EXISTING_STATE"]};
         private _validation = [IF_campaignState] call IF_fnc_worldValidate;
-        [_validation # 0, false, if (_validation # 0) then {"ALREADY_INITIALIZED"} else {"INVALID_EXISTING_WORLD"}]
+        if !(_validation # 0) exitWith {[false, false, "INVALID_EXISTING_WORLD"]};
+        private _reconciliation = [] call IF_fnc_worldReconcilePhysicalMetadata;
+        if !(_reconciliation # 0) exitWith {
+            [false, false, format ["PHYSICAL_METADATA_RECONCILIATION_FAILED:%1", _reconciliation # 3]]
+        };
+        [
+            true,
+            false,
+            if (_reconciliation # 1) then {
+                "ALREADY_INITIALIZED_RECONCILED"
+            } else {
+                "ALREADY_INITIALIZED"
+            }
+        ]
     }
 };
 

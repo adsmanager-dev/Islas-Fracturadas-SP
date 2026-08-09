@@ -146,7 +146,7 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 ### M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA` el 2026-08-07; gate `NO APROBADO`.
-> **Alcance acreditado:** configuración y simulación lógica SP, tres centros y transitabilidad manual inicial; no acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
+> **Alcance acreditado:** configuración y simulación lógica SP, nueve centros colocados en configuración, tres `VALIDADO_3DEN` y seis `VALIDACION_3DEN_EN_CURSO`; no acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
 
 | Criterio obligatorio | Evidencia | Resultado |
 | --- | --- | --- |
@@ -156,11 +156,28 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 | Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
 | Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
 | Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
-| Coordenadas procedentes de 3DEN | tres centros persistidos en `mission.sqm` y migrados a `config/sectors.hpp`; seis arrays y los nueve radios siguen vacíos o `-1` | `PARCIAL` |
-| Sectores críticos con anclaje | tres de nueve posiciones centrales validadas; seis pendientes | `PARCIAL` |
+| Compatibilidad de save M3 anterior | fixture con seis `positionATL`/`flags.anchorPositionATL` vacíos recibe 24 cambios físicos aditivos; datos dinámicos preservados, repetición sin cambios y estado parcial rechazado intacto | `PASS` |
+| Coordenadas procedentes de 3DEN | nueve centros migrados a `config/sectors.hpp`; tres `VALIDADO_3DEN`, seis `VALIDACION_3DEN_EN_CURSO` y nueve radios `-1`/`POR_CALIBRAR` | `PASS` de colocación; `PARCIAL` físico |
+| Sectores críticos con anclaje | diagnóstico `placed/pendingPlacement/validated/pendingValidation = 9/0/3/6` | `PASS` técnico; seis validaciones físicas pendientes |
 | UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
 
-Las doce pruebas M3, ambos RPT con SHA-256, la pasada física inicial, la regresión de persistencia de nombres y sus límites se conservan en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md). Agios y Neochori resultaron transitables con ambos vehículos; la decisión humana `DEC-009` selecciona Agios y `CONN_M3_NERI_AGIOS` como diseño confirmado. Las cuatro conexiones no confirmadas restantes conservan `PROPUESTA_M3` y toda validación física no observada permanece pendiente.
+La suite SQF M3 contiene 21 contratos, incluidos mundo nuevo, save M3 anterior,
+preservación dinámica, idempotencia, prioridad de posiciones persistidas,
+integración con `worldInitialize`, rechazo de estado parcial y diagnóstico
+`9/0/3/6`. `IF_fnc_worldReconcilePhysicalMetadata` solo añade las dos
+posiciones físicas ausentes y las dos transiciones de estado seguras desde
+configuración; usa las transacciones existentes y audita una sola vez en
+`meta.migrationHistory`. Propietario, control, fuerzas, guarnición, preparación,
+moral, recursos/suministro, producción, daño, niveles, relaciones, influencia,
+misiones, eventos, logística y estado político permanecen fuera de su alcance.
+
+Ambos RPT históricos con SHA-256, la pasada física inicial, la regresión de
+persistencia de nombres, el fixture de compatibilidad y sus límites se conservan
+en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md).
+Agios y Neochori resultaron transitables con ambos vehículos; la decisión
+humana `DEC-009` selecciona Agios y `CONN_M3_NERI_AGIOS` como diseño confirmado.
+Las cuatro conexiones no confirmadas restantes conservan `PROPUESTA_M3` y toda
+validación física no observada permanece pendiente. M3 continúa `NO APROBADO`.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones

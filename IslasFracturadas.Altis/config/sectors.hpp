@@ -3,9 +3,9 @@
  *
  * Los sectores proceden del catálogo confirmado de 38 sectores. DEC-009
  * confirma ALT_W_AGIOS_DIONYSIOS como primer enlace occidental y conserva
- * Neochori como alternativa. Ninguna posición, radio, conexión física o ancla
- * sin evidencia recibe VALIDADO_3DEN. Los valores -1 y los arrays vacíos
- * significan POR_CALIBRAR.
+ * Neochori como alternativa. Los nueve centros ya tienen posición procedente
+ * de 3DEN, pero solo los tres de la pasada 1 están VALIDADO_3DEN. Los radios
+ * -1 y cualquier array vacío significan POR_CALIBRAR.
  */
 
 class IF_Regions
@@ -121,7 +121,7 @@ class IF_Sectors
         regionId = "REG_R4_KATALAKI_NEOCHORI";
         displayName = "Stavros-Whiskey";
         sectorType = "MILITARY_BASE";
-        positionATL[] = {};
+        positionATL[] = {12948.381, 15032.742, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_LAKKA_STAVROS", "CONN_M3_STAVROS_POLIAKKO"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -130,9 +130,9 @@ class IF_Sectors
         fortificationLevel = 3;
         strategicRole = "GREEN_FORWARD_POSITION";
         anchorId = "ANCHOR_M3_STAVROS_WHISKEY";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {12948.381, 15032.742, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -163,7 +163,7 @@ class IF_Sectors
         regionId = "REG_R5_SOUTHWEST_BASIN";
         displayName = "AAC Airfield";
         sectorType = "LIGHT_AIRFIELD";
-        positionATL[] = {};
+        positionATL[] = {11479.819, 11632.228, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_LAKKA_AAC", "CONN_M3_AAC_POLIAKKO"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -172,9 +172,9 @@ class IF_Sectors
         fortificationLevel = 2;
         strategicRole = "LIGHT_AIR_OPERATIONS";
         anchorId = "ANCHOR_M3_AAC";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {11479.819, 11632.228, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -184,7 +184,7 @@ class IF_Sectors
         regionId = "REG_R5_SOUTHWEST_BASIN";
         displayName = "Poliakko-Therisa";
         sectorType = "RURAL_LOGISTICS";
-        positionATL[] = {};
+        positionATL[] = {10966.956, 13436.86, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_STAVROS_POLIAKKO", "CONN_M3_AAC_POLIAKKO", "CONN_M3_POLIAKKO_XIROLIMNI"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -193,9 +193,9 @@ class IF_Sectors
         fortificationLevel = 0;
         strategicRole = "SOUTHWEST_FLANK";
         anchorId = "ANCHOR_M3_POLIAKKO_THERISA";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {10966.956, 13436.86, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -205,7 +205,7 @@ class IF_Sectors
         regionId = "REG_R5_SOUTHWEST_BASIN";
         displayName = "Xirolimni-Zaros";
         sectorType = "RURAL_INFRASTRUCTURE";
-        positionATL[] = {};
+        positionATL[] = {9138.721, 13938.911, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_POLIAKKO_XIROLIMNI"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -214,9 +214,9 @@ class IF_Sectors
         fortificationLevel = 1;
         strategicRole = "WATER_ENERGY_FLANK";
         anchorId = "ANCHOR_M3_XIROLIMNI_ZAROS";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {9138.721, 13938.911, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -226,7 +226,7 @@ class IF_Sectors
         regionId = "REG_R6_AIRPORT_CENTER";
         displayName = "Airport West";
         sectorType = "AIRFIELD_BASE";
-        positionATL[] = {};
+        positionATL[] = {14383.358, 15922.19, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_LAKKA_AIRPORT_WEST", "CONN_M3_AIRPORT_WEST_TERMINAL"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -235,9 +235,9 @@ class IF_Sectors
         fortificationLevel = 3;
         strategicRole = "AIRPORT_WESTERN_BASE";
         anchorId = "ANCHOR_M3_AIRPORT_WEST";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {14383.358, 15922.19, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 
@@ -247,7 +247,7 @@ class IF_Sectors
         regionId = "REG_R6_AIRPORT_CENTER";
         displayName = "Airport Terminal";
         sectorType = "INTERNATIONAL_AIRPORT";
-        positionATL[] = {};
+        positionATL[] = {15185.31, 16774.15, 0};
         radius = -1;
         connectionIds[] = {"CONN_M3_AIRPORT_WEST_TERMINAL"};
         initialMilitaryOwner = "FAC_GREEN";
@@ -256,9 +256,9 @@ class IF_Sectors
         fortificationLevel = 2;
         strategicRole = "OPERATIONAL_HEART";
         anchorId = "ANCHOR_M3_AIRPORT_TERMINAL";
-        anchorPositionATL[] = {};
-        anchorStatus = "POR_CALIBRAR";
-        validationStatus = "POR_CALIBRAR";
+        anchorPositionATL[] = {15185.31, 16774.15, 0};
+        anchorStatus = "VALIDACION_3DEN_EN_CURSO";
+        validationStatus = "VALIDACION_3DEN_EN_CURSO";
         designStatus = "DISEÑO_CONFIRMADO";
     };
 };

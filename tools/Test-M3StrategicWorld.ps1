@@ -6,13 +6,14 @@ $ErrorActionPreference = 'Stop'
 
 $missionRoot = Join-Path (Split-Path -Parent $PSScriptRoot) 'IslasFracturadas.Altis'
 $expectedFunctions = @(
-    'worldInitialize', 'worldValidate', 'worldQueryGetSector',
+    'worldInitialize', 'worldReconcilePhysicalMetadata', 'worldValidate', 'worldQueryGetSector',
     'worldQueryGetNeighbors', 'worldQueryFindPath', 'worldQueryCalculateDepth',
     'worldCommandSetSectorOwner', 'worldDiagnosticsReport', 'm3WorldTest'
 )
 $expectedFiles = @(
     'modules\world\README.md',
     'modules\world\fn_worldInitialize.sqf',
+    'modules\world\fn_worldReconcilePhysicalMetadata.sqf',
     'modules\world\fn_worldValidate.sqf',
     'modules\world\fn_worldQueryGetSector.sqf',
     'modules\world\fn_worldQueryGetNeighbors.sqf',
@@ -90,21 +91,27 @@ foreach ($match in $connectionClasses) {
     }
 }
 
+function Get-M3SectorBody {
+    param([Parameter(Mandatory)][string]$SectorId)
+
+    $nextSector = '(?=\r?\n\s*class\s+ALT_|\r?\n};\s*\r?\n\s*class\s+IF_Connections)'
+    $sectorMatch = [regex]::Match(
+        $configText,
+        "(?s)class\s+$([regex]::Escape($SectorId))\s*\{(?<body>.*?)$nextSector"
+    )
+    if (-not $sectorMatch.Success) {
+        throw "No se pudo aislar la configuración de $SectorId."
+    }
+    return $sectorMatch.Groups['body'].Value
+}
+
 $validatedAnchors = @{
     'ALT_W_NERI_PANOCHORI' = @(5063.221, 11300.441, 0)
     'ALT_W_AGIOS_DIONYSIOS' = @(9366.566, 15884.586, 0)
     'ALT_CW_LAKKA' = @(12360.689, 15630.738, 0)
 }
 foreach ($entry in $validatedAnchors.GetEnumerator()) {
-    $nextSector = '(?=\r?\n\s*class\s+ALT_|\r?\n};\s*\r?\n\s*class\s+IF_Connections)'
-    $sectorMatch = [regex]::Match(
-        $configText,
-        "(?s)class\s+$([regex]::Escape($entry.Key))\s*\{(?<body>.*?)$nextSector"
-    )
-    if (-not $sectorMatch.Success) {
-        throw "No se pudo aislar la configuración de $($entry.Key)."
-    }
-    $body = $sectorMatch.Groups['body'].Value
+    $body = Get-M3SectorBody -SectorId $entry.Key
     $coordinateText = ($entry.Value | ForEach-Object { $_.ToString([Globalization.CultureInfo]::InvariantCulture) }) -join ', '
     foreach ($field in @('positionATL', 'anchorPositionATL')) {
         if ($body -notmatch "$field\[\]\s*=\s*\{$([regex]::Escape($coordinateText))\}\s*;") {
@@ -119,6 +126,82 @@ foreach ($entry in $validatedAnchors.GetEnumerator()) {
     }
     if ($body -notmatch 'designStatus\s*=\s*"DISEÑO_CONFIRMADO"') {
         throw "$($entry.Key) no conserva designStatus = DISEÑO_CONFIRMADO."
+    }
+}
+
+$pendingValidationAnchors = [ordered]@{
+    'ALT_CW_STAVROS_WHISKEY' = @(12948.381, 15032.742, 0)
+    'ALT_CW_AAC' = @(11479.819, 11632.228, 0)
+    'ALT_CW_POLIAKKO_THERISA' = @(10966.956, 13436.86, 0)
+    'ALT_CW_XIROLIMNI_ZAROS' = @(9138.721, 13938.911, 0)
+    'ALT_C_AIRPORT_WEST' = @(14383.358, 15922.19, 0)
+    'ALT_C_AIRPORT_TERMINAL' = @(15185.31, 16774.15, 0)
+}
+foreach ($entry in $pendingValidationAnchors.GetEnumerator()) {
+    $body = Get-M3SectorBody -SectorId $entry.Key
+    $coordinateText = ($entry.Value | ForEach-Object { $_.ToString([Globalization.CultureInfo]::InvariantCulture) }) -join ', '
+    foreach ($field in @('positionATL', 'anchorPositionATL')) {
+        if ($body -notmatch "$field\[\]\s*=\s*\{$([regex]::Escape($coordinateText))\}\s*;") {
+            throw "$($entry.Key) no conserva $field = {$coordinateText}."
+        }
+    }
+    foreach ($statusField in @('anchorStatus', 'validationStatus')) {
+        if ($body -notmatch "$statusField\s*=\s*`"VALIDACION_3DEN_EN_CURSO`"") {
+            throw "$($entry.Key) no conserva $statusField = VALIDACION_3DEN_EN_CURSO."
+        }
+    }
+    if ($body -notmatch '\bradius\s*=\s*-1\s*;') {
+        throw "$($entry.Key) no conserva radius = -1."
+    }
+}
+
+$placedAnchorCount = 0
+$validatedAnchorCount = 0
+foreach ($sectorId in $expectedSectors) {
+    $body = Get-M3SectorBody -SectorId $sectorId
+    $anchorPosition = [regex]::Match($body, 'anchorPositionATL\[\]\s*=\s*\{(?<value>[^}]*)\}\s*;')
+    if ($anchorPosition.Success -and -not [string]::IsNullOrWhiteSpace($anchorPosition.Groups['value'].Value)) {
+        $placedAnchorCount++
+    }
+    if ($body -match 'anchorStatus\s*=\s*"VALIDADO_3DEN"') {
+        $validatedAnchorCount++
+    }
+}
+$pendingPlacementCount = $expectedSectors.Count - $placedAnchorCount
+$pendingValidationCount = $expectedSectors.Count - $validatedAnchorCount
+if ($placedAnchorCount -ne 9 -or $pendingPlacementCount -ne 0 -or
+    $validatedAnchorCount -ne 3 -or $pendingValidationCount -ne 6) {
+    throw "Diagnóstico de anclajes inesperado: $placedAnchorCount/$pendingPlacementCount/$validatedAnchorCount/$pendingValidationCount."
+}
+
+$diagnostics = Get-Content -Raw -LiteralPath (Join-Path $missionRoot 'modules\world\fn_worldDiagnosticsReport.sqf')
+foreach ($diagnosticField in @(
+    'placedAnchorCount', 'pendingPlacementCount',
+    'validatedAnchorCount', 'pendingValidationCount'
+)) {
+    if (-not $diagnostics.Contains($diagnosticField)) {
+        throw "El diagnóstico M3 no expone: $diagnosticField"
+    }
+}
+
+$reconciliation = Get-Content -Raw -LiteralPath (Join-Path $missionRoot 'modules\world\fn_worldReconcilePhysicalMetadata.sqf')
+foreach ($contractValue in @(
+    'IF_fnc_worldValidate', 'IF_fnc_transactionBegin', 'IF_fnc_stateCommandSet',
+    'IF_fnc_transactionRollback', 'IF_fnc_transactionCommit',
+    'PHYSICAL_METADATA_RECONCILIATION', 'sectorIds', 'fieldsAdded', 'changeCount',
+    'PARTIAL_WORLD_STATE', 'NO_CHANGES'
+)) {
+    if (-not $reconciliation.Contains($contractValue)) {
+        throw "La reconciliación física M3 no declara el contrato: $contractValue"
+    }
+}
+$worldInitialize = Get-Content -Raw -LiteralPath (Join-Path $missionRoot 'modules\world\fn_worldInitialize.sqf')
+foreach ($contractValue in @(
+    'IF_fnc_worldReconcilePhysicalMetadata', 'ALREADY_INITIALIZED_RECONCILED',
+    'ALREADY_INITIALIZED', 'PARTIAL_WORLD_STATE'
+)) {
+    if (-not $worldInitialize.Contains($contractValue)) {
+        throw "worldInitialize no integra el contrato de reconciliación: $contractValue"
     }
 }
 
@@ -164,11 +247,16 @@ if (-not $snapshot.Contains('0.3.0-m3-dev')) {
 $testSuite = Get-Content -Raw -LiteralPath (Join-Path $missionRoot 'tests\fn_m3WorldTest.sqf')
 foreach ($check in @(
     'config.nineSectors', 'world.valid', 'world.initializeIdempotent',
-    'world.m2DefaultsUpgraded',
+    'world.m2DefaultsUpgraded', 'world.newNinePhysicalPositions',
     'graph.pathTraversable', 'graph.depthCalculated',
     'world.invalidReferenceRejected', 'owner.commandPublishesEvent',
     'owner.commandIdempotent', 'persistence.ownerRoundTrip',
-    'runtime.depthRebuiltAfterLoad', 'anchors.threeValidated'
+    'runtime.depthRebuiltAfterLoad', 'anchors.allPlacedThreeValidated',
+    'anchors.sixPendingValidationCoordinates',
+    'diagnostics.anchorPlacementValidationSplit',
+    'reconcile.oldSavePhysicalMetadata', 'reconcile.dynamicStatePreserved',
+    'reconcile.idempotent', 'reconcile.persistedPositionWins',
+    'reconcile.worldInitializeExistingUpdated', 'reconcile.partialWorldRejected'
 )) {
     if (-not $testSuite.Contains($check)) {
         throw "La suite SQF M3 no cubre: $check"

@@ -1,7 +1,7 @@
 # Evidencia M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA`; gate `M3 NO APROBADO`
-> **Pendiente principal:** calibrar y validar físicamente seis anclajes, radios, límites, convoy/IA y UI diagnóstica
+> **Pendiente principal:** validar físicamente seis anclajes ya colocados y calibrar nueve radios, límites, convoy/IA y UI diagnóstica
 > **Alcance:** grafo lógico SP de nueve sectores y pasada física inicial con Hunter/HEMTT Mover; no acredita campaña jugable, UI estratégica, materialización, convoy ni rendimiento representativo
 
 ## Resultado técnico
@@ -14,9 +14,11 @@ persistente `IF_EVENT_SECTOR_MILITARY_OWNER_CHANGED`.
 
 `DEC-009` confirma `ALT_W_AGIOS_DIONYSIOS` como enlace interior principal M3 y
 `CONN_M3_NERI_AGIOS` como su conexión desde Neri. Neochori conserva sus
-funciones civiles/logísticas y una ruta alternativa. Los tres centros observados
-en Eden están migrados a configuración; radios, límites, convoy/IA, distancias y
-las cuatro conexiones no confirmadas restantes continúan pendientes.
+funciones civiles/logísticas y una ruta alternativa. Los nueve centros guardados
+en Eden están migrados a configuración: tres conservan `VALIDADO_3DEN` y seis
+`VALIDACION_3DEN_EN_CURSO`. Los nueve radios siguen `POR_CALIBRAR`; límites,
+convoy/IA, distancias y las cuatro conexiones no confirmadas restantes continúan
+pendientes.
 
 ## Ejecución en Arma 3
 
@@ -61,7 +63,55 @@ Pasaron:
 - `Test-M3StrategicWorld.ps1`;
 - `Test-Sync-MissionWorkspace.ps1`;
 - `git diff --check`;
-- Semgrep, 3 reglas sobre 71 archivos, 0 hallazgos.
+- Semgrep, 3 reglas sobre 72 archivos, 0 hallazgos.
+
+## Reconciliación aditiva de saves M3 anteriores — 2026-08-09
+
+El defecto de compatibilidad afectaba saves schema 1 cuyo grafo M3 ya estaba
+completo: `worldInitialize` los consideraba inicializados y no podía incorporar
+las seis posiciones añadidas posteriormente a configuración. Reconstruir los
+sectores habría sobrescrito progreso dinámico de campaña.
+
+`IF_fnc_worldReconcilePhysicalMetadata` resuelve ese caso sin cambiar schema ni
+reemplazar `sectors`. Exige las tres raíces `regions`/`sectors`/`connections`
+completas y coherentes, valida una copia del estado y el mundo, prepara todos los
+cambios y solo entonces abre una transacción. Puede completar únicamente:
+
+- `positionATL` cuando el valor persistido es `[]`;
+- `flags.anchorPositionATL` cuando el valor persistido es `[]`;
+- `flags.anchorStatus` y `flags.validationStatus` solo en la transición segura
+  desde campo ausente o `POR_CALIBRAR` hacia
+  `VALIDACION_3DEN_EN_CURSO` procedente de configuración.
+
+Una posición persistida válida de longitud 3 prevalece y no se modifica. La
+función no puede tocar `militaryOwner`, `militaryControl`, guarnición, fuerzas,
+`readiness`, moral, recursos, suministro, producción, daño, niveles estructural
+o de fortificación, relaciones, influencia, misiones, eventos, logística,
+actividad ni estado político. Valida de nuevo tras aplicar; cualquier fallo usa
+el rollback existente.
+
+Cuando cambia algo, añade una única entrada
+`PHYSICAL_METADATA_RECONCILIATION` a la convención existente
+`meta.migrationHistory`, con tipo, sectores afectados, campos y cantidad. La
+segunda ejecución devuelve `success = true`, `changed = false`, conserva el
+estado byte a byte a nivel persistible y no registra otra entrada. Un estado
+parcial se rechaza antes de abrir una transacción y permanece intacto.
+
+| Caso de regresión | Fixture y aserción | Resultado |
+| --- | --- | --- |
+| Mundo nuevo | inicialización normal materializa las nueve posiciones y anclas configuradas | `PASS` |
+| Save M3 anterior | seis sectores con ambas posiciones `[]` reciben 24 cambios: 12 coordenadas y 12 estados físicos seguros | `PASS` |
+| Preservación dinámica | propietario/control, guarnición, fuerza, readiness, moral, suministro, producción, daño, niveles, logística, relaciones y misión comparados antes/después | `PASS` |
+| Idempotencia | primera ejecución `changed = true`; segunda `changed = false`, sin nueva auditoría ni diferencia de estado | `PASS` |
+| Posición persistida | coordenada válida distinta de configuración prevalece sin escrituras | `PASS` |
+| Integración | `worldInitialize` devuelve `ALREADY_INITIALIZED_RECONCILED` y luego `ALREADY_INITIALIZED` | `PASS` |
+| Estado parcial | falta `connections`; reconciliación e inicialización fallan con `PARTIAL_WORLD_STATE` sin mutación | `PASS` |
+
+La validación estática posterior ejecutó realmente M0, M1, M2, M3 y Sync con
+resultado `PASS`; `git diff --check` pasó y Semgrep analizó 72 archivos con 3
+reglas y 0 hallazgos. El diagnóstico conserva la separación exacta:
+`placedAnchorCount = 9`, `pendingPlacementCount = 0`,
+`validatedAnchorCount = 3`, `pendingValidationCount = 6`.
 
 La preparación estructurada del 2026-08-08 volvió a ejecutar el conjunto
 afectado con este resultado:
@@ -305,7 +355,7 @@ las secciones 65–73 del documento 11.
 M3 no puede aprobarse mientras falte cualquiera de estos puntos:
 
 - radios de los nueve sectores y validación física completa de seis centros ya apoyados al terreno;
-- seis de nueve anclajes centrales con evidencia;
+- seis de nueve anclajes centrales siguen `VALIDACION_3DEN_EN_CURSO`, no `VALIDADO_3DEN`;
 - convoy, IA bidireccional, tráfico limitado y límites preliminares;
 - una UI diagnóstica que identifique el estado, no solo el RPT;
 - ejecución en Arma 3 y revisión del RPT para el contrato declarativo ya migrado.
