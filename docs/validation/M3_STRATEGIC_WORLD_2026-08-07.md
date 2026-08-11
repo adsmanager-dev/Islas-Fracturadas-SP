@@ -359,3 +359,19 @@ M3 no puede aprobarse mientras falte cualquiera de estos puntos:
 - convoy, IA bidireccional, tráfico limitado y límites preliminares;
 - una UI diagnóstica que identifique el estado, no solo el RPT;
 - ejecución en Arma 3 y revisión del RPT para el contrato declarativo ya migrado.
+
+## Addendum — cierre de centros de la pasada 2
+
+> **Fecha:** 2026-08-11
+> **Alcance:** actualiza el estado posterior sin reescribir la evidencia histórica anterior.
+
+La revisión manual final comunicada para la pasada 2 cerró los nueve centros
+como `VALIDADO_3DEN`. Ese estado acredita exclusivamente el anclaje central y no
+promueve radios, bounds, transiciones, rutas, convoy/IA, composiciones o sectores
+completos. La normalización de configuración y el trabajo preliminar siguiente
+se conservan en
+[M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md](M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md).
+
+El diagnóstico declarativo posterior para centros es
+`placed/pendingPlacement/validated/pendingValidation = 9/0/9/0`. El gate M3
+permanece abierto por los demás criterios físicos y de interfaz enumerados arriba.

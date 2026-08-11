@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Optional
 
@@ -27,17 +28,17 @@ def derapify_if_needed(path: Path, hemtt_exe: Optional[str]) -> dict:
             raise RuntimeError(
                 f"{path} está rapificado (binario) y no se proporcionó hemtt.exe para derapificar."
             )
-        out_path = path.with_suffix(path.suffix + ".derapified.json")
-        result = subprocess.run(
-            [hemtt_exe, "utils", "config", "derapify", str(path), str(out_path), "--format", "json-pretty"],
-            capture_output=True, text=True, timeout=60
-        )
-        if result.returncode != 0:
-            raise RuntimeError(f"hemtt derapify falló para {path}: {result.stderr or result.stdout}")
-        try:
+        # HEMTT espera crear el destino. Un directorio temporal evita escribir junto
+        # a mission.sqm y garantiza limpieza incluso si el proceso falla o expira.
+        with tempfile.TemporaryDirectory(prefix="if-sqm-") as temp_dir:
+            out_path = Path(temp_dir) / "derapified.json"
+            result = subprocess.run(
+                [hemtt_exe, "utils", "config", "derapify", str(path), str(out_path), "--format", "json-pretty"],
+                capture_output=True, text=True, timeout=60
+            )
+            if result.returncode != 0:
+                raise RuntimeError(f"hemtt derapify falló para {path}: {result.stderr or result.stdout}")
             return json.loads(out_path.read_text(encoding="utf-8"))
-        finally:
-            out_path.unlink(missing_ok=True)
     if armaclass is None:
         raise RuntimeError("El paquete 'armaclass' no está instalado en el entorno Python usado.")
     text = raw.decode("utf-8-sig", errors="replace")

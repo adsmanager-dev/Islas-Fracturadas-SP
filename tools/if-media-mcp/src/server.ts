@@ -1,4 +1,5 @@
-import { access, open, readFile, readdir, stat, unlink, writeFile } from "node:fs/promises";
+import { access, open, readFile, readdir, realpath, stat, unlink, writeFile } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/server";
 import OpenAI, { toFile } from "openai";
@@ -65,6 +66,32 @@ function errorResult(error: unknown) {
     isError: true,
     content: [{ type: "text" as const, text: message.slice(0, 2_000) }]
   };
+}
+
+function isInside(root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
+}
+
+export async function resolveMissionWorkspaceSource(missionsRoot: string, missionFolder: string): Promise<string> {
+  let realRoot: string;
+  try {
+    realRoot = await realpath(path.resolve(missionsRoot));
+  } catch {
+    throw new Error(`La carpeta de misiones de Arma 3 no existe o no es accesible: ${path.resolve(missionsRoot)}.`);
+  }
+  const lexicalSource = path.resolve(realRoot, missionFolder, "mission.sqm");
+  if (!isInside(realRoot, lexicalSource)) throw new Error("La misión 3DEN sale de la carpeta permitida.");
+  let realSource: string;
+  try {
+    realSource = await realpath(lexicalSource);
+  } catch {
+    throw new Error(`No se encontró mission.sqm para la misión 3DEN "${missionFolder}".`);
+  }
+  if (!isInside(realRoot, realSource)) {
+    throw new Error("La ruta real de mission.sqm sale de la carpeta permitida mediante un enlace o junction.");
+  }
+  return realSource;
 }
 
 function modelName(): string {
@@ -503,6 +530,36 @@ export class MediaService {
     });
   }
 
+  async compareMissionSqmWorkspace(input: { mission_sqm_path: string; mission_folder: string }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const missionsRoot = path.resolve(process.env.IF_ARMA3_MISSIONS_DIR?.trim() || path.join(os.homedir(), "Documents", "Arma 3", "missions"));
+    const editorSource = await resolveMissionWorkspaceSource(missionsRoot, input.mission_folder);
+    const editorStat = await stat(editorSource);
+    if (!editorStat.isFile() || editorStat.size > MAX_SQF_BYTES * 20) throw new Error("mission.sqm de 3DEN ausente, inválido o demasiado grande.");
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_compare.py.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_compare.py");
+    const jsonTarget = await this.workspace.draftPath("mission_sqm_workspace_compare", "svg").then((p) => p.replace(/\.svg$/, ".json"));
+    await unlink(jsonTarget).catch(() => undefined);
+    const args = [scriptPath, "--repo", missionSource, "--workspace", editorSource, "--output-json", jsonTarget];
+    if (hemtt) args.push("--hemtt", hemtt);
+    const result = await runCommand(python, args, 60_000);
+    if (result.code !== 0) throw new Error(`sqm_compare.py falló: ${result.stderr || result.stdout}`);
+    const data = JSON.parse(await readFile(jsonTarget, "utf8")) as Record<string, unknown>;
+    await this.workspace.appendAudit("arma_sqm_compare_workspace", "ok", {
+      byte_equal: data.byte_equal,
+      functional_equal: data.functional_equal,
+      difference_count: data.difference_count
+    });
+    return textResult({
+      json: this.workspace.relative(jsonTarget),
+      ...data,
+      differences: undefined,
+      note: "Comparación completa de solo lectura. Consulta el JSON para el detalle; CAMERA_METADATA y EDITOR_METADATA se separan de cambios funcionales."
+    });
+  }
+
   async patchMissionSqm(input: {
     mission_sqm_path: string;
     entity_id: number;
@@ -683,6 +740,63 @@ export class MediaService {
       root_items_before: parsed.root_items_before,
       root_items_after: parsed.root_items_after,
       note: "mission.sqm ganó entidades Logic dentro de la Layer indicada; items de la Layer y nextID quedaron sincronizados sin cambiar las entidades existentes ni el contador raíz. Backup con hash guardado. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena — esta herramienta no sustituye esa verificación."
+    });
+  }
+
+  async addMissionSqmLayer(input: {
+    mission_sqm_path: string;
+    layer_name: string;
+    atl_offset: number;
+    confirmation: "PATCH_MISSION_SQM_APPROVED";
+  }) {
+    const missionSource = await this.workspace.resolveInput(input.mission_sqm_path, [".sqm"], MAX_SQF_BYTES * 20);
+    const python = await findGraphPython();
+    if (!python) throw new Error("No hay Python disponible para sqm_patch.py. Crea tools/if-media-mcp/.venv con armaclass instalado o define IF_GRAPH_PYTHON.");
+    const hemtt = await findHemtt();
+    const scriptPath = path.join(this.workspace.projectRoot, "tools", "if-media-mcp", "scripts", "sqm_patch.py");
+    const draftTarget = await this.workspace.draftPath(`sqm_add_layer_${Date.now()}`, "svg").then((p) => p.replace(/\.svg$/, ".sqm"));
+    const backupDir = path.join(this.workspace.projectRoot, "production", "media", "drafts", "mission_sqm_backups");
+    const args = [
+      scriptPath,
+      "--mission-sqm", missionSource,
+      "--draft-output", draftTarget,
+      "--backup-dir", backupDir
+    ];
+    if (hemtt) args.push("--hemtt", hemtt);
+    args.push("add_layer", "--layer-name", input.layer_name, "--atl-offset", String(input.atl_offset));
+    const result = await runCommand(python, args, 60_000);
+    const parsed = JSON.parse(result.stdout.trim() || "{}") as {
+      ok?: boolean; error?: string; backup_path?: string; backup_sha256?: string; draft_path?: string;
+      layer_name?: string; new_layer_id?: number; entities_before?: number; entities_after?: number;
+      root_items_before?: number; root_items_after?: number; next_id_before?: number; next_id_after?: number;
+      unrelated_entities_changed?: string[];
+    };
+    if (result.code !== 0 || !parsed.ok) {
+      await this.workspace.appendAudit("arma_sqm_add_layer", "blocked", {
+        layer_name: input.layer_name,
+        reason: parsed.error || result.stderr
+      });
+      throw new Error(`Creación de Layer rechazada, mission.sqm NO fue tocado: ${parsed.error || result.stderr || result.stdout}`);
+    }
+    const patchedText = await readFile(parsed.draft_path!, "utf8");
+    await writeFile(missionSource, patchedText, { encoding: "utf8" });
+    await this.workspace.appendAudit("arma_sqm_add_layer", "ok", {
+      layer_name: parsed.layer_name,
+      new_layer_id: parsed.new_layer_id
+    });
+    return textResult({
+      applied: true,
+      layer_name: parsed.layer_name,
+      new_layer_id: parsed.new_layer_id,
+      backup: this.workspace.relative(parsed.backup_path!),
+      backup_sha256: parsed.backup_sha256,
+      entities_before: parsed.entities_before,
+      entities_after: parsed.entities_after,
+      root_items_before: parsed.root_items_before,
+      root_items_after: parsed.root_items_after,
+      next_id_before: parsed.next_id_before,
+      next_id_after: parsed.next_id_after,
+      note: "mission.sqm ganó una Layer raíz vacía; ItemN, items y la reserva nextID quedaron validados por round-trip sin cambiar entidades existentes. No añade rutas ni acredita coordenadas. ABRE Y COMPRUEBA la misión en 3DEN/Arma 3 antes de darla por buena."
     });
   }
 
@@ -939,6 +1053,18 @@ export function createMediaServer(service: MediaService): McpServer {
     try { return await service.inspectMissionSqm(input); } catch (error) { return errorResult(error); }
   });
 
+  server.registerTool("arma_sqm_compare_workspace", {
+    title: "Comparar mission.sqm del repositorio y 3DEN",
+    description: "Compara de forma estructural el mission.sqm del repositorio con la copia de 3DEN, calcula hashes y clasifica diferencias como CAMERA_METADATA, EDITOR_METADATA, ENTITY_FUNCTIONAL o MISSION_FUNCTIONAL. Solo lectura; la ruta externa queda restringida a la carpeta de misiones de Arma 3.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      mission_folder: z.string().regex(/^[A-Za-z0-9_.-]{1,120}$/).default("IslasFracturadas.Altis")
+    }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.compareMissionSqmWorkspace(input); } catch (error) { return errorResult(error); }
+  });
+
   server.registerTool("arma_sqm_patch", {
     title: "Editar un campo de una entidad en mission.sqm",
     description: "Parche quirúrgico: cambia SOLO un campo de una entidad existente (localizada por su id nativo, único). Campos vectoriales (usan \"values\": [x,y,z]): position, angles. Campos escalares (usan \"value\"): name/text (texto), skill/fuel/healthLevel/damage (número). No añade ni borra entidades, ni crea un campo que no exista ya. Crea backup automático antes de tocar el archivo, valida por round-trip comparando el subárbol completo de cada entidad (mismo nº de entidades, cero cambios en cualquier otra entidad) y solo entonces aplica. Excepción de AGENTS.md 2026-08-08: abre y comprueba la misión en 3DEN/Arma 3 después — esta herramienta no sustituye esa verificación.",
@@ -990,6 +1116,20 @@ export function createMediaServer(service: MediaService): McpServer {
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
   }, async (input) => {
     try { return await service.addMissionSqmLogicsToLayer(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("arma_sqm_add_layer", {
+    title: "Añadir una Layer raíz vacía a mission.sqm",
+    description: "Añade una entidad dataType=Layer vacía como último ItemN del bloque Entities raíz. Exige nombre IF_ único, asigna un ID sin colisión, sincroniza items y conserva o eleva EditorData.ItemIDProvider.nextID. Crea backup con hash y valida por round-trip que ninguna entidad existente cambió. No añade puntos ni rutas y no sustituye abrir/comprobar la misión en 3DEN/Arma 3.",
+    inputSchema: z.object({
+      mission_sqm_path: z.string().min(1).max(260).default("IslasFracturadas.Altis/mission.sqm"),
+      layer_name: z.string().regex(/^IF_[A-Za-z0-9_]+$/).max(120),
+      atl_offset: z.number().finite().default(0),
+      confirmation: z.literal("PATCH_MISSION_SQM_APPROVED")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.addMissionSqmLayer(input); } catch (error) { return errorResult(error); }
   });
 
   server.registerTool("arma_sqm_delete_entity", {

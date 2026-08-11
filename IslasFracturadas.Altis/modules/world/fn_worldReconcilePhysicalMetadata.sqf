@@ -147,10 +147,17 @@ _configSectorIds sort true;
                         private _storedStatusExists = _statusField in _storedFlags;
                         private _storedStatus = _storedFlags getOrDefault [_statusField, ""];
                         private _configStatus = _configSector getOrDefault [_statusField, ""];
-                        private _safeTransition = (
-                            (!_storedStatusExists || {_storedStatus isEqualTo "POR_CALIBRAR"})
-                            && {_configStatus isEqualTo "VALIDACION_3DEN_EN_CURSO"}
-                        );
+                        private _safeTransition = if (_statusField isEqualTo "anchorStatus") then {
+                            (
+                                (!_storedStatusExists || {_storedStatus in ["POR_CALIBRAR", "VALIDACION_3DEN_EN_CURSO"]})
+                                && {_configStatus in ["VALIDACION_3DEN_EN_CURSO", "VALIDADO_3DEN"]}
+                            )
+                        } else {
+                            (
+                                (!_storedStatusExists || {_storedStatus isEqualTo "POR_CALIBRAR"})
+                                && {_configStatus isEqualTo "VALIDACION_3DEN_EN_CURSO"}
+                            )
+                        };
                         if (_safeTransition && {!(_storedStatus isEqualTo _configStatus)}) then {
                             [
                                 _sectorId,

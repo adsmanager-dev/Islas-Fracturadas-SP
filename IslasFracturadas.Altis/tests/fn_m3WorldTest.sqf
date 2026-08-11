@@ -10,12 +10,12 @@ private _configValidation = [] call IF_fnc_configValidate;
 private _configSectors = IF_config getOrDefault ["sectors", createHashMap];
 private _configConnections = IF_config getOrDefault ["connections", createHashMap];
 private _expectedAnchorPositions = createHashMapFromArray [
-    ["ALT_W_NERI_PANOCHORI", [5063.221, 11300.441, 0]],
-    ["ALT_W_AGIOS_DIONYSIOS", [9366.566, 15884.586, 0]],
+    ["ALT_W_NERI_PANOCHORI", [5059.8296, 11299.381, 0]],
+    ["ALT_W_AGIOS_DIONYSIOS", [9366.166, 15886.582, 0]],
     ["ALT_CW_STAVROS_WHISKEY", [12948.381, 15032.742, 0]],
-    ["ALT_CW_LAKKA", [12360.689, 15630.738, 0]],
+    ["ALT_CW_LAKKA", [12359.11, 15630.292, 0]],
     ["ALT_CW_AAC", [11479.819, 11632.228, 0]],
-    ["ALT_CW_POLIAKKO_THERISA", [10966.956, 13436.86, 0]],
+    ["ALT_CW_POLIAKKO_THERISA", [11246.036, 13627.0205, 0]],
     ["ALT_CW_XIROLIMNI_ZAROS", [9138.721, 13938.911, 0]],
     ["ALT_C_AIRPORT_WEST", [14383.358, 15922.19, 0]],
     ["ALT_C_AIRPORT_TERMINAL", [15185.31, 16774.15, 0]]
@@ -143,7 +143,7 @@ private _positionsReconciled = true;
     if !(
         (_sector get "positionATL") isEqualTo _expectedPosition
         && {(_flags get "anchorPositionATL") isEqualTo _expectedPosition}
-        && {(_flags get "anchorStatus") isEqualTo "VALIDACION_3DEN_EN_CURSO"}
+        && {(_flags get "anchorStatus") isEqualTo "VALIDADO_3DEN"}
         && {(_flags get "validationStatus") isEqualTo "VALIDACION_3DEN_EN_CURSO"}
         && {(_sector get "radius") isEqualTo -1}
     ) then {
@@ -175,6 +175,26 @@ _checks pushBack [
     && {(_secondReconciliation # 3) isEqualTo "NO_CHANGES"}
     && {_stateAfterSecond isEqualTo _stateAfterFirst}
     && {(count ((IF_campaignState get "meta") getOrDefault ["migrationHistory", []])) isEqualTo (count _historyAfterFirst)}
+];
+
+private _pass2State = [_originalState] call IF_fnc_valueClone;
+private _pass2Sectors = _pass2State get "sectors";
+{
+    private _flags = (_pass2Sectors get _x) get "flags";
+    _flags set ["anchorStatus", "VALIDACION_3DEN_EN_CURSO"];
+} forEach _reconciledSectorIds;
+missionNamespace setVariable ["IF_campaignState", _pass2State];
+private _pass2Promotion = [] call IF_fnc_worldReconcilePhysicalMetadata;
+private _pass2StatusesValid = (_reconciledSectorIds findIf {
+    private _flags = (_pass2Sectors get _x) get "flags";
+    !((_flags getOrDefault ["anchorStatus", ""]) isEqualTo "VALIDADO_3DEN")
+}) < 0;
+_checks pushBack [
+    "reconcile.pass2AnchorStatusesPromoted",
+    (_pass2Promotion # 0)
+    && {_pass2Promotion # 1}
+    && {(count (_pass2Promotion # 2)) isEqualTo 6}
+    && {_pass2StatusesValid}
 ];
 
 private _persistedPositionState = [_originalState] call IF_fnc_valueClone;
@@ -325,38 +345,44 @@ private _validatedAnchorIds = [];
 } forEach keys _configSectors;
 _validatedAnchorIds sort true;
 _checks pushBack [
-    "anchors.allPlacedThreeValidated",
+    "anchors.allPlacedNineValidated",
     _placedAnchors isEqualTo 9
     && {_validatedAnchorIds isEqualTo [
+        "ALT_CW_AAC",
         "ALT_CW_LAKKA",
+        "ALT_CW_POLIAKKO_THERISA",
+        "ALT_CW_STAVROS_WHISKEY",
+        "ALT_CW_XIROLIMNI_ZAROS",
+        "ALT_C_AIRPORT_TERMINAL",
+        "ALT_C_AIRPORT_WEST",
         "ALT_W_AGIOS_DIONYSIOS",
         "ALT_W_NERI_PANOCHORI"
     ]}
 ];
 
-private _sixPhysicalConfigsValid = true;
+private _allPhysicalConfigsValid = true;
 {
     private _sector = _configSectors get _x;
     private _expectedPosition = _expectedAnchorPositions get _x;
     if !(
         (_sector getOrDefault ["positionATL", []]) isEqualTo _expectedPosition
         && {(_sector getOrDefault ["anchorPositionATL", []]) isEqualTo _expectedPosition}
-        && {(_sector getOrDefault ["anchorStatus", ""]) isEqualTo "VALIDACION_3DEN_EN_CURSO"}
+        && {(_sector getOrDefault ["anchorStatus", ""]) isEqualTo "VALIDADO_3DEN"}
         && {(_sector getOrDefault ["validationStatus", ""]) isEqualTo "VALIDACION_3DEN_EN_CURSO"}
         && {(_sector getOrDefault ["radius", 0]) isEqualTo -1}
     ) then {
-        _sixPhysicalConfigsValid = false;
+        _allPhysicalConfigsValid = false;
     };
-} forEach _reconciledSectorIds;
-_checks pushBack ["anchors.sixPendingValidationCoordinates", _sixPhysicalConfigsValid];
+} forEach keys _expectedAnchorPositions;
+_checks pushBack ["anchors.allValidatedCoordinates", _allPhysicalConfigsValid];
 
 private _diagnosticReport = createHashMapFromArray ([] call IF_fnc_worldDiagnosticsReport);
 _checks pushBack [
     "diagnostics.anchorPlacementValidationSplit",
     (_diagnosticReport getOrDefault ["placedAnchorCount", -1]) isEqualTo 9
     && {(_diagnosticReport getOrDefault ["pendingPlacementCount", -1]) isEqualTo 0}
-    && {(_diagnosticReport getOrDefault ["validatedAnchorCount", -1]) isEqualTo 3}
-    && {(_diagnosticReport getOrDefault ["pendingValidationCount", -1]) isEqualTo 6}
+    && {(_diagnosticReport getOrDefault ["validatedAnchorCount", -1]) isEqualTo 9}
+    && {(_diagnosticReport getOrDefault ["pendingValidationCount", -1]) isEqualTo 0}
 ];
 
 missionNamespace setVariable ["IF_campaignState", _originalState];

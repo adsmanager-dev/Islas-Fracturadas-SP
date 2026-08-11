@@ -105,10 +105,16 @@ function Get-M3SectorBody {
     return $sectorMatch.Groups['body'].Value
 }
 
-$validatedAnchors = @{
-    'ALT_W_NERI_PANOCHORI' = @(5063.221, 11300.441, 0)
-    'ALT_W_AGIOS_DIONYSIOS' = @(9366.566, 15884.586, 0)
-    'ALT_CW_LAKKA' = @(12360.689, 15630.738, 0)
+$validatedAnchors = [ordered]@{
+    'ALT_W_NERI_PANOCHORI' = @(5059.8296, 11299.381, 0)
+    'ALT_W_AGIOS_DIONYSIOS' = @(9366.166, 15886.582, 0)
+    'ALT_CW_STAVROS_WHISKEY' = @(12948.381, 15032.742, 0)
+    'ALT_CW_LAKKA' = @(12359.11, 15630.292, 0)
+    'ALT_CW_AAC' = @(11479.819, 11632.228, 0)
+    'ALT_CW_POLIAKKO_THERISA' = @(11246.036, 13627.0205, 0)
+    'ALT_CW_XIROLIMNI_ZAROS' = @(9138.721, 13938.911, 0)
+    'ALT_C_AIRPORT_WEST' = @(14383.358, 15922.19, 0)
+    'ALT_C_AIRPORT_TERMINAL' = @(15185.31, 16774.15, 0)
 }
 foreach ($entry in $validatedAnchors.GetEnumerator()) {
     $body = Get-M3SectorBody -SectorId $entry.Key
@@ -126,29 +132,6 @@ foreach ($entry in $validatedAnchors.GetEnumerator()) {
     }
     if ($body -notmatch 'designStatus\s*=\s*"DISEÑO_CONFIRMADO"') {
         throw "$($entry.Key) no conserva designStatus = DISEÑO_CONFIRMADO."
-    }
-}
-
-$pendingValidationAnchors = [ordered]@{
-    'ALT_CW_STAVROS_WHISKEY' = @(12948.381, 15032.742, 0)
-    'ALT_CW_AAC' = @(11479.819, 11632.228, 0)
-    'ALT_CW_POLIAKKO_THERISA' = @(10966.956, 13436.86, 0)
-    'ALT_CW_XIROLIMNI_ZAROS' = @(9138.721, 13938.911, 0)
-    'ALT_C_AIRPORT_WEST' = @(14383.358, 15922.19, 0)
-    'ALT_C_AIRPORT_TERMINAL' = @(15185.31, 16774.15, 0)
-}
-foreach ($entry in $pendingValidationAnchors.GetEnumerator()) {
-    $body = Get-M3SectorBody -SectorId $entry.Key
-    $coordinateText = ($entry.Value | ForEach-Object { $_.ToString([Globalization.CultureInfo]::InvariantCulture) }) -join ', '
-    foreach ($field in @('positionATL', 'anchorPositionATL')) {
-        if ($body -notmatch "$field\[\]\s*=\s*\{$([regex]::Escape($coordinateText))\}\s*;") {
-            throw "$($entry.Key) no conserva $field = {$coordinateText}."
-        }
-    }
-    foreach ($statusField in @('anchorStatus', 'validationStatus')) {
-        if ($body -notmatch "$statusField\s*=\s*`"VALIDACION_3DEN_EN_CURSO`"") {
-            throw "$($entry.Key) no conserva $statusField = VALIDACION_3DEN_EN_CURSO."
-        }
     }
     if ($body -notmatch '\bradius\s*=\s*-1\s*;') {
         throw "$($entry.Key) no conserva radius = -1."
@@ -170,7 +153,7 @@ foreach ($sectorId in $expectedSectors) {
 $pendingPlacementCount = $expectedSectors.Count - $placedAnchorCount
 $pendingValidationCount = $expectedSectors.Count - $validatedAnchorCount
 if ($placedAnchorCount -ne 9 -or $pendingPlacementCount -ne 0 -or
-    $validatedAnchorCount -ne 3 -or $pendingValidationCount -ne 6) {
+    $validatedAnchorCount -ne 9 -or $pendingValidationCount -ne 0) {
     throw "Diagnóstico de anclajes inesperado: $placedAnchorCount/$pendingPlacementCount/$validatedAnchorCount/$pendingValidationCount."
 }
 
@@ -251,11 +234,12 @@ foreach ($check in @(
     'graph.pathTraversable', 'graph.depthCalculated',
     'world.invalidReferenceRejected', 'owner.commandPublishesEvent',
     'owner.commandIdempotent', 'persistence.ownerRoundTrip',
-    'runtime.depthRebuiltAfterLoad', 'anchors.allPlacedThreeValidated',
-    'anchors.sixPendingValidationCoordinates',
+    'runtime.depthRebuiltAfterLoad', 'anchors.allPlacedNineValidated',
+    'anchors.allValidatedCoordinates',
     'diagnostics.anchorPlacementValidationSplit',
     'reconcile.oldSavePhysicalMetadata', 'reconcile.dynamicStatePreserved',
-    'reconcile.idempotent', 'reconcile.persistedPositionWins',
+    'reconcile.idempotent', 'reconcile.pass2AnchorStatusesPromoted',
+    'reconcile.persistedPositionWins',
     'reconcile.worldInitializeExistingUpdated', 'reconcile.partialWorldRejected'
 )) {
     if (-not $testSuite.Contains($check)) {

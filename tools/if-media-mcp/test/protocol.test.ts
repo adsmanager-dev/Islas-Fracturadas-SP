@@ -27,8 +27,10 @@ test("el servidor enumera herramientas y respeta el modo remoto desactivado", as
     assert.deepEqual(listed.tools.map((tool) => tool.name).sort(), [
       "arma_graph_calls",
       "arma_read_rpt",
+      "arma_sqm_add_layer",
       "arma_sqm_add_logics_to_layer",
       "arma_sqm_add_object",
+      "arma_sqm_compare_workspace",
       "arma_sqm_delete_entity",
       "arma_sqm_inspect",
       "arma_sqm_patch",

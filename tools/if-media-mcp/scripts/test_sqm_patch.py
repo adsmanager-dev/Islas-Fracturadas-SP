@@ -15,6 +15,8 @@ from sqm_patch import (
     apply_add_object_entity,
     add_logic_entities_to_layer,
     apply_add_logic_entities_to_layer,
+    add_empty_layer,
+    apply_add_empty_layer,
     name_logic_entities_in_layer,
     apply_name_logic_entities_in_layer,
     delete_entity,
@@ -300,6 +302,84 @@ class ApplyAddLogicEntitiesToLayerIntegrationTests(unittest.TestCase):
             self.assertEqual(Path(result.backup_path).read_bytes(), LAYER_SAMPLE.encode("utf-8"))
             self.assertTrue(draft.is_file())
             self.assertEqual(mission.read_bytes(), LAYER_SAMPLE.encode("utf-8"))
+
+    def test_preserves_editor_reserved_next_id(self):
+        reserved = LAYER_SAMPLE.replace("nextID=4;", "nextID=104;")
+        entries = [
+            {"name": "IF_ROUTE_TEST_ENTRY_01", "position_sqm": [100.0, 5.0, 200.0]},
+        ]
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(reserved.encode("utf-8"))
+            draft = tmp_path / "patched.sqm"
+
+            result = apply_add_logic_entities_to_layer(
+                mission, None, "IF_01_SECTOR_ANCHORS", entries, draft, tmp_path / "backups",
+            )
+
+            self.assertTrue(result.ok)
+            reparsed = armaclass.parse(draft.read_text(encoding="utf-8"))
+            self.assertEqual(reparsed["EditorData"]["ItemIDProvider"]["nextID"], 104)
+
+
+class AddEmptyLayerTests(unittest.TestCase):
+    def test_appends_empty_root_layer_and_preserves_reserved_next_id(self):
+        reserved = LAYER_SAMPLE.replace("nextID=4;", "nextID=104;")
+        patched, new_id = add_empty_layer(
+            reserved, armaclass.parse(reserved), "IF_04_ROADS_AND_ROUTES", 12.5,
+        )
+        reparsed = armaclass.parse(patched)
+        root = reparsed["Mission"]["Entities"]
+        layer = root["Item2"]
+        self.assertEqual(root["items"], 3)
+        self.assertEqual(new_id, 4)
+        self.assertEqual(layer["dataType"], "Layer")
+        self.assertEqual(layer["name"], "IF_04_ROADS_AND_ROUTES")
+        self.assertEqual(layer["atlOffset"], 12.5)
+        self.assertNotIn("Entities", layer)
+        self.assertEqual(reparsed["EditorData"]["ItemIDProvider"]["nextID"], 104)
+
+    def test_rejects_duplicate_or_invalid_layer_name(self):
+        data = armaclass.parse(LAYER_SAMPLE)
+        with self.assertRaises(PatchError):
+            add_empty_layer(LAYER_SAMPLE, data, "IF_01_SECTOR_ANCHORS")
+        with self.assertRaises(PatchError):
+            add_empty_layer(LAYER_SAMPLE, data, "ROUTES WITHOUT PREFIX")
+
+    def test_new_layer_accepts_logics_in_follow_up_operation(self):
+        layered, _ = add_empty_layer(
+            LAYER_SAMPLE, armaclass.parse(LAYER_SAMPLE), "IF_04_ROADS_AND_ROUTES",
+        )
+        with_logic, logic_ids = add_logic_entities_to_layer(
+            layered, armaclass.parse(layered), "IF_04_ROADS_AND_ROUTES",
+            [{"name": "IF_ROUTE_TEST_ENTRY_01", "position_sqm": [100.0, 5.0, 200.0]}],
+        )
+        root = armaclass.parse(with_logic)["Mission"]["Entities"]
+        self.assertEqual(root["items"], 3)
+        self.assertEqual(root["Item2"]["Entities"]["items"], 1)
+        self.assertEqual(root["Item2"]["Entities"]["Item0"]["id"], logic_ids[0])
+
+
+class ApplyAddEmptyLayerIntegrationTests(unittest.TestCase):
+    def test_creates_hashed_backup_and_validated_draft(self):
+        with TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            mission = tmp_path / "mission.sqm"
+            mission.write_bytes(LAYER_SAMPLE.encode("utf-8"))
+            draft = tmp_path / "layered.sqm"
+            backups = tmp_path / "backups"
+            result = apply_add_empty_layer(
+                mission, None, "IF_04_ROADS_AND_ROUTES", 0.0, draft, backups,
+            )
+            self.assertTrue(result.ok)
+            self.assertEqual(result.entities_after, result.entities_before + 1)
+            self.assertEqual(result.root_items_after, result.root_items_before + 1)
+            self.assertEqual(result.unrelated_entities_changed, [])
+            self.assertIn(result.backup_sha256[:12], Path(result.backup_path).name)
+            self.assertEqual(Path(result.backup_path).read_bytes(), LAYER_SAMPLE.encode("utf-8"))
+            self.assertEqual(mission.read_bytes(), LAYER_SAMPLE.encode("utf-8"))
+            self.assertTrue(draft.is_file())
 
 
 class NameLogicEntitiesInLayerTests(unittest.TestCase):

@@ -3,7 +3,7 @@
 > **Estado del contenedor:** canon rector documental
 > **Fuente de verdad para:** navegación, jerarquía documental, trazabilidad y asignación de fuentes principales
 > **Relacionados:** los 19 documentos temáticos de esta biblioteca
-> **Última consolidación:** 2026-08-09
+> **Última consolidación:** 2026-08-11
 
 ## Propósito
 
@@ -271,6 +271,8 @@ La biblioteca mantiene sus 20 fuentes temáticas consolidadas. Los registros baj
 | [Núcleo autoritativo M1](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md) | estado, runtime, commands, queries, eventos, scheduler, transacciones, reloj y errores | `PROBADO`; `M1 APROBADO` |
 | [Persistencia mínima M2](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md) | schema 1, snapshots A/B, guardado, carga, recuperación y migración inicial | `PROBADO`; `M2 APROBADO` |
 | [Mundo estratégico M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) | grafo, profundidad, propietario, evento, persistencia y paquete de trabajo manual | `PROBADO` en SP; `PENDIENTE_VALIDACION_3DEN`; gate abierto |
+| [M3 Physical Validation Pass 3A](validation/M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md) | normalización de 9 centros, bounds preliminares, transiciones conceptuales y 9 rutas candidatas | `PASS 3A`; límites/rutas `PENDIENTE_VALIDACION_3DEN`; M3 abierto |
+| [M3 Physical Validation Pass 3B](validation/M3_PHYSICAL_VALIDATION_PASS_3B_2026-08-11.md) | paquete reproducible para 9 conexiones, 18 sentidos, vehículos, IA, convoy, tiempos, alternativas, capturas y RPT | `PENDIENTE_EJECUCION_MANUAL`; 0/9 rutas acreditadas; M3 abierto |
 
 Las capas con diferente autoridad —canon, diseño confirmado, propuestas, hipótesis de balance y funcionalidad futura— mantienen sus etiquetas. Ninguna propuesta fue promovida y ningún conflicto narrativo deliberado de personajes o informes fue tratado como contradicción documental.
 

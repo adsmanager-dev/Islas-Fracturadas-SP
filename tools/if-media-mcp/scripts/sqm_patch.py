@@ -7,9 +7,10 @@ archivo queda byte-por-byte idéntico — no es un parseo-completo→regenerar-c
 (eso reformatea el archivo entero, ver EVALUATION.md 2026-08-08).
 
 También añade entidades nuevas: `add_object_entity` anexa un Object al bloque
-raíz y `add_logic_entities_to_layer` inserta de forma atómica una o más Logic en
-una Layer existente identificada por nombre. Marker/Layer/Group todavía no se
-crean. Investigación previa (2026-08-08, ver EVALUATION.md) confirmó
+raíz, `add_empty_layer` crea una Layer raíz vacía y
+`add_logic_entities_to_layer` inserta de forma atómica una o más Logic en una
+Layer existente identificada por nombre. Marker/Group todavía no se crean.
+Investigación previa (2026-08-08, ver EVALUATION.md) confirmó
 en 140 bloques `class Entities` reales (proyecto propio + 2 mapas de Antistasi)
 que los índices ItemN son siempre contiguos 0..N-1 — por eso añadir al final es
 seguro (basta incrementar `items=`), mientras que borrar cualquier entidad que
@@ -386,6 +387,89 @@ def _validate_logic_entries(entries: list[dict]) -> None:
         names.append(name)
     if len(set(names)) != len(names):
         raise PatchError("Los nombres solicitados para las lógicas no son únicos.")
+
+
+def _validate_layer_name(layer_name: str) -> None:
+    if not isinstance(layer_name, str) or not re.fullmatch(r"IF_[A-Za-z0-9_]+", layer_name):
+        raise PatchError("layer_name debe usar el prefijo IF_ y solo letras, números o _.")
+    if len(layer_name) > 120:
+        raise PatchError("layer_name no puede superar 120 caracteres.")
+
+
+def add_empty_layer(text: str, data: dict, layer_name: str,
+                    atl_offset: float = 0.0) -> tuple[str, int]:
+    """Añade una Layer vacía como última entidad del bloque Entities raíz.
+
+    No crea implícitamente puntos ni rutas: sirve para preparar una capa estable
+    antes de que 3DEN aporte coordenadas observadas. Conserva un nextID ya más
+    alto (Eden puede reservar IDs editoriales) y solo lo incrementa si hace falta.
+    """
+    _validate_layer_name(layer_name)
+    if isinstance(atl_offset, bool) or not isinstance(atl_offset, (int, float)) or not math.isfinite(float(atl_offset)):
+        raise PatchError("atl_offset debe ser un número finito.")
+    try:
+        _find_layer_by_name(data, layer_name)
+    except PatchError as error:
+        if not str(error).startswith("No existe una Layer"):
+            raise
+    else:
+        raise PatchError(f'Ya existe una Layer llamada "{layer_name}".')
+
+    root_start, root_end = _find_root_entities_span(text)
+    root_block = text[root_start:root_end]
+    items_match = re.search(r"\bitems\s*=\s*(\d+)\s*;", root_block)
+    if not items_match:
+        raise PatchError("El bloque Entities raíz no declara items=N.")
+    declared_items = int(items_match.group(1))
+    if declared_items == 0:
+        raise PatchError("El bloque Entities raíz vacío no ofrece una entidad hermana para copiar indentación.")
+    root_entities = data.get("Mission", data).get("Entities", {})
+    expected_keys = [f"Item{i}" for i in range(declared_items)]
+    actual_keys = [key for key in root_entities if key.startswith("Item")]
+    if actual_keys != expected_keys:
+        raise PatchError(f"ItemN no es contiguo en la raíz: esperado {expected_keys}, recibido {actual_keys}.")
+
+    last_node = root_entities.get(f"Item{declared_items - 1}")
+    last_id = last_node.get("id") if isinstance(last_node, dict) else None
+    if not isinstance(last_id, int):
+        raise PatchError("La última entidad raíz no tiene id entero.")
+    new_id = _max_entity_id(data) + 1
+    if re.search(rf"\bid\s*=\s*{new_id}\s*;", text):
+        raise PatchError(f"id={new_id} ya existe en el archivo.")
+
+    last_start, insert_at = find_entity_block_span(text, last_id)
+    while insert_at < len(text) and text[insert_at] in " \t":
+        insert_at += 1
+    if insert_at < len(text) and text[insert_at] == ";":
+        insert_at += 1
+    class_pos = text.rfind("class", root_start, last_start)
+    if class_pos == -1:
+        raise PatchError("No se localizó class ItemN de la última entidad raíz.")
+    newline = _detect_newline(text)
+    outer_indent = _line_indent(text, class_pos)
+    indent_unit = _indent_unit_for_block(text, last_start, insert_at)
+    inner_indent = outer_indent + indent_unit
+    escaped_name = layer_name.replace('"', '""')
+    block = newline.join([
+        f"{outer_indent}class Item{declared_items}",
+        f"{outer_indent}{{",
+        f'{inner_indent}dataType="Layer";',
+        f'{inner_indent}name="{escaped_name}";',
+        f"{inner_indent}id={new_id};",
+        f"{inner_indent}atlOffset={_format_number(float(atl_offset))};",
+        f"{outer_indent}}};",
+    ])
+    patched_text = text[:insert_at] + newline + block + text[insert_at:]
+    items_start = root_start + items_match.start()
+    items_end = root_start + items_match.end()
+    patched_text = patched_text[:items_start] + f"items={declared_items + 1};" + patched_text[items_end:]
+
+    next_id_match = re.search(r"\bnextID\s*=\s*(\d+)\s*;", patched_text)
+    if next_id_match and int(next_id_match.group(1)) <= new_id:
+        patched_text = (patched_text[:next_id_match.start()]
+                        + f"nextID={new_id + 1};"
+                        + patched_text[next_id_match.end():])
+    return patched_text, new_id
 
 
 def _build_logic_item(index: int, entity_id: int, entry: dict, outer_indent: str,
@@ -992,7 +1076,7 @@ def apply_add_logic_entities_to_layer(mission_sqm: Path, hemtt_exe: Optional[str
     provider_before = data_before.get("EditorData", {}).get("ItemIDProvider", {})
     provider_after = data_after.get("EditorData", {}).get("ItemIDProvider", {})
     if isinstance(provider_before, dict) and isinstance(provider_before.get("nextID"), int):
-        expected_next_id = max(all_ids) + 1
+        expected_next_id = max(provider_before["nextID"], max(all_ids) + 1)
         if not isinstance(provider_after, dict) or provider_after.get("nextID") != expected_next_id:
             raise PatchError(f"ItemIDProvider.nextID no quedó en {expected_next_id}.")
 
@@ -1190,6 +1274,84 @@ class DeleteResult:
     unrelated_entities_changed: list[str]
 
 
+@dataclass
+class AddLayerResult:
+    ok: bool
+    backup_path: str
+    backup_sha256: str
+    draft_path: str
+    layer_name: str
+    new_layer_id: int
+    entities_before: int
+    entities_after: int
+    root_items_before: int
+    root_items_after: int
+    next_id_before: Optional[int]
+    next_id_after: Optional[int]
+    unrelated_entities_changed: list[str]
+
+
+def apply_add_empty_layer(mission_sqm: Path, hemtt_exe: Optional[str], layer_name: str,
+                          atl_offset: float, draft_output: Path,
+                          backup_dir: Path) -> AddLayerResult:
+    raw = mission_sqm.read_bytes()
+    if raw[:4] == b"\0raP":
+        base_text = armaclass.generate(derapify_if_needed(mission_sqm, hemtt_exe))
+    else:
+        base_text = raw.decode("utf-8-sig", errors="replace")
+    data_before = armaclass.parse(base_text)
+    root_before = data_before.get("Mission", data_before).get("Entities", {})
+    entities_before = flatten_entities(root_before)
+    root_items_before = int(root_before.get("items", -1))
+    provider_before = data_before.get("EditorData", {}).get("ItemIDProvider", {})
+    next_id_before = provider_before.get("nextID") if isinstance(provider_before, dict) else None
+
+    patched_text, new_id = add_empty_layer(base_text, data_before, layer_name, atl_offset)
+    try:
+        data_after = armaclass.parse(patched_text)
+    except Exception as error:
+        raise PatchError(f"El resultado no es un mission.sqm válido tras crear la Layer: {error}") from error
+    root_after = data_after.get("Mission", data_after).get("Entities", {})
+    entities_after = flatten_entities(root_after)
+    root_items_after = int(root_after.get("items", -1))
+    layer_after = _find_layer_by_name(data_after, layer_name)
+    if layer_after.get("id") != new_id or layer_after.get("dataType") != "Layer" or "Entities" in layer_after:
+        raise PatchError("La nueva Layer no reaparece vacía y con el ID esperado tras el round-trip.")
+    if root_items_after != root_items_before + 1:
+        raise PatchError("items raíz no aumentó exactamente en uno al crear la Layer.")
+    expected_keys = [f"Item{i}" for i in range(root_items_after)]
+    if [key for key in root_after if key.startswith("Item")] != expected_keys:
+        raise PatchError("ItemN raíz dejó de ser contiguo al crear la Layer.")
+
+    before_by_id = _index_raw_entities_by_id(root_before)
+    after_by_id = _index_raw_entities_by_id(root_after)
+    unrelated_changed = [f"id={entity_id}" for entity_id, node in before_by_id.items()
+                         if after_by_id.get(entity_id) != node]
+    all_ids = [entity["id"] for entity in entities_after if isinstance(entity.get("id"), int)]
+    if len(all_ids) != len(set(all_ids)):
+        raise PatchError("El resultado contiene IDs de entidad duplicados.")
+    provider_after = data_after.get("EditorData", {}).get("ItemIDProvider", {})
+    next_id_after = provider_after.get("nextID") if isinstance(provider_after, dict) else None
+    if isinstance(next_id_before, int) and next_id_after != max(next_id_before, new_id + 1):
+        raise PatchError("ItemIDProvider.nextID no conservó su reserva o el siguiente ID requerido.")
+
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    backup_sha256 = hashlib.sha256(raw).hexdigest().upper()
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    backup_path = backup_dir / f"mission.sqm.{timestamp}.{backup_sha256[:12]}.bak"
+    backup_path.write_bytes(raw)
+    draft_output.write_text(patched_text, encoding="utf-8", newline="")
+    return AddLayerResult(
+        ok=(not unrelated_changed and len(entities_after) == len(entities_before) + 1),
+        backup_path=str(backup_path), backup_sha256=backup_sha256,
+        draft_path=str(draft_output), layer_name=layer_name, new_layer_id=new_id,
+        entities_before=len(entities_before), entities_after=len(entities_after),
+        root_items_before=root_items_before, root_items_after=root_items_after,
+        next_id_before=next_id_before, next_id_after=next_id_after,
+        unrelated_entities_changed=unrelated_changed,
+    )
+
+
 def apply_delete_entity(mission_sqm: Path, hemtt_exe: Optional[str], entity_id: int,
                          draft_output: Path, backup_dir: Path) -> DeleteResult:
     raw = mission_sqm.read_bytes()
@@ -1295,6 +1457,19 @@ def _main_add_logics_to_layer(args) -> int:
     return 0 if result.ok else 1
 
 
+def _main_add_layer(args) -> int:
+    try:
+        result = apply_add_empty_layer(
+            args.mission_sqm, args.hemtt, args.layer_name, args.atl_offset,
+            args.draft_output, args.backup_dir,
+        )
+    except PatchError as error:
+        print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=False))
+        return 1
+    print(json.dumps(result.__dict__, ensure_ascii=False))
+    return 0 if result.ok else 1
+
+
 def _main_name_logics_in_layer(args) -> int:
     try:
         entries = json.loads(args.entries_json)
@@ -1356,6 +1531,10 @@ def main() -> int:
         help='JSON: [{"name":"IF_...","position_sqm":[x,elevación,y]}]',
     )
 
+    add_layer_parser = subparsers.add_parser("add_layer")
+    add_layer_parser.add_argument("--layer-name", required=True)
+    add_layer_parser.add_argument("--atl-offset", type=float, default=0.0)
+
     name_logics_parser = subparsers.add_parser("name_logics_in_layer")
     name_logics_parser.add_argument("--layer-name", required=True)
     name_logics_parser.add_argument(
@@ -1374,6 +1553,8 @@ def main() -> int:
         return _main_add_object(args)
     if args.op == "add_logics_to_layer":
         return _main_add_logics_to_layer(args)
+    if args.op == "add_layer":
+        return _main_add_layer(args)
     if args.op == "name_logics_in_layer":
         return _main_name_logics_in_layer(args)
     return _main_delete_entity(args)

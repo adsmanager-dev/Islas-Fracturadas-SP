@@ -3,7 +3,7 @@
 > **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; implementación técnica M3 probada, gate pendiente de 3DEN; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-08-09
+> **Última consolidación:** 2026-08-11
 
 ## Propósito
 
@@ -47,23 +47,23 @@ La divergencia territorial M3 quedó resuelta por `DEC-009`: `ALT_W_AGIOS_DIONYS
 ## Instantánea autoritativa del estado real
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Fecha de corte:** 2026-08-09
+> **Fecha de corte:** 2026-08-11
 > **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
 
 | Campo | Estado real |
 | --- | --- |
 | Fase actual | Fase 3 — validación física del mundo estratégico mínimo |
-| Subfase | implementación SQF completa; pasada física inicial y regresión de nombres en Eden completadas; validación M3 restante pendiente |
+| Subfase | Pass 2 cerrado con 9 centros `VALIDADO_3DEN`; Pass 3A `PASS`; Pass 3B abierto con paquete reproducible para rutas/convoyes y 0/9 conexiones acreditadas; ejecución física pendiente |
 | Último gate aprobado | `M2 — Campaña persistente mínima` |
 | Hito técnico aprobado | `M2`, 2026-08-07 |
 | Próximo hito | `M3 — Mundo estratégico mínimo` |
 | Implementación jugable | Infraestructura M2 y grafo lógico M3 ejecutables en SP; campaña jugable todavía ausente |
-| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; tres centros ATL migrados; Agios como enlace interior principal; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
-| Entregables ausentes | seis centros M3; nueve radios; límites y rutas físicas completas; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
-| Pruebas ejecutadas | suites estáticas M0–M3 PASS, Semgrep sin hallazgos y 38 comprobaciones internas PASS en Arma 3 |
+| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; 9 centros ATL `VALIDADO_3DEN`; Agios como enlace interior principal; normalización Pass 3A; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
+| Entregables ausentes | nueve radios; bounds y transiciones con coordenadas exactas; rutas físicas completas; convoy/IA; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
+| Pruebas ejecutadas | suites estáticas M0–M3 y Sync `PASS`; Semgrep 3 reglas/72 archivos sin hallazgos; 38 comprobaciones históricas `PASS` en Arma 3; runtime posterior a Pass 3A pendiente |
 | Pruebas de Arma 3 | Arma 3 2.20.152984 x64; M2 aprobada y ejecución M3 registrada en [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) |
 | Bloqueadores canónicos | Ninguno; `DEC-008` cierra la cabeza Azul y `DEC-009` elige Agios como enlace interior principal sin desplazar las funciones de Neochori |
-| Bloqueadores técnicos posteriores | El gate M3 requiere seis centros, radios, límites, convoy/IA y rutas completas desde 3DEN; la UI diagnóstica física sigue ausente |
+| Bloqueadores técnicos posteriores | El gate M3 requiere radios, bounds, transiciones, convoy/IA y rutas completas desde 3DEN; Pass 3B está `PENDIENTE_EJECUCION_MANUAL`, `mission.sqm` conserva autoridad 3DEN más nueva hasta sincronizar, y la UI diagnóstica física y la ejecución runtime posterior a Pass 3A siguen ausentes |
 | Estado de Fase 0 | Completada; `M0 APROBADO` |
 | Estado de Fase 1 | Completada; `M1 APROBADO` |
 | Estado de Fase 2 | Completada; `M2 APROBADO` |
@@ -146,7 +146,7 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 ### M3 — Mundo estratégico mínimo
 
 > **Estado:** implementación técnica `PROBADA` el 2026-08-07; gate `NO APROBADO`.
-> **Alcance acreditado:** configuración y simulación lógica SP, nueve centros colocados en configuración, tres `VALIDADO_3DEN` y seis `VALIDACION_3DEN_EN_CURSO`; no acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
+> **Alcance acreditado:** configuración y simulación lógica SP, nueve centros colocados y `VALIDADO_3DEN`; Pass 3A normaliza cuatro divergencias y prepara límites/transiciones/rutas candidatas sin acreditarlos físicamente. No acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
 
 | Criterio obligatorio | Evidencia | Resultado |
 | --- | --- | --- |
@@ -156,24 +156,33 @@ La evidencia, los hashes de tres RPT, la matriz completa y los límites se conse
 | Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
 | Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
 | Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
-| Compatibilidad de save M3 anterior | fixture con seis `positionATL`/`flags.anchorPositionATL` vacíos recibe 24 cambios físicos aditivos; datos dinámicos preservados, repetición sin cambios y estado parcial rechazado intacto | `PASS` |
-| Coordenadas procedentes de 3DEN | nueve centros migrados a `config/sectors.hpp`; tres `VALIDADO_3DEN`, seis `VALIDACION_3DEN_EN_CURSO` y nueve radios `-1`/`POR_CALIBRAR` | `PASS` de colocación; `PARCIAL` físico |
-| Sectores críticos con anclaje | diagnóstico `placed/pendingPlacement/validated/pendingValidation = 9/0/3/6` | `PASS` técnico; seis validaciones físicas pendientes |
+| Compatibilidad de save M3 anterior | fixture histórico con seis `positionATL`/`flags.anchorPositionATL` vacíos conserva 24 cambios físicos aditivos; un save Pass 2 con seis `anchorStatus` en curso recibe además su promoción segura sin sobrescribir datos dinámicos | `PASS` estático; runtime posterior pendiente |
+| Coordenadas procedentes de 3DEN | nueve centros migrados a `config/sectors.hpp` y `VALIDADO_3DEN`; Neri, Agios, Lakka y Poliakko normalizados; nueve radios `-1`/`POR_CALIBRAR` | `PASS` para centros; límites/radios `PENDIENTE_VALIDACION_3DEN` |
+| Sectores críticos con anclaje | diagnóstico `placed/pendingPlacement/validated/pendingValidation = 9/0/9/0` | `PASS` técnico para centros; no cuenta límites ni rutas |
 | UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
 
-La suite SQF M3 contiene 21 contratos, incluidos mundo nuevo, save M3 anterior,
+La suite SQF M3 contiene los contratos de mundo nuevo, save M3 anterior,
 preservación dinámica, idempotencia, prioridad de posiciones persistidas,
-integración con `worldInitialize`, rechazo de estado parcial y diagnóstico
-`9/0/3/6`. `IF_fnc_worldReconcilePhysicalMetadata` solo añade las dos
-posiciones físicas ausentes y las dos transiciones de estado seguras desde
-configuración; usa las transacciones existentes y audita una sola vez en
+integración con `worldInitialize`, rechazo de estado parcial, promoción segura
+de los seis `anchorStatus` de Pass 2 y diagnóstico `9/0/9/0`.
+`IF_fnc_worldReconcilePhysicalMetadata` solo añade las dos posiciones físicas
+ausentes y transiciones de estado permitidas desde configuración; usa las
+transacciones existentes y audita una sola vez en
 `meta.migrationHistory`. Propietario, control, fuerzas, guarnición, preparación,
 moral, recursos/suministro, producción, daño, niveles, relaciones, influencia,
 misiones, eventos, logística y estado político permanecen fuera de su alcance.
 
-Ambos RPT históricos con SHA-256, la pasada física inicial, la regresión de
+Ambos RPT históricos con SHA-256, las pasadas físicas, la regresión de
 persistencia de nombres, el fixture de compatibilidad y sus límites se conservan
 en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md).
+La normalización, los bounds preliminares, las transiciones sin XY inventada y
+las nueve rutas candidatas se registran aparte en
+[M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md](validation/M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md).
+El protocolo de ejecución para las nueve conexiones y sus dieciocho sentidos se
+conserva en
+[M3_PHYSICAL_VALIDATION_PASS_3B_2026-08-11.md](validation/M3_PHYSICAL_VALIDATION_PASS_3B_2026-08-11.md):
+no aporta todavía resultados físicos, deja 0/9 rutas acreditadas y bloquea toda
+escritura del SQM hasta guardar/cerrar 3DEN y resolver la sincronización.
 Agios y Neochori resultaron transitables con ambos vehículos; la decisión
 humana `DEC-009` selecciona Agios y `CONN_M3_NERI_AGIOS` como diseño confirmado.
 Las cuatro conexiones no confirmadas restantes conservan `PROPUESTA_M3` y toda
