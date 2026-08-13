@@ -1,0 +1,4 @@
+interface:
+  display_name: "Puerta de entrega IF"
+  short_description: "Evalúa hitos contra evidencia exigida"
+  default_prompt: "Use $if-release-gate para evaluar este hito contra sus criterios y evidencia."

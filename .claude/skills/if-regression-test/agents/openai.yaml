@@ -1,0 +1,4 @@
+interface:
+  display_name: "Regresión IF"
+  short_description: "Deriva regresiones reproducibles de defectos"
+  default_prompt: "Use $if-regression-test para convertir este defecto corregido en una prueba de regresión."

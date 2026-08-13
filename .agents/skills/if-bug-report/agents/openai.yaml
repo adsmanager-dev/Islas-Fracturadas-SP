@@ -1,0 +1,4 @@
+interface:
+  display_name: "Informe de defecto IF"
+  short_description: "Convierte observaciones en defectos reproducibles"
+  default_prompt: "Use $if-bug-report para documentar esta observación como un defecto reproducible."

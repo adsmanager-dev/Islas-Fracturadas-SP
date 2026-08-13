@@ -18,3 +18,4 @@
 .github
 .git
 .hemtt
+IslasFracturadas.Altis\description.ext

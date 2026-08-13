@@ -1,0 +1,14 @@
+interface:
+  display_name: "IF Media Assets"
+  short_description: "Genera y prepara identidad visual trazable"
+  default_prompt: "Usa $if-media-assets para crear o preparar un asset visual trazable de Islas Fracturadas."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "if-media"
+      description: "Servidor local gobernado para imágenes y conversión de assets"
+      transport: "stdio"
+
+policy:
+  allow_implicit_invocation: true

@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Arcos ejecutables y relojes de conflicto](#arcos-ejecutables-y-relojes-de-conflicto)
 - [CHARACTER RELATIONSHIPS LOYALTIES AND BETRAYALS](#fuente-character-relationships-loyalties-and-betrayals)
 
 ## Principios
@@ -38,6 +39,68 @@ Fuentes auditadas: `CHARACTER_RELATIONSHIPS_LOYALTIES_AND_BETRAYALS.md`. No se i
 - Las fuentes declaradas para 07_CHARACTERS_COMMAND_AND_RELATIONSHIPS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="arcos-ejecutables-y-relojes-de-conflicto"></a>
+## Arcos ejecutables y relojes de conflicto
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Umbrales exactos y variantes de escena:** `POR_CALIBRAR`
+
+Una relación persistente solo es jugable si produce conducta, escenas y consecuencias. Cada personaje principal debe declarar deseo, temor, creencia equivocada, límite moral, secreto, relación inicial con el jugador, primera prueba, vulnerabilidad, decisión irreversible, ruptura posible, resolución, destinos y sustituto funcional. Los campos ausentes se completan antes de producir sus escenas; una biografía por sí sola no satisface el contrato.
+
+### Contrato común de reloj
+
+| Fase | Conducta | Requisitos de transición |
+| --- | --- | --- |
+| Cooperación | discrepan, pero comparten información, recursos y objetivo | estado inicial o reparación verificable |
+| Tensión | priorizan objetivos incompatibles y emiten advertencias | detonante acumulado más una señal previa |
+| Rivalidad | reservan recursos, buscan aliados y usan al jugador como intermediario | dos decisiones significativas o un incidente grave |
+| Ruptura | limitan, desobedecen, exponen o intentan relevar al otro | detonante irreversible y escena obligatoria |
+| Crisis | el jugador debe obedecer, mediar, exponer, detener o asumir autoridad | misión derivada con coste militar/político |
+| Resolución | domina una postura, existe compromiso o actúa un sustituto | consecuencia persistente, cambio de mando y huella de final |
+
+No se salta de Cooperación a Ruptura sin un incidente extraordinario mostrado y autenticado. Toda transición registra detonante, advertencia, escena, misión derivada, consecuencia militar, relación afectada y familias de final.
+
+### Relojes directores
+
+| Reloj | Detonantes de tensión/rivalidad | Ruptura o crisis | Resoluciones y efectos |
+| --- | --- | --- | --- |
+| `WARD_HALE_CONFLICT` | frenar ofensivas, ocultar planes Helios, bajas civiles, sobreextensión y disputa sobre salida política | Hale intenta relevar a Ward o Ward lo limita/investiga/detiene; AZUR-1 recibe órdenes incompatibles | Ward domina, Hale domina, compromiso con controles o mando sustituto; altera doctrina Azul, legitimidad y presencia final |
+| `NAVID_VAHID_CONFLICT` | subordinación de Verde, expansión no pactada, pérdida de iniciativa, trato a Gobierno y ataques sin confirmación | uno acusa al otro de abandonar la misión o convertir alianza en ocupación; RUBÍ-1 debe elegir o mediar | Navid aliancista, Vahid dominante, compromiso o sustituto; define alianza restaurada, orden impuesto u ocupación |
+| `MARKOU_KALLAS_CONFLICT` | receptor de armas, control de brigadas, coerción municipal, negociación, bajas y Némesis | apropiación de depósitos, combate interno o intento de monopolizar la posguerra | primacía cívica, militar, compromiso o fragmentación; define República de la resistencia, revolución o Gobierno de unidad |
+| `VAROS_GOVERNMENT_CONFLICT` | órdenes imposibles, Asterión, pérdida de comunicaciones, subordinación extranjera y legitimidad de Kouris/Pallis | Verde desconoce una autoridad, se produce golpe o el Gobierno intenta desarmar mandos sin acuerdo | obediencia restaurada, tutela, directorio, Gobierno de unidad o fragmentación |
+| `ARGOS_EXPOSURE` | anomalías verificadas de Shaw/Volkov/Rallis, PHAROS, LÁZARO, copias y testigos | Argos fabrica una traición, elimina rutas o evacua; el jugador decide distribución y custodia | oscuro, contenido, expuesto o desmantelado parcial; nunca prueba por sí solo a Vardis fuera de `DEC-003`–`DEC-005` |
+| `CIVIL_RADICALIZATION` | bajas, detenciones, requisas, promesas rotas, servicios y propaganda | protesta reprimida, masacre, bloqueo o captura armada de una comunidad | neutralidad recuperada, resistencia cívica, apoyo FIA, insurgencia o rechazo general; modifica legitimidad y estabilidad |
+| `GREEN_FRAGMENTATION` | reservas insuficientes, comunicaciones cortadas, pactos incompatibles y trato a oficiales | mandos paralelos combaten, se subordinan o declaran autoridad regional | reunificación, alianza limitada, fuerza provisional, directorio, resistencia o fragmentación permanente |
+
+### Momentos obligatorios de los arcos centrales
+
+Los momentos pueden ocurrir en radio, trayecto, preparación, combate, debriefing, visita o conversación privada. Su contexto y líneas varían; su función dramática no desaparece por el resultado de una misión.
+
+| Personaje o vínculo | Momentos que deben existir |
+| --- | --- |
+| Maya Torres | protege a Cole durante el desembarco; cuestiona sacrificar una unidad aliada; reacciona al primer rescate o abandono de heridos; decide si aún confía en Cole; lo sucede, enfrenta o sostiene en la crisis final |
+| Arman Darzi | mantiene cohesionada a RUBÍ-1 en Asterión; tolera o denuncia una desobediencia salvadora; muestra el coste humano de la disciplina; decide si Qadir conserva su confianza; asume o rechaza el mando sustituto |
+| Ward y Hale | primera discrepancia contenida; recurso u objetivo retenido; discusión privada sobre ocupación/Helios; órdenes incompatibles en una operación; crisis y resolución de mando |
+| Navid y Vahid | delimitación inicial de la invitación; primera expansión disputada; reacción a subordinación Verde; uso de RUBÍ-1 como prueba de doctrina; relevo, compromiso o ruptura |
+| Markou y Kallas | cooperación necesaria; disputa por armas o autoría de una victoria; vulnerabilidad compartida ante una pérdida; decisión sobre brigadas y Gobierno; resolución cívica, militar o fragmentaria |
+| Varos y Gobierno | defensa pública de unidad; orden que Varos no puede cumplir; conversación sobre Asterión/soberanía; elección entre autoridad constitucional y supervivencia militar; reunificación, tutela o directorio |
+| Kessler y Sadeq | reconocimiento de una firma común; competencia por interpretación; descubrimiento de una omisión propia; decisión sobre custodia/publicación; cooperación, apropiación nacional o ruptura |
+| Arendt y Vardis | defensa de continuidad; primera prueba de coste civil intolerable; vulnerabilidad sobre el archivo frío; negativa u obediencia irreversible; ayuda limitada, fuga, neutralización o continuidad |
+| Cole/Qadir y su unidad | primera decisión bajo fuego; coste de priorizar misión o personas; miembro que confronta el patrón acumulado; autoridad cuestionada; legado final con sucesor si corresponde |
+
+### Matriz mínima de arco por personaje
+
+Antes de aprobar producción de un personaje central, su ficha enlazada debe responder:
+
+```text
+deseo | temor | creencia equivocada | límite moral | secreto
+relación inicial | primera prueba | vulnerabilidad | decisión irreversible
+ruptura posible | resolución | destinos | sustituto funcional
+momentos obligatorios | variables leídas | variables escritas
+```
+
+La muerte o ausencia cambia contexto y sustituto, pero no elimina la función del arco. Si el sustituto no puede expresar el mismo conflicto, la misión debe transformarse en vez de reproducir diálogo genérico.
 
 ## Contenido consolidado
 

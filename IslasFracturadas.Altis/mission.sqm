@@ -1,0 +1,396 @@
+version=54;
+
+class EditorData
+{
+    moveGridStep=1;
+    angleGridStep=0.2617994;
+    scaleGridStep=1;
+    autoGroupingDist=10;
+    toggles=1;
+    class ItemIDProvider
+    {
+        nextID=104;
+    };
+    class LayerIndexProvider
+    {
+        nextID=45;
+    };
+    class Camera
+    {
+        pos[]=
+        {
+            11947.647, 65.31886, 11456.584
+        };
+        dir[]=
+        {
+            -0.7517969, -0.29683104, 0.5888313
+        };
+        up[]=
+        {
+            -0.2336882, 0.954928, 0.18303192
+        };
+        aside[]=
+        {
+            0.6166188, 5.355105e-09, 0.787277
+        };
+    };
+};
+
+sourceName="IslasFracturadas";
+
+addons[]=
+{
+    "A3_Modules_F", "A3_Soft_F_Gamma_Truck_01", "A3_Soft_F_MRAP_01", "A3_Characters_F"
+};
+
+class AddonsMetaData
+{
+    class List
+    {
+        items=4;
+        class Item0
+        {
+            className="A3_Modules_F";
+            name="Arma 3 Alpha - Scripted Modules";
+            author="Bohemia Interactive";
+            url="https://www.arma3.com";
+        };
+        class Item1
+        {
+            className="A3_Soft_F_Gamma";
+            name="Arma 3 - Unarmored Land Vehicles";
+            author="Bohemia Interactive";
+            url="https://www.arma3.com";
+        };
+        class Item2
+        {
+            className="A3_Soft_F";
+            name="Arma 3 Alpha - Unarmored Land Vehicles";
+            author="Bohemia Interactive";
+            url="https://www.arma3.com";
+        };
+        class Item3
+        {
+            className="A3_Characters_F";
+            name="Arma 3 Alpha - Characters and Clothing";
+            author="Bohemia Interactive";
+            url="https://www.arma3.com";
+        };
+    };
+};
+
+randomSeed=815989;
+
+class ScenarioData
+{
+    author="RUNE";
+};
+
+class Mission
+{
+    class Intel
+    {
+        timeOfChanges=1800.0002;
+        startWeather=0.3;
+        startWind=0.1;
+        startWaves=0.1;
+        forecastWeather=0.3;
+        forecastWind=0.1;
+        forecastWaves=0.1;
+        forecastLightnings=0.1;
+        year=2035;
+        month=6;
+        day=24;
+        hour=12;
+        minute=0;
+        startFogDecay=0.014;
+        forecastFogDecay=0.014;
+    };
+    class Entities
+    {
+        items=6;
+        class Item0
+        {
+            dataType="Layer";
+            name="IF_00_WORLD_REFERENCE";
+            id=2;
+            atlOffset=185.97;
+        };
+        class Item1
+        {
+            dataType="Layer";
+            name="IF_01_SECTOR_ANCHORS";
+            class Entities
+            {
+                items=9;
+                class Item0
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            5059.8296, 53.338142, 11299.381
+                        };
+                        angles[]=
+                        {
+                            6.2751846, 0, 6.2259154
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_W_NERI_PANOCHORI_CENTER";
+                    id=7;
+                    type="Logic";
+                };
+                class Item1
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            9366.166, 119.52724, 15886.582
+                        };
+                        angles[]=
+                        {
+                            0.0066592805, 0, 6.2698536
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_W_AGIOS_DIONYSIOS_CENTER";
+                    id=8;
+                    type="Logic";
+                };
+                class Item2
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            12359.11, 25.110445, 15630.292
+                        };
+                        angles[]=
+                        {
+                            0.014664836, 0, 6.2778587
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_CW_LAKKA_CENTER";
+                    id=9;
+                    type="Logic";
+                };
+                class Item3
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            12948.381, 27.803102, 15032.742
+                        };
+                        angles[]=
+                        {
+                            6.2285743, 0, 6.233893
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_CW_STAVROS_WHISKEY_CENTER";
+                    id=17;
+                    type="Logic";
+                };
+                class Item4
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            11479.819, 23.241089, 11632.228
+                        };
+                        angles[]=
+                        {
+                            0.003996757, 0, 0
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_CW_AAC_CENTER";
+                    id=18;
+                    type="Logic";
+                    atlOffset=1.9073486e-06;
+                };
+                class Item5
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            11246.036, 18.871372, 13627.0205
+                        };
+                        angles[]=
+                        {
+                            6.265853, 0, 6.237883
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_CW_POLIAKKO_THERISA_CENTER";
+                    id=19;
+                    type="Logic";
+                };
+                class Item6
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            9138.721, 30.62191, 13938.911
+                        };
+                        angles[]=
+                        {
+                            0.019996032, 0, 6.277848
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_CW_XIROLIMNI_ZAROS_CENTER";
+                    id=20;
+                    type="Logic";
+                };
+                class Item7
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            14383.358, 17.8, 15922.19
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_C_AIRPORT_WEST_CENTER";
+                    id=21;
+                    type="Logic";
+                };
+                class Item8
+                {
+                    dataType="Logic";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            15185.31, 17.91, 16774.15
+                        };
+                    };
+                    name="IF_ANCHOR_ALT_C_AIRPORT_TERMINAL_CENTER";
+                    id=22;
+                    type="Logic";
+                };
+            };
+            id=3;
+            atlOffset=5.5996447;
+        };
+        class Item2
+        {
+            dataType="Layer";
+            name="IF_02_SECTOR_BOUNDS";
+            id=4;
+            atlOffset=185.97;
+        };
+        class Item3
+        {
+            dataType="Layer";
+            name="IF_03_CONNECTIONS";
+            id=5;
+            atlOffset=185.97;
+        };
+        class Item4
+        {
+            dataType="Layer";
+            name="IF_90_TESTING";
+            class Entities
+            {
+                items=3;
+                class Item0
+                {
+                    dataType="Object";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            4886.2617, 21.93932, 10414.371
+                        };
+                        angles[]=
+                        {
+                            6.233892, 0, 0.035984326
+                        };
+                    };
+                    side="Empty";
+                    flags=4;
+                    class Attributes
+                    {
+                    };
+                    id=10;
+                    type="B_Truck_01_mover_F";
+                    atlOffset=-5.9127808e-05;
+                };
+                class Item1
+                {
+                    dataType="Object";
+                    class PositionInfo
+                    {
+                        position[]=
+                        {
+                            4894.5054, 22.437641, 10430.439
+                        };
+                        angles[]=
+                        {
+                            0.009328634, 0, 0.01599837
+                        };
+                    };
+                    side="Empty";
+                    flags=4;
+                    class Attributes
+                    {
+                    };
+                    id=13;
+                    type="B_MRAP_01_F";
+                    atlOffset=1.335144e-05;
+                };
+                class Item2
+                {
+                    dataType="Group";
+                    side="West";
+                    class Entities
+                    {
+                        items=1;
+                        class Item0
+                        {
+                            dataType="Object";
+                            class PositionInfo
+                            {
+                                position[]=
+                                {
+                                    4891.223, 20.30122, 10421.273
+                                };
+                            };
+                            side="West";
+                            flags=7;
+                            class Attributes
+                            {
+                                isPlayer=1;
+                            };
+                            id=16;
+                            type="B_Soldier_F";
+                        };
+                    };
+                    class Attributes
+                    {
+                    };
+                    id=15;
+                };
+            };
+            id=6;
+            atlOffset=-0.07364845;
+        };
+        class Item5
+        {
+            dataType="Layer";
+            name="IF_04_ROADS_AND_ROUTES";
+            id=23;
+            atlOffset=0;
+        };
+    };
+};

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>RUBÍ-1 «Bastión» — Fuerza de Estabilización del Pacto Oriental</title>
+  <desc>v2. Canon: docs/15 §125 (rojo oscuro, tonos tierra, estructura de mando, énfasis operacional); docs/04 §8 (Operación Escudo de la Aurora). Principio rector: Rojo concentra. Disco parcial tras el horizonte en vez de sol con rayos; una sola forma de mando en V en vez de tres galones que leían como rango. Original, sin material de terceros.</desc>
+
+  <rect width="128" height="128" fill="#191411"/>
+
+  <!-- Escudo macizo y CERRADO: sin interrupciones, opuesto deliberado al marco abierto de Azul -->
+  <path d="M64 8 L110 24 V68 C110 94 88 112 64 120 C40 112 18 94 18 68 V24 Z"
+        fill="#6E1F1C" stroke="#C4703F" stroke-width="3"/>
+
+  <!-- Disco PARCIALMENTE OCULTO por la línea de tierra: aurora naciente, no sol pleno -->
+  <clipPath id="horizonte"><rect x="18" y="20" width="92" height="30"/></clipPath>
+  <circle cx="64" cy="50" r="22" fill="#D9A05B" clip-path="url(#horizonte)"/>
+
+  <!-- Tres incisiones radiales pequeñas, casi industriales — no rayos grandes -->
+  <path d="M64 18 V26 M46 26 L51 33 M82 26 L77 33" stroke="#D9A05B" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Línea de tierra: tonos tierra -->
+  <rect x="24" y="49" width="80" height="4" fill="#C4703F"/>
+
+  <!-- Forma de mando ÚNICA: una V de penetración/avance, sustituye los tres galones -->
+  <path d="M40 62 L64 100 L88 62" fill="none" stroke="#E8D6C0" stroke-width="9" stroke-linejoin="round"/>
+  <!-- Capas descendentes detrás de la V: líneas de frente que se ceden, refuerzan "concentración" -->
+  <path d="M32 66 H96" stroke="#8B3A2E" stroke-width="3"/>
+  <path d="M36 74 H92" stroke="#8B3A2E" stroke-width="3"/>
+</svg>

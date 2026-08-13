@@ -1,0 +1,26 @@
+# Hooks locales, sin dependencias externas descargadas por pre-commit: cada uno
+# invoca un comando que AGENTS.md ya exige ejecutar manualmente tras cambios
+# funcionales (npm run check / semgrep scan). Nada nuevo, solo automatizado.
+repos:
+  - repo: local
+    hooks:
+      - id: diff-check
+        name: Comprobar conflictos y espacios en blanco (git diff --check)
+        entry: git diff --check --cached
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: if-media-mcp-check
+        name: if-media-mcp typecheck (npm run check)
+        entry: npm --prefix tools/if-media-mcp run check
+        language: system
+        files: ^tools/if-media-mcp/(src|test)/.*\.ts$
+        pass_filenames: false
+
+      - id: semgrep-islas-fracturadas
+        name: Semgrep (IslasFracturadas.Altis)
+        entry: semgrep scan --config .semgrep.yml --metrics off --no-git-ignore IslasFracturadas.Altis
+        language: system
+        files: ^IslasFracturadas\.Altis/.*\.sqf$
+        pass_filenames: false

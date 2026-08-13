@@ -1,0 +1,4 @@
+interface:
+  display_name: "Módulo SQF IF"
+  short_description: "Implementa módulos SQF aprobados"
+  default_prompt: "Use $if-sqf-module para implementar este módulo aprobado con contratos y localidad."

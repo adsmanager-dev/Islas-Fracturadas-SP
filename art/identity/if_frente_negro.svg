@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Frente Negro — firma «Némesis»</title>
+  <desc>v2. Canon: docs/06 §Frente Negro y §«Némesis» — "para FIA es una identidad desconocida y un símbolo"; verdad de autor: identidad operativa de Argos. Principio rector: Frente Negro falsifica. Comparte el mismo esqueleto geométrico que FIA (mismos vértices, mismas proporciones) pero rotado 3°, recortado en una esquina y ejecutado con líneas técnicas perfectas en vez de espray: la relación solo se nota mirando dos veces, no de un vistazo. El travesaño es una barra industrial continua (disciplinada) frente a la curva topográfica de FIA (orgánica). Original, sin material de terceros.</desc>
+
+  <rect width="128" height="128" fill="#0C0C0D"/>
+
+  <!-- Recorte de esquina: el símbolo aparece incompleto, como un documento parcialmente destruido -->
+  <clipPath id="fn-recorte">
+    <path d="M8 8 H120 V120 H45 L8 88 Z"/>
+  </clipPath>
+
+  <g clip-path="url(#fn-recorte)">
+    <!-- Mismo esqueleto que FIA (M30 104 L60 26 / M66 26 L96 104), rotado 3° sobre el centro:
+         proporciones idénticas, lectura distinta -->
+    <g transform="rotate(3 64 64)">
+      <path d="M30 104 L60 26" fill="none" stroke="#1F1F22" stroke-width="12" stroke-linecap="butt"/>
+      <path d="M66 26 L96 104" fill="none" stroke="#1F1F22" stroke-width="12" stroke-linecap="butt"/>
+      <path d="M30 104 L60 26" fill="none" stroke="#8E1116" stroke-width="4" stroke-linecap="butt"/>
+      <path d="M66 26 L96 104" fill="none" stroke="#8E1116" stroke-width="4" stroke-linecap="butt"/>
+
+      <!-- Travesaño industrial: barra recta continua, sin la ondulación orgánica de FIA -->
+      <rect x="45" y="73" width="38" height="5" fill="#8E1116"/>
+    </g>
+  </g>
+
+  <!-- Barra de invalidación: redacción/sellado disciplinado, no un tachado diagonal a mano -->
+  <rect x="18" y="60" width="92" height="9" fill="#8E1116" opacity="0.85"/>
+
+  <!-- Marcas de registro de impresión en las cuatro esquinas: fabricado, no pintado -->
+  <g stroke="#3A3A3F" stroke-width="1.5">
+    <path d="M18 12 h8 M22 8 v8"/>
+    <path d="M110 12 h-8 M106 8 v8"/>
+    <path d="M18 116 h8 M22 112 v8"/>
+    <path d="M110 116 h-8 M106 112 v8"/>
+  </g>
+</svg>

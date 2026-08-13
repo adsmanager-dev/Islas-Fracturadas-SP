@@ -1,0 +1,158 @@
+[
+  {
+    "path": "if-3den-validation/agents/openai.yaml",
+    "sha256": "99F302BC02F711BD28D7587C6C6A9A5E10B00872023FA39CD163893B165DAE90"
+  },
+  {
+    "path": "if-3den-validation/SKILL.md",
+    "sha256": "CD8F089C3DE8FA1CB2A77593EA5FA7DF76DF8DBD8968E16AD987992DB7921FEE"
+  },
+  {
+    "path": "if-bug-report/agents/openai.yaml",
+    "sha256": "71B01F1B4BE706F7450BE6E80924D6B9A6588EA236C9BF2A0ADE115488D776E6"
+  },
+  {
+    "path": "if-bug-report/SKILL.md",
+    "sha256": "9C756954BDC1C87BEC1BB4533CD9743D2EF66EC056CDC1442149A9F1EE553F1C"
+  },
+  {
+    "path": "if-canon-impact/agents/openai.yaml",
+    "sha256": "73CEE68A150C439CDB069BFF0F9E3194A3A7CAEFCDD1057B11C6A67617DA4EF0"
+  },
+  {
+    "path": "if-canon-impact/SKILL.md",
+    "sha256": "482592A31EA514A10561E9FD7BF2F25E5A2D6B263CA83C7F43321C0775FEE38E"
+  },
+  {
+    "path": "if-config-review/agents/openai.yaml",
+    "sha256": "B7C95E944565B7C2A7EC709A83C34689E4A0324C757105D030A94F2A66C19D5D"
+  },
+  {
+    "path": "if-config-review/SKILL.md",
+    "sha256": "4FFB77D6785450387FED02A4AF618E83395F4798CC1FB9553B95EDF52C5CC22B"
+  },
+  {
+    "path": "if-documentation-sync/agents/openai.yaml",
+    "sha256": "D013BB95B7624F0EB4228D58F8E43C76D31632330C0724ED8F90BB0E5FE9FD99"
+  },
+  {
+    "path": "if-documentation-sync/SKILL.md",
+    "sha256": "21B11E43C7A5093557DF1DCBE888776CE84EF26A01AD20BCC2B621697EE4EE5D"
+  },
+  {
+    "path": "if-event-contract/agents/openai.yaml",
+    "sha256": "175639D95DF5B6E73F7BCF764D2F540793EADAC446FBAD756876084F8EFB42F3"
+  },
+  {
+    "path": "if-event-contract/SKILL.md",
+    "sha256": "3A7F7695886827A6F40F9731204311757C8B13FC097E904933ECDD2554C5A65D"
+  },
+  {
+    "path": "if-faction-evolution/agents/openai.yaml",
+    "sha256": "2FF5B98C11E3990A0BD39BD186489A41887AE52680A846E464FD05A9D19AC307"
+  },
+  {
+    "path": "if-faction-evolution/SKILL.md",
+    "sha256": "0CFE9C7DDB7CA2E6FD06C185E2DB4F10AC4614EF7D936AE670A9494D66CC6466"
+  },
+  {
+    "path": "if-media-assets/agents/openai.yaml",
+    "sha256": "6F5ACC01ED96181C8DD4FB9C7B25E6787B8E22E223F3CA24E051C9C26D2516E5"
+  },
+  {
+    "path": "if-media-assets/references/media-contract.md",
+    "sha256": "717E5E695CBBD59AC8A47C06880DBFF8EAF80D52FBB3182B5BD57912A50978A5"
+  },
+  {
+    "path": "if-media-assets/SKILL.md",
+    "sha256": "E540843E59C0172504E67FE100A9637062A5905B46BF70C3686398E670751947"
+  },
+  {
+    "path": "if-mission-consequence/agents/openai.yaml",
+    "sha256": "DA8018E0CB014ED973DD3B406C992C317CABF836D24C6861A1DE3ED65255EC1C"
+  },
+  {
+    "path": "if-mission-consequence/SKILL.md",
+    "sha256": "EDE9A417E7B27C8A4B96868531DDAF76F84716436DB806C338299E161DA0AF9B"
+  },
+  {
+    "path": "if-narrative-director/agents/openai.yaml",
+    "sha256": "2BDE4039104ADD06465E596BFBA40CFCCAAC5FABF0AFD2486EDCCA43A4071883"
+  },
+  {
+    "path": "if-narrative-director/SKILL.md",
+    "sha256": "B7334ADEF78D900767876D3BD94282115E837383851E2E06325BBE112B389CE3"
+  },
+  {
+    "path": "if-performance-budget/agents/openai.yaml",
+    "sha256": "4933974FEA5FEB67A4B96B00183A85455F925603A55DCEBD971B18A91B42FEA6"
+  },
+  {
+    "path": "if-performance-budget/SKILL.md",
+    "sha256": "CF46BA2EFFF494BE9C1A8A39599D7740420377A7BC44836DBDD6B57D954F37CA"
+  },
+  {
+    "path": "if-persistence-migration/agents/openai.yaml",
+    "sha256": "0B11C3DDFF090EBF639F0AE896F88383225C275FA3A1ABF2AADA9C35552F48ED"
+  },
+  {
+    "path": "if-persistence-migration/SKILL.md",
+    "sha256": "BCB2570B3AEEDAC02E9D743F74EC0496A6E1BE5174CD3C39EED3C0254F73AB46"
+  },
+  {
+    "path": "if-regression-test/agents/openai.yaml",
+    "sha256": "15BE4E993A10DA52D963E405ED1EE8B86BA94F168AAA4A0EB34F61A8B2713BA2"
+  },
+  {
+    "path": "if-regression-test/SKILL.md",
+    "sha256": "1B656E579BA07D3F0635434C847A4DE4E8C529C898D6E4AE23DBFA0BB4DA2DA9"
+  },
+  {
+    "path": "if-release-gate/agents/openai.yaml",
+    "sha256": "A0EC61D86F206DBCDFB3456BFC24609B3631EF02F347853AE92635EE2CEFBB42"
+  },
+  {
+    "path": "if-release-gate/SKILL.md",
+    "sha256": "162D18F5A5965A31BA6F129591318C352E662C3D1B675BE0F6B6523D56F9529B"
+  },
+  {
+    "path": "if-rpt-triage/agents/openai.yaml",
+    "sha256": "499E0B47149C355925730D297AD8BCBC867449E9EC9BB6D4F1B41C9E09CCD65A"
+  },
+  {
+    "path": "if-rpt-triage/SKILL.md",
+    "sha256": "62B152B076F76F4F6BBAD64FA7B69DEAA68ACCC77D06D7C11CAEAE8275C36C30"
+  },
+  {
+    "path": "if-smoke-test/agents/openai.yaml",
+    "sha256": "649D9D01AF07C96142FDB9055629A70BDD7029E36708E30172447D470361DD63"
+  },
+  {
+    "path": "if-smoke-test/SKILL.md",
+    "sha256": "DF8DD5E39A81B82ED137743BEA0768575C9601EB55887C15CB605ECB78C59C7E"
+  },
+  {
+    "path": "if-sqf-module/agents/openai.yaml",
+    "sha256": "45E7E88A971295707E6B72597C7FC188BF0128A3EB458194B9A337CE5DA3B0D1"
+  },
+  {
+    "path": "if-sqf-module/SKILL.md",
+    "sha256": "B4F155A86DB9CF5BBAA86BA503EA20D45FE47D7F4F717BC40F014629FD1B52D5"
+  },
+  {
+    "path": "if-sqf-review/agents/openai.yaml",
+    "sha256": "5465B564E84CCF062D118F8D4249906FAD8E6994ED6F6CFBC2026210EADC0955"
+  },
+  {
+    "path": "if-sqf-review/SKILL.md",
+    "sha256": "4377204F5B9D69846B3FB2DEFCF5A248B25B1BE198B08073A4D60A1896C8C72D"
+  },
+  {
+    "path": "if-task-intake/agents/openai.yaml",
+    "sha256": "40DF1EDFE5094E6FB7E6F1838B68C651A7D57824FB5F71DA84FEBF0D5E18576B"
+  },
+  {
+    "path": "if-task-intake/SKILL.md",
+    "sha256": "FB601AB69416926B3DFC23FC5DDD438EF52FD9EFC04FF51BB5C46F6F7EF5C2DA"
+  }
+]

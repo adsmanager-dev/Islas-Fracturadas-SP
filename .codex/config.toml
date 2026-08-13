@@ -1,0 +1,31 @@
+[mcp_servers.if-media]
+command = "node"
+args = ["D:/Proyectos/Islas Fracturadas/tools/if-media-mcp/dist/index.js", "--project-root", "D:/Proyectos/Islas Fracturadas"]
+startup_timeout_sec = 20
+tool_timeout_sec = 180
+enabled = true
+
+[mcp_servers.if-media.env]
+IF_INKSCAPE = "D:/Programas/Inkscape/bin/inkscape.com"
+IF_MEDIA_REMOTE_MODE = "disabled"
+
+[mcp_servers.codebase-memory-mcp]
+command = "C:/Users/Admin/.local/bin/codebase-memory-mcp.exe"
+args = []
+startup_timeout_sec = 20
+tool_timeout_sec = 180
+enabled = true
+
+[mcp_servers.serena]
+command = "C:/Users/Admin/.local/bin/serena.exe"
+args = ["start-mcp-server", "--project", "D:/Proyectos/Islas Fracturadas", "--context", "codex", "--transport", "stdio", "--enable-web-dashboard", "false", "--open-web-dashboard", "false"]
+startup_timeout_sec = 20
+tool_timeout_sec = 180
+enabled = true
+
+[mcp_servers.semgrep]
+command = "C:/Users/Admin/.local/bin/semgrep.exe"
+args = ["mcp", "-t", "stdio"]
+startup_timeout_sec = 20
+tool_timeout_sec = 180
+enabled = true

@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Máquina directora de evolución de FIA](#maquina-directora-de-evolucion-fia)
 - [FIA GUERRILLAS AND INSURGENCY](#fuente-fia-guerrillas-and-insurgency)
 - [FIA INSURGENCY AND CLANDESTINE WAR SYSTEM](#fuente-fia-insurgency-and-clandestine-war-system)
 - [CIVILIANS MUNICIPALITIES AND SOCIAL SYSTEMS](#fuente-civilians-municipalities-and-social-systems)
@@ -41,6 +42,45 @@ Fuentes auditadas: `FIA_GUERRILLAS_AND_INSURGENCY.md`, `FIA_INSURGENCY_AND_CLAND
 - Las fuentes declaradas para 06_FIA_REBELS_GUERRILLAS_AND_CIVILIANS mantienen reglas, estados, secretos y pendientes.
 - Sus enlaces migrados resuelven al archivo consolidado y al ancla de procedencia.
 - El documento solo reclama autoridad sobre el alcance declarado en sus metadatos.
+
+<a id="maquina-directora-de-evolucion-fia"></a>
+## Máquina directora de evolución de FIA
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Umbrales, pesos y ritmos:** `POR_CALIBRAR`
+> **Regla:** FIA evoluciona por capacidad, legitimidad, control, cohesión y decisiones internas; no por la llegada automática de un acto.
+
+El estado mínimo persiste etapa, legitimidad política, fuerza armada, redes de apoyo, armas por procedencia, control clandestino/abierto, autoridad de Markou y Kallas, cohesión, influencia de Frente Negro/Némesis, promesas por comunidad, agravios y relación separada con cada actor. Cada célula conserva procedencia de armas, deudas y órdenes; una transferencia no se reduce a aumentar `weaponStock`.
+
+| Estado | Entrada y objetivo | Acciones autónomas | Influencia del jugador | Ruptura y siguientes | Transformaciones y finales |
+| --- | --- | --- | --- | --- | --- |
+| `FIA_SURVIVAL` | células separadas, recursos escasos y autoridad moral mayor que capacidad militar; sobrevivir y proteger redes | oculta depósitos, rescata perseguidos, recopila información y evita combate abierto | proteger civiles, detenidos o mensajeros aumenta confianza; registros coercitivos y bajas civiles expanden agravios pero pueden destruir redes | pasa a `FIA_CLANDESTINE_EXPANSION` con apoyo y depósitos suficientes; puede quedar localmente desarticulada sin desaparecer a escala nacional | si perdura, alimenta resistencia posterior; si es protegida, abre vía cívica |
+| `FIA_CLANDESTINE_EXPANSION` | Verde debilitada, aparecen armas/contactos y crecen reclutamiento y sabotaje; ampliar red sin exposición crítica | recluta, redistribuye armas, sabotea rutas y ofrece inteligencia selectiva | armas, inteligencia y tolerancia aceleran expansión; seguimiento, condiciones políticas o protección municipal favorecen control cívico; entrega sin receptor claro favorece a Kallas o Némesis | pasa a Coordinación con redes regionales comunicadas; retrocede por exposición, pérdida de depósitos o informantes | prepara República de la resistencia, revolución armada o insurgencia contra ocupante |
+| `FIA_REGIONAL_COORDINATION` | varias células comparten brigadas, consejos y operaciones; convertir apoyo en influencia regional | coordina ataques, propaganda, impuestos clandestinos y negociación municipal | reconocer a Markou fortalece legitimidad; priorizar a Kallas aumenta capacidad convencional; investigar falsas banderas contiene radicalización | pasa a Poder Territorial con administración y seguridad sostenibles; se fractura si órdenes, recursos o represalias enfrentan regiones | abre administración mixta/confederal o militarización |
+| `FIA_TERRITORIAL_POWER` | controla abiertamente sectores, servicios parciales y armas pesadas; gobernar sin perder base social | administra, recauda, protege o coacciona, defiende corredores y negocia como beligerante | restitución, supervisión civil y operaciones conjuntas apoyan transición; bombardeo, bloqueo o patrocinio sin controles refuerzan guerra total | pasa a Actor Nacional con reconocimiento y estructura; cae a clandestinidad si pierde territorio; se rompe si Markou/Kallas alcanzan crisis | prepara Gobierno FIA, coalición, junta armada o señoríos regionales |
+| `FIA_NATIONAL_ACTOR` | dispone de autoridad política, fuerza y reconocimiento suficientes para negociar el orden nacional; decidir partido, Gobierno, ejército o levantamiento | exige ministerios/garantías, integra brigadas, convoca consejos o intenta monopolizar armas | el jugador puede condicionar apoyo a subordinación civil, desarme, elecciones o garantías; intentar imponer tutela extranjera reactiva resistencia | pasa a `FIA_TRANSFORMED` por pacto, victoria, derrota o ruptura irreversible | Gobierno de unidad, República de la resistencia, revolución armada o confederación |
+| `FIA_TRANSFORMED` | una corriente institucionaliza partido/Gobierno, ejército revolucionario, guerrilla antiocupación, organización fragmentada o insurgencia radical | conserva memoria de patrocinadores, armas, promesas y agravios en la posguerra | se puede limitar, integrar, desarmar o combatir; no se reinicia su legitimidad por cerrar la guerra | terminal para campaña, con variantes regionales y posible insurgencia posterior | determina familia política, estabilidad y epílogos |
+
+### Reloj Markou–Kallas y condiciones de transformación
+
+La relación progresa por `cooperación`, `tensión`, `rivalidad`, `ruptura`, `crisis de dirección` y `resolución`. La autoridad relativa cambia por receptor de armas, control de brigadas, protección o coerción de municipios, bajas, promesas cumplidas, operaciones conjuntas, trato a prisioneros y exposición de Némesis.
+
+- Markou domina de forma viable cuando conserva legitimidad, consejos, enlaces municipales y capacidad para subordinar brigadas sin destruirlas.
+- Kallas domina cuando controla armas pesadas, depósitos y éxitos militares y los contrapesos cívicos han perdido autoridad.
+- El compromiso requiere cadena política y militar diferenciada, arbitraje y una operación donde ambas corrientes acepten límites.
+- La ruptura se vuelve irreversible tras combate interno, eliminación deliberada de un interlocutor, apropiación violenta de depósitos o alianza extranjera incompatible no reparada.
+
+La muerte o ausencia de un líder usa el sustituto funcional definido en el documento 07; no concede automáticamente victoria moral al superviviente.
+
+### Memoria autoritativa de armas y promesas
+
+Toda transferencia de armas registra lote, procedencia, receptor político y físico, intermediario, condición prometida, primera operación, cambios de custodia y destino conocido. Debe poder reaparecer como apoyo, prueba, disputa interna, arma recuperada o agresión posterior. En particular, armas entregadas por Azul pueden aliviar un frente y, si se consolida un protectorado, reaparecer contra Azul; armas Rojas pueden fortalecer resistencia anti-Azul y también una futura rebelión contra subordinación Roja.
+
+Toda promesa registra emisor, comunidad o corriente receptora, contenido, plazo, cumplimiento parcial, actor que heredó la obligación y memoria pública. La muerte, sustitución o cambio de bando no borra la deuda. Una misión posterior, diálogo o epílogo debe recordar cada promesa estructural cumplida o traicionada.
+
+### Transiciones civiles asociadas
+
+La radicalización civil no equivale automáticamente a apoyo FIA. Agravio, miedo, cohesión, alternativas políticas, conducta de brigadas y servicios determinan si una comunidad se mantiene neutral, coopera cívicamente, apoya logística/inteligencia, entra en resistencia armada o rechaza a todos. Cada transición exige una causa identificable y dos señales visibles, y debe poder frenarse mediante seguridad, justicia, restitución, servicios o representación.
 
 ## Contenido consolidado
 

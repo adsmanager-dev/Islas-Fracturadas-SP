@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consecuencias de misión IF"
+  short_description: "Especifica resultados y efectos diferidos"
+  default_prompt: "Use $if-mission-consequence para definir resultados y consecuencias de esta misión."

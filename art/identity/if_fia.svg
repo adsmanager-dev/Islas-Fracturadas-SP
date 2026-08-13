@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>FIA — Frente de Liberación de Altis</title>
+  <desc>v2. Canon: docs/15 §127 (documentos escaneados, anotaciones, mapas civiles, símbolos locales); docs/06 ("no será una facción uniforme con una base, una bandera y una cadena de mando simple"). Principio rector: FIA marca. El travesaño recto de v1 se sustituye por una línea ondulada que lee como contorno de costa o carretera de montaña, para que el símbolo no se confunda con una A genérica o un anarquismo estándar. Sin marco: no es una institución. Original, sin material de terceros.</desc>
+
+  <rect width="128" height="128" fill="#17150F"/>
+
+  <!-- Sin marco, sin sello: sólo una plantilla aplicada a mano -->
+  <!-- Trazo de espray: dos golpes desalineados que forman una A abierta -->
+  <path d="M30 104 L60 26" fill="none" stroke="#D8CBA6" stroke-width="11" stroke-linecap="butt"/>
+  <path d="M66 26 L96 104" fill="none" stroke="#D8CBA6" stroke-width="11" stroke-linecap="butt"/>
+
+  <!-- Travesaño como línea topográfica: una ondulación, no una barra recta.
+       Lee como curva de nivel / costa / camino — ancla FIA al territorio, no a un alfabeto -->
+  <path d="M43 76 Q51 68 60 75" fill="none" stroke="#D8CBA6" stroke-width="9" stroke-linecap="round"/>
+  <path d="M68 75 Q77 83 85 76" fill="none" stroke="#D8CBA6" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Barra bajo el símbolo, torcida: aplicada sin plantilla -->
+  <path d="M26 116 L100 112" stroke="#9C7B3F" stroke-width="6" stroke-linecap="butt"/>
+
+  <!-- Salpicaduras: el gesto queda registrado. Pocas y grandes para sobrevivir a 128px -->
+  <rect x="22" y="40" width="5" height="5" fill="#D8CBA6"/>
+  <rect x="101" y="58" width="4" height="4" fill="#D8CBA6"/>
+  <rect x="88" y="34" width="4" height="4" fill="#9C7B3F"/>
+</svg>

@@ -544,8 +544,8 @@ La IA identifica fortalezas, huecos, salientes, cuellos de botella y cercos.
 ```text
 Kavala <-> Aggelochori <-> Kore–Topolia
        <-> Agios Dionysios <-> Lakka <-> Telos
-Katalaki <-> Neochori <-> Stavros–Whiskey
-          <-> Lakka <-> Airport West
+Panochori <-> Neri <-> corredor occidental <-> Lakka <-> Airport West
+Katalaki <-> Neochori <-> Stavros–Whiskey <-> Lakka
 Xirolimni–Zaros <-> Poliakko–Therisa <-> Neochori
 Athira <-> Gravia <-> Airport <-> Telos
 Telos <-> Rodopoli <-> Kalochori–Paros <-> Sofia <-> Molos
@@ -602,10 +602,15 @@ El documento geográfico conserva autoridad sobre límites, nombres, regiones y 
 <a id="src-territorial-sector-front-and-construction-system--35-ejemplos-del-corredor-azul"></a>
 #### 35. Ejemplos del corredor Azul
 
+<a id="src-territorial-sector-front-and-construction-system--neri-panochori"></a>
+##### Neri–Panochori
+
+`ALT_W_NERI_PANOCHORI` contiene la cabeza de playa principal como subzona operativa, sin crear un sector 39. Comienza con estructura 0, fortificación 0–1 y P0; la salida terrestre ligera/pesada está probada, pero los módulos, la aproximación marítima, las alturas y el corredor interior continúan en validación.
+
 <a id="src-territorial-sector-front-and-construction-system--katalaki"></a>
 ##### Katalaki
 
-Comienza estructural 0, fortificación 0–1, P0 y `BEACHHEAD`. Tras el desembarco crea mando, comunicaciones, observación y perímetro. Solo alcanza nivel 2 si Neochori está seguro, existe descarga, las alturas no dominan y llegan ingenieros. Cuando el frente se aleja puede ser logística marítima.
+Conserva capacidad de playa y logística marítima secundaria, pero no comienza como cabeza de playa principal. Puede recibir refuerzo, evacuación o una ruta alternativa hacia Neochori y AAC cuando su acceso haya sido validado.
 
 <a id="src-territorial-sector-front-and-construction-system--neochori"></a>
 ##### Neochori
@@ -768,7 +773,7 @@ Una composición usa propietario, estado, condición, daño, personal y suminist
 
 | Sector | Estructura | Fortificación | Profundidad inicial |
 |---|---:|---:|---|
-| Katalaki | 0 | 1 | P0 |
+| Neri–Panochori | 0 | 1 | P0 |
 | Neochori | 1 | 1 | P0 |
 | Stavros–Whiskey | 3 | 3 | P1 Verde |
 | Lakka | 2 | 2 | P2 Verde |
@@ -3128,7 +3133,7 @@ Los sectores no se validarán todos al mismo tiempo.
 <a id="src-threeden-geography-and-physical-validation-guide--fase-v0-vertical-slice"></a>
 #### Fase V0 — Vertical slice
 
-1. Katalaki.
+1. Neri–Panochori.
 2. Neochori.
 3. Stavros–Whiskey.
 4. Lakka.
@@ -3163,35 +3168,37 @@ Los sectores no se validarán todos al mismo tiempo.
 
 ---
 
-<a id="src-threeden-geography-and-physical-validation-guide--65-katalaki"></a>
-### 65. Katalaki
+<a id="src-threeden-geography-and-physical-validation-guide--65-panochori-bay-neri"></a>
+### 65. Panochori Bay–Neri
+
+> **Estado:** `VALIDACION_3DEN_EN_CURSO`. Evidencia y pendientes: [3DEN_BLUE_PANOCHORI_BEACHHEAD.md](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md).
 
 <a id="src-threeden-geography-and-physical-validation-guide--función-2"></a>
 #### Función
 
-* cabeza de playa Azul;
-* desembarco;
+* cabeza de playa principal Azul dentro de `ALT_W_NERI_PANOCHORI`;
+* desembarco y salida terrestre;
 * logística provisional;
 * defensa costera.
 
 <a id="src-threeden-geography-and-physical-validation-guide--validar"></a>
 #### Validar
 
-* puntos de llegada naval;
-* playas transitables;
+* tres carriles de llegada naval;
+* playa y salida transitables;
 * rampas;
 * rutas de salida;
 * espacio para descarga;
 * cobertura;
 * posiciones Verdes;
 * zonas civiles;
-* composición de cabeza de playa;
+* composición y huella de módulos de la cabeza de playa;
 * orientación de defensa.
 
 <a id="src-threeden-geography-and-physical-validation-guide--riesgo"></a>
 #### Riesgo
 
-Crear una zona de desembarco visualmente atractiva, pero imposible para vehículos o IA.
+Confundir la ruta Hunter/HEMTT ya probada con validación completa de lanchas, profundidad, módulos, alturas o impacto civil.
 
 ---
 
@@ -4294,7 +4301,7 @@ Un módulo puede:
 <a id="src-threeden-geography-and-physical-validation-guide--ejemplo-1"></a>
 #### Ejemplo
 
-Falta anclaje de descarga de Katalaki:
+Falta o no está validada la entrada logística de Panochori:
 
 * debe bloquear creación del convoy inicial;
 * registrar error claro.

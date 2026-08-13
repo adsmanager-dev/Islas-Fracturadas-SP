@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revisión SQF IF"
+  short_description: "Revisa seguridad, localidad y rendimiento"
+  default_prompt: "Use $if-sqf-review para revisar este SQF y producir hallazgos priorizados."

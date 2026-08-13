@@ -535,7 +535,7 @@ IF_fnc_playerMissionEvaluate IF_fnc_argosEvaluateIntervention
 <a id="src-strategic-ai-and-chain-of-command--30-vertical-slice-y-fases"></a>
 #### 30. Vertical slice y fases
 
-Primera región: Katalaki–Neochori–Stavros–AAC–Airport West.
+Primera región: Panochori Bay–Neri; extensión occidental hacia Lakka–Airport West pendiente de revalidación.
 
 Actores: Ward, Hale, Varos, un mando Verde regional, Rourke, contacto civil y Argos básico.
 
@@ -3686,7 +3686,7 @@ Batalla virtual activa sobre proyección física
 <a id="src-tactical-and-force-virtualization-system--región"></a>
 #### Región
 
-Katalaki–Neochori–Stavros–Lakka–AAC.
+Panochori Bay–Neri–corredor occidental–Lakka–Airport West.
 
 <a id="src-tactical-and-force-virtualization-system--fuerzas"></a>
 #### Fuerzas

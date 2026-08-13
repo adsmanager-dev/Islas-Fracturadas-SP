@@ -1,9 +1,9 @@
 # Implementación, pruebas, hoja de ruta y estado
 
-> **Estado del contenedor:** diseño técnico confirmado; implementación jugable no iniciada
+> **Estado del contenedor:** Fases 0–2 completadas; `M2` aprobado; implementación técnica M3 probada, gate pendiente de 3DEN; campaña jugable no iniciada
 > **Fuente de verdad para:** estado, hoja de ruta, producción, pruebas, rendimiento y balance
 > **Relacionados:** [18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md](18_TECHNICAL_ARCHITECTURE_3DEN_SQF_AND_MULTIPLAYER.md); [00_INDEX_AND_DOCUMENTATION_MAP.md](00_INDEX_AND_DOCUMENTATION_MAP.md)
-> **Última consolidación:** 2026-07-25
+> **Última consolidación:** 2026-08-11
 
 ## Propósito
 
@@ -15,6 +15,7 @@ Este documento reúne las fuentes enumeradas en su tabla de contenido. Las área
 
 ## Tabla de contenido
 
+- [Criterios de aceptación de dirección narrativa](#criterios-de-aceptacion-de-direccion-narrativa)
 - [MASTER TESTING PERFORMANCE AND BALANCE SYSTEM](#fuente-master-testing-performance-and-balance-system)
 - [MASTER IMPLEMENTATION AND PRODUCTION PLAN](#fuente-master-implementation-and-production-plan)
 
@@ -34,6 +35,8 @@ El mapa de dependencias y fuentes de verdad está en [00_INDEX_AND_DOCUMENTATION
 
 Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_IMPLEMENTATION_AND_PRODUCTION_PLAN.md`. No se identificó una pareja explícita de cánones mutuamente excluyentes. Las alternativas, hipótesis, cifras por calibrar y decisiones pendientes conservadas en esas fuentes requieren confirmación humana; su fecha no resuelve su autoridad.
 
+La divergencia territorial M3 quedó resuelta por `DEC-009`: `ALT_W_AGIOS_DIONYSIOS` y `CONN_M3_NERI_AGIOS` forman el enlace interior principal desde Neri, mientras Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. La decisión no modifica `DEC-008`, el catálogo de 38 sectores ni valida radios, límites, convoyes, navegación IA o conexiones no observadas.
+
 ## Criterios de validación
 
 - Las fuentes declaradas para 19_IMPLEMENTATION_TESTING_ROADMAP_AND_STATUS mantienen reglas, estados, secretos y pendientes.
@@ -44,24 +47,27 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 ## Instantánea autoritativa del estado real
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Fecha de corte:** 2026-07-25
+> **Fecha de corte:** 2026-08-11
 > **Regla:** esta instantánea prevalece sobre ejemplos, planes o estados heredados que puedan interpretarse como implementación existente.
 
 | Campo | Estado real |
 | --- | --- |
-| Fase actual | Preimplementación |
-| Subfase | Cierre documental y preparación de Fase 0 |
-| Último gate aprobado | `DOC-GATE-01 — Integridad estructural documental` |
-| Hito técnico aprobado | Ninguno |
-| Próximo hito | `M0 — Esqueleto técnico ejecutable` |
-| Implementación jugable | No iniciada |
-| Entregables presentes | 20 documentos consolidados y estructura vacía de carpetas |
-| Entregables ausentes | `mission.sqm`, `description.ext`, inicializadores, SQF, configuración funcional y pruebas de motor |
-| Pruebas ejecutadas | Integridad de enlaces, anclas, IDs, Markdown y coherencia documental básica |
-| Pruebas de Arma 3 | Ninguna registrada |
-| Bloqueadores canónicos | Ninguno para iniciar Fase 0; Vardis y Verdad Comparada quedaron cerrados por `DEC-003`–`DEC-005` |
-| Bloqueadores técnicos posteriores | Geografía 3DEN, adaptación vanilla y benchmark provisional |
-| Estado de Fase 0 | No iniciada |
+| Fase actual | Fase 3 — validación física del mundo estratégico mínimo |
+| Subfase | Pass 2 cerrado con 9 centros `VALIDADO_3DEN`; Pass 3A `PASS`; Pass 3B abierto con paquete reproducible para rutas/convoyes y 0/9 conexiones acreditadas; ejecución física pendiente |
+| Último gate aprobado | `M2 — Campaña persistente mínima` |
+| Hito técnico aprobado | `M2`, 2026-08-07 |
+| Próximo hito | `M3 — Mundo estratégico mínimo` |
+| Implementación jugable | Infraestructura M2 y grafo lógico M3 ejecutables en SP; campaña jugable todavía ausente |
+| Entregables presentes | misión vanilla; núcleo M1; persistencia M2; 5 regiones, 9 sectores y 9 conexiones M3; 9 centros ATL `VALIDADO_3DEN`; Agios como enlace interior principal; normalización Pass 3A; commands, queries, evento de propietario, reconstrucción de profundidad y diagnóstico RPT |
+| Entregables ausentes | nueve radios; bounds y transiciones con coordenadas exactas; rutas físicas completas; convoy/IA; UI diagnóstica; frentes simulados; facciones autónomas; economía; misiones y campaña jugable |
+| Pruebas ejecutadas | suites estáticas M0–M3 y Sync `PASS`; Semgrep 3 reglas/72 archivos sin hallazgos; 38 comprobaciones históricas `PASS` en Arma 3; runtime posterior a Pass 3A pendiente |
+| Pruebas de Arma 3 | Arma 3 2.20.152984 x64; M2 aprobada y ejecución M3 registrada en [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md) |
+| Bloqueadores canónicos | Ninguno; `DEC-008` cierra la cabeza Azul y `DEC-009` elige Agios como enlace interior principal sin desplazar las funciones de Neochori |
+| Bloqueadores técnicos posteriores | El gate M3 requiere radios, bounds, transiciones, convoy/IA y rutas completas desde 3DEN; Pass 3B está `PENDIENTE_EJECUCION_MANUAL`, `mission.sqm` conserva autoridad 3DEN más nueva hasta sincronizar, y la UI diagnóstica física y la ejecución runtime posterior a Pass 3A siguen ausentes |
+| Estado de Fase 0 | Completada; `M0 APROBADO` |
+| Estado de Fase 1 | Completada; `M1 APROBADO` |
+| Estado de Fase 2 | Completada; `M2 APROBADO` |
+| Estado de Fase 3 | Implementación técnica `PROBADA`; `M3 NO APROBADO`, pendiente de 3DEN |
 
 <a id="doc-gate-01"></a>
 ### DOC-GATE-01 — Integridad estructural documental
@@ -71,29 +77,141 @@ Fuentes auditadas: `MASTER_TESTING_PERFORMANCE_AND_BALANCE_SYSTEM.md`, `MASTER_I
 
 Evidencia registrada:
 
-- la biblioteca contiene exactamente 20 documentos;
+- la biblioteca contiene exactamente 20 fuentes temáticas consolidadas; los anexos de evidencia se registran por separado;
 - no existen enlaces locales a archivos ausentes;
 - no existen anclas explícitas rotas ni IDs explícitos duplicados dentro de un archivo;
 - los bloques de código Markdown están equilibrados;
 - el estado real del repositorio se distingue del diseño previsto;
-- las decisiones `DEC-001`–`DEC-007` tienen fuente, efecto y trazabilidad.
+- las decisiones `DEC-001`–`DEC-009` tienen fuente, efecto y trazabilidad.
 
 `DOC-GATE-01` no equivale a `M0`. `M0` exige misión iniciable, funciones registradas, bootstrap, logging verificable y un RPT sin errores críticos.
+
+### M0 — Esqueleto técnico ejecutable
+
+> **Estado:** `APROBADO` el 2026-08-06.
+> **Alcance:** infraestructura mínima de Fase 0; no acredita campaña, persistencia, rendimiento ni validación geográfica completa.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| La misión inicia | dos arranques de `IslasFracturadas` y captura del jugador en mundo | `PASS` |
+| `preInit` y `postInit` funcionan | secuencias diferenciadas en RPT, repetidas dos veces | `PASS` |
+| Se genera un log estructurado | entradas `[IF][módulo][nivel][tiempo]` | `PASS` |
+| Se ejecuta una función registrada | siete comprobaciones de `IF_fnc_smokeTest`, incluidas funciones e IDs | `PASS` |
+| No hay errores críticos en RPT | cero candidatos de error o warning en la segunda ventana de misión | `PASS` |
+| La estructura está documentada | arquitectura 18, README y prueba estática M0 | `PASS` |
+| Existe commit estable | `4b0b1ba` sobre baseline `4150383` | `PASS` |
+
+La evidencia repetible, versión, digest del RPT y límites se conservan en [M0_SMOKE_TEST_2026-08-06.md](validation/M0_SMOKE_TEST_2026-08-06.md). El aviso de ejecución x86 se acepta para esta prueba funcional; cualquier benchmark o presupuesto de rendimiento exige repetir en x64.
+
+### M1 — Núcleo autoritativo estable
+
+> **Estado:** `APROBADO` el 2026-08-06.
+> **Alcance:** servicios autoritativos de Fase 1 en SP; no acredita persistencia, multijugador, campaña jugable ni rendimiento.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Los servicios inician en orden | configuración, runtime, estado, scheduler y tests alcanzan `PHASE_90_RUNNING` | `PASS` |
+| El estado se crea | `IF_campaignState` schema 1 y `hasCanonicalState == true` | `PASS` |
+| Un command modifica estado | `M1 state.commandAndQuery` | `PASS` |
+| Una query consulta | lectura del valor cambiado y copia defensiva | `PASS` |
+| Un evento se procesa una vez | `event.persistent` y `event.repeatedOnce` | `PASS` |
+| Una transacción revierte | `transaction.rollback` y restauración del reloj | `PASS` |
+| Los tests pasan | diez comprobaciones M1 y siete smoke M0 | `PASS` |
+| No existe dependencia de UI | revisión estática y ejecución SP sin consumidor UI | `PASS` |
+| No hay errores de misión en RPT | cero candidatos en líneas 728–757 | `PASS` |
+| Existe commit estable | `0dc846f` | `PASS` |
+
+La evidencia repetible, digest del RPT, matriz y límites se conservan en [M1_AUTHORITATIVE_CORE_2026-08-06.md](validation/M1_AUTHORITATIVE_CORE_2026-08-06.md). La idempotencia acreditada es de sesión; persistir IDs procesados, snapshots y schema entre reinicios pertenece a M2.
+
+### M2 — Campaña persistente mínima
+
+> **Estado:** `APROBADO` el 2026-08-07.
+> **Alcance:** persistencia mínima de campaña en SP; no acredita mundo estratégico, campaña jugable, MP/JIP ni rendimiento.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Un estado modificado sobrevive al reinicio | guardado, cierre total y carga desde un proceso x64 nuevo | `PASS` |
+| No se duplican efectos | `M2 event.noDuplicateAfterLoad` conserva el ID procesado | `PASS` |
+| El snapshot anterior se conserva | rotación `AUTOSAVE_A/B` | `PASS` |
+| Un save corrupto no sobrescribe uno válido | fallback a B, reparación del marcador activo y rotación posterior segura | `PASS` |
+| El schema aparece en logs | envelopes y carga registran `schemaVersion=1` | `PASS` |
+| Guardado manual y guards funcionan | manual válido; transacción abierta y estado incompleto rechazados | `PASS` |
+| La migración inicial es segura | v0→v1 idempotente y original preservado | `PASS` |
+| Los tests pasan | nueve M2, diez M1 y siete smoke M0 | `PASS` |
+| No hay hallazgos estáticos | suites PowerShell, `git diff --check` y Semgrep sobre 61 archivos | `PASS` |
+| Existe implementación estable | `5012cc9` y corrección `ded248a` | `PASS` |
+
+La evidencia, los hashes de tres RPT, la matriz completa y los límites se conservan en [M2_CAMPAIGN_PERSISTENCE_2026-08-07.md](validation/M2_CAMPAIGN_PERSISTENCE_2026-08-07.md). El checksum acredita detección de corrupción accidental, no integridad criptográfica; M3 deberá consumir la persistencia sin convertirla en acceso directo desde dominios.
+
+### M3 — Mundo estratégico mínimo
+
+> **Estado:** implementación técnica `PROBADA` el 2026-08-07; gate `NO APROBADO`.
+> **Alcance acreditado:** configuración y simulación lógica SP, nueve centros colocados y `VALIDADO_3DEN`; Pass 3A normaliza cuatro divergencias y prepara límites/transiciones/rutas candidatas sin acreditarlos físicamente. No acredita sector completo, convoy/IA, UI diagnóstica ni rendimiento representativo.
+
+| Criterio obligatorio | Evidencia | Resultado |
+| --- | --- | --- |
+| Nueve sectores registrados | `IF_config` y `IF_campaignState` contienen exactamente nueve IDs del slice | `PASS` |
+| Conexiones transitables | BFS Neri–Agios–Lakka–Airport West–Airport Terminal; pasada manual Panochori–Agios–Lakka y comparación Panochori–Neochori | `PASS` lógico; `PARCIAL` físico con Hunter/HEMTT Mover |
+| Profundidad calculada | nueve sectores alcanzables; Neri P0 y Terminal P4 en la topología provisional | `PASS` lógico |
+| Propietario modificable | command autoritativo, transacción y evento persistente de dominio | `PASS` |
+| Guardado y carga | propietario de Lakka sobrevive un round trip en el adaptador de prueba | `PASS` |
+| Compatibilidad M2 | save schema 1 con raíces vacías recibe defaults M3 y registra cambio de build | `PASS` |
+| Compatibilidad de save M3 anterior | fixture histórico con seis `positionATL`/`flags.anchorPositionATL` vacíos conserva 24 cambios físicos aditivos; un save Pass 2 con seis `anchorStatus` en curso recibe además su promoción segura sin sobrescribir datos dinámicos | `PASS` estático; runtime posterior pendiente |
+| Coordenadas procedentes de 3DEN | nueve centros migrados a `config/sectors.hpp` y `VALIDADO_3DEN`; Neri, Agios, Lakka y Poliakko normalizados; nueve radios `-1`/`POR_CALIBRAR` | `PASS` para centros; límites/radios `PENDIENTE_VALIDACION_3DEN` |
+| Sectores críticos con anclaje | diagnóstico `placed/pendingPlacement/validated/pendingValidation = 9/0/9/0` | `PASS` técnico para centros; no cuenta límites ni rutas |
+| UI diagnóstica | existe diagnóstico estructurado en RPT, no interfaz visual | `PENDIENTE` |
+
+La suite SQF M3 contiene los contratos de mundo nuevo, save M3 anterior,
+preservación dinámica, idempotencia, prioridad de posiciones persistidas,
+integración con `worldInitialize`, rechazo de estado parcial, promoción segura
+de los seis `anchorStatus` de Pass 2 y diagnóstico `9/0/9/0`.
+`IF_fnc_worldReconcilePhysicalMetadata` solo añade las dos posiciones físicas
+ausentes y transiciones de estado permitidas desde configuración; usa las
+transacciones existentes y audita una sola vez en
+`meta.migrationHistory`. Propietario, control, fuerzas, guarnición, preparación,
+moral, recursos/suministro, producción, daño, niveles, relaciones, influencia,
+misiones, eventos, logística y estado político permanecen fuera de su alcance.
+
+Ambos RPT históricos con SHA-256, las pasadas físicas, la regresión de
+persistencia de nombres, el fixture de compatibilidad y sus límites se conservan
+en [M3_STRATEGIC_WORLD_2026-08-07.md](validation/M3_STRATEGIC_WORLD_2026-08-07.md).
+La normalización, los bounds preliminares, las transiciones sin XY inventada y
+las nueve rutas candidatas se registran aparte en
+[M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md](validation/M3_PHYSICAL_VALIDATION_PASS_3A_2026-08-11.md).
+El protocolo de ejecución para las nueve conexiones y sus dieciocho sentidos se
+conserva en
+[M3_PHYSICAL_VALIDATION_PASS_3B_2026-08-11.md](validation/M3_PHYSICAL_VALIDATION_PASS_3B_2026-08-11.md):
+no aporta todavía resultados físicos, deja 0/9 rutas acreditadas y bloquea toda
+escritura del SQM hasta guardar/cerrar 3DEN y resolver la sincronización.
+Agios y Neochori resultaron transitables con ambos vehículos; la decisión
+humana `DEC-009` selecciona Agios y `CONN_M3_NERI_AGIOS` como diseño confirmado.
+Las cuatro conexiones no confirmadas restantes conservan `PROPUESTA_M3` y toda
+validación física no observada permanece pendiente. M3 continúa `NO APROBADO`.
 
 <a id="registro-autoritativo-de-decisiones"></a>
 ## Registro autoritativo de decisiones
 
-> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006` y `DEC-007`.
+> **Clasificación de sección:** `CANON_RECTOR` para `DEC-002`–`DEC-005` y `DEC-008`; `DISEÑO_CONFIRMADO` para `DEC-001`, `DEC-006`, `DEC-007` y `DEC-009`.
 
 | ID | Decisión adoptada | Fuentes afectadas | Efecto verificable | Estado |
 | --- | --- | --- | --- | --- |
-| `DEC-001` | El proyecto tiene diseño conceptual y técnico consolidado; la implementación jugable no se ha iniciado. | 18, 19 y README | No se usa `IMPLEMENTADO` hasta existir artefacto funcional y evidencia. | adoptada |
+| `DEC-001` | El proyecto separa diseño, implementación y prueba; ningún estado se promueve sin artefacto y evidencia. | 18, 19 y README | M0–M2 son `IMPLEMENTADO` y `PROBADO`; campaña jugable y sistemas posteriores permanecen sin implementar. | adoptada |
 | `DEC-002` | La V1 es campaña individual; el cooperativo de un solo bando es una ampliación futura preparada arquitectónicamente. | 01, 15, 18 y 19 | Ningún requisito cooperativo bloquea Fase 0 ni la primera campaña SP. | adoptada |
 | `DEC-003` | Una campaña puede demostrar Stratis activa, PHAROS, UMBRAL, HELIOS-CORE y una dirección clandestina; puede inferir a Vardis, pero no autenticar su presencia física ni capturarlo. | 03, 08, 09, 15–19 | `vardisConfirmed == false` durante una campaña aislada. | adoptada |
 | `DEC-004` | Completar ambas campañas desbloquea Verdad Comparada, sala de dirección, confirmación física y desenlaces de captura, muerte, juicio, negociación o fuga de Vardis. | 03, 08, 09, 15–19 | Todo desenlace físico de Vardis exige `dualCampaignCompleted == true` y operación dual desbloqueada. | adoptada |
 | `DEC-005` | No existe “equivalente excepcional” a completar ambas campañas en V1. | 03 y 09 | S4 solo se desbloquea al completar Azul y Rojo. | adoptada |
 | `DEC-006` | Los 38 sectores son arquitectura territorial de diseño hasta validar coordenadas, límites, rutas y anclajes en 3DEN. | 10, 11, 18 y 19 | Ningún dato físico recibe `VALIDADO_3DEN` antes de evidencia de editor y motor. | adoptada |
 | `DEC-007` | AZUR-1 y RUBÍ-1 no pasan a producción sin matriz vanilla completa y sustituciones sin DLC. | 13, 15 y 19 | Los perfiles protagonistas conservan `PROPUESTA` hasta aprobar la matriz. | adoptada |
+| `DEC-008` | La cabeza de playa principal Azul cambia de Katalaki Bay–Neochori a Panochori Bay–Neri; Molos permanece como entrada principal Roja. | 00, 02, 08–19 y evidencia 3DEN | El Día Cero Azul comienza en la subzona operativa Panochori de `ALT_W_NERI_PANOCHORI`; no se crea un sector 39 y Katalaki queda como sector costero secundario. | adoptada |
+| `DEC-009` | Agios Dionysios es el enlace interior principal M3 desde Neri; Neochori conserva sus funciones civiles/logísticas y una ruta alternativa. | 00, 10, 18, 19 y evidencia M3 | `ALT_W_AGIOS_DIONYSIOS` y `CONN_M3_NERI_AGIOS` pasan a `DISEÑO_CONFIRMADO`; no se promueven radios, límites, convoy/IA, sectores completos ni otras conexiones. | adoptada |
+
+### Evidencia y límite de `DEC-008`
+
+El registro [3DEN_BLUE_PANOCHORI_BEACHHEAD.md](validation/3DEN_BLUE_PANOCHORI_BEACHHEAD.md) conserva escenario, motor, coordenadas, pruebas comunicadas y pendientes. La decisión de ubicación es canon rector; las coordenadas y rutas permanecen `VALIDACION_3DEN_EN_CURSO`. No se consideran validados todavía los carriles marítimos, lanchas, vehículo anfibio, profundidad, huella de módulos, alturas, estacionamiento múltiple ni impacto civil.
+
+### Evidencia y límite de `DEC-009`
+
+La [evidencia M3](validation/M3_STRATEGIC_WORLD_2026-08-07.md#resultado-de-la-pasada-1--2026-08-08) conserva la transitabilidad manual Panochori–Agios–Lakka y Panochori–Neochori con Hunter y HEMTT Mover, los tres centros y la segunda persistencia de sus nombres directos en Eden. La decisión selecciona la función territorial, no convierte esa prueba manual en validación de convoy, IA bidireccional, radios, límites, tiempos, tráfico o corredor completo.
 
 Toda modificación incompatible requiere actualizar este registro, las fuentes temáticas afectadas y las pruebas correspondientes. Una futura alternativa a la comparación dual requerirá una decisión nueva; no puede reactivar silenciosamente la redacción descartada por `DEC-005`.
 
@@ -101,24 +219,81 @@ Toda modificación incompatible requiere actualizar este registro, las fuentes t
 ## Backlog ejecutable inicial de Fase 0
 
 > **Clasificación de sección:** `DISEÑO_CONFIRMADO`
-> **Estado global:** no iniciado.
+> **Estado global:** completado; evidencia consolidada en el gate M0.
 
 | ID | Tarea | Dependencia | Propietario previsto | Requisito / prueba | Criterio de aceptación | Estado | Evidencia / versión |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | pendiente | — |
-| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | pendiente | — |
-| `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | pendiente | — |
-| `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | pendiente | — |
-| `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | pendiente | — |
-| `F0-006` | Crear bootstrap `preInit`/`postInit` | `F0-005` | `core/bootstrap/` | inicialización 18; prueba de ciclos | Ambos ciclos dejan evidencia diferenciada en RPT | pendiente | — |
-| `F0-007` | Implementar logger mínimo | `F0-006` | `core/logging/` | logging 18; prueba RPT | Cada log incluye nivel, módulo y mensaje | pendiente | — |
-| `F0-008` | Crear configuración y validación de IDs | `F0-004` | `core/ids/` y `data/` | IDs estables 18; prueba negativa | El validador detecta ID vacío o duplicado | pendiente | — |
-| `F0-009` | Crear modo diagnóstico | `F0-006`, `F0-007` | `diagnostics/` | diagnóstico 18; activación/desactivación | Puede activarse sin modificar la lógica normal | pendiente | — |
-| `F0-010` | Crear escenario smoke test | `F0-002`–`F0-009` | `tests/` y misión Altis | inicio, función y logging | Inicio, función registrada y logging pasan en una ejecución | pendiente | — |
-| `F0-011` | Ejecutar gate de RPT | `F0-010` | `tests/` y evidencia externa | criterios de salida de Fase 0 | No hay errores críticos ni funciones ausentes en RPT | pendiente | — |
-| `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | pendiente | — |
+| `F0-001` | Registrar baseline del repositorio | Ninguna | raíz y documentación | `DEC-001`; inventario | Inventario y revisión inicial verificables sin descartar cambios preexistentes | completada | `4150383` |
+| `F0-002` | Crear misión Altis en 3DEN | `F0-001` | `IslasFracturadas.Altis/mission.sqm` | flujo 3DEN; apertura de misión | Existe `mission.sqm`, generado por 3DEN, y abre sin error | completada | misión principal `IslasFracturadas`; jugador vanilla `B_Soldier_F`; prueba física separada |
+| `F0-003` | Crear `description.ext` mínimo | `F0-002` | `IslasFracturadas.Altis/description.ext` | arquitectura 18; carga de configuración | Arma 3 reconoce la configuración sin error crítico | completada | título M0 visible; RPT limpio |
+| `F0-004` | Crear estructura real de módulos SQF | `F0-001` | raíz de misión y módulos | arquitectura 18; inventario de archivos | Las carpetas necesarias dejan de depender solo de `.gitkeep` | completada | archivos funcionales en `cfg/`, `core/`, `diagnostics/` y `tests/` |
+| `F0-005` | Configurar `CfgFunctions` | `F0-003`, `F0-004` | `cfg/` y `description.ext` | contrato de funciones; smoke unitario | Una función `IF_` registrada puede ejecutarse | completada | siete comprobaciones registradas PASS |
+| `F0-006` | Crear bootstrap `preInit`/`postInit` | `F0-005` | `core/bootstrap/` | inicialización 18; prueba de ciclos | Ambos ciclos dejan evidencia diferenciada en RPT | completada | dos secuencias `preInit`/`postInit` en RPT |
+| `F0-007` | Implementar logger mínimo | `F0-006` | `core/logging/` | logging 18; prueba RPT | Cada log incluye nivel, módulo y mensaje | completada | 24 líneas `[IF]` estructuradas |
+| `F0-008` | Crear configuración y validación de IDs | `F0-004` | `core/ids/` y `data/` | IDs estables 18; prueba negativa | El validador detecta ID vacío o duplicado | completada | `ids.validAccepted` e `ids.invalidRejected`: PASS |
+| `F0-009` | Crear modo diagnóstico | `F0-006`, `F0-007` | `diagnostics/` | diagnóstico 18; activación/desactivación | Puede activarse sin modificar la lógica normal | completada | modo BASIC e informe M0 en ambas ejecuciones |
+| `F0-010` | Crear escenario smoke test | `F0-002`–`F0-009` | `tests/` y misión Altis | inicio, función y logging | Inicio, función registrada y logging pasan en una ejecución | completada | dos ejecuciones consecutivas PASS |
+| `F0-011` | Ejecutar gate de RPT | `F0-010` | `tests/` y evidencia externa | criterios de salida de Fase 0 | No hay errores críticos ni funciones ausentes en RPT | completada | `arma3_2026-08-06_10-22-59.rpt`; ventana final sin candidatos |
+| `F0-012` | Actualizar estado y evidencia | `F0-011` | documento 19 | trazabilidad y `M0` | Esta instantánea enlaza commit, RPT, versión y resultado | completada | `4b0b1ba`; [registro M0](validation/M0_SMOKE_TEST_2026-08-06.md) |
 
 Cada tarea conservará ID, archivo o módulo propietario, requisitos relacionados, pruebas, estado, evidencia y versión o commit. Ninguna puede marcarse completada solo porque exista documentación de diseño.
+
+<a id="criterios-de-aceptacion-de-direccion-narrativa"></a>
+## Criterios de aceptación de dirección narrativa
+
+> **Clasificación de sección:** `DISEÑO_CONFIRMADO`
+> **Estado de implementación:** no iniciado.
+> **Regla:** estos criterios son puertas futuras de contenido y sistema; su presencia documental no equivale a `IMPLEMENTADO` ni `PROBADO`.
+
+### Gate documental `DOC-GATE-02`
+
+> **Estado:** aprobado el 2026-07-25.
+> **Alcance:** contratos y trazabilidad documental; no prueba ejecución, balance, guardado, SQF ni comportamiento dentro de Arma 3.
+
+La capa directora queda documentalmente íntegra cuando:
+
+- los actos I–VIII declaran fantasía, pregunta, cambio irreversible, mecánica, actores autónomos, decisión, escalada, revelación, duda, consecuencia diferida, salida y finales preparados;
+- Verde y FIA poseen condiciones de entrada, iniciativa, influencia, ruptura, transición y huella de final;
+- los siete relojes directores declaran fases, detonantes, escenas, crisis y resolución;
+- cada familia pública de final tiene preparación, señales, bloqueos, representantes y advertencia previa al no retorno;
+- progresión, inteligencia, misión y diálogo consumen la misma cadena causal;
+- el índice permite trazar acto → facción → personaje → misión → consecuencia → final;
+- ninguna afirmación eleva diseño a implementación o revela conocimiento de autor en contenido para jugador.
+
+### Gate funcional narrativo del vertical slice
+
+El vertical slice Azul no se aprueba solo por presentar voces y diálogo variable. Debe superar una prueba guardable y repetible con esta secuencia:
+
+1. en Neochori, proteger civiles y perseguir Verde son alternativas reales con coste;
+2. Ward, Hale, Laurent y Torres reaccionan de forma diferenciada y compatible con su conocimiento;
+3. la comunidad cambia cooperación, agravio o miedo;
+4. Verde ejecuta un plan de reorganización aunque el jugador no la persiga;
+5. FIA ofrece información, exige una condición o se distancia;
+6. `IF_B_A01_M04` cambia ruta, apoyo, riesgo o ventana;
+7. una escena posterior recuerda el efecto, no solo la elección;
+8. guardado/carga conserva detonante, estado parcial y consecuencias programadas;
+9. el debriefing informa hechos observables sin exponer pesos;
+10. al menos una relación y una contribución de final conservan trazabilidad de origen.
+
+Se ejecutan dos perfiles principales, una omisión/expiración y una carga entre decisión y recordatorio. Un defecto en cualquier eslabón invalida la demostración narrativa aunque el combate termine correctamente.
+
+### Matriz de pruebas causales
+
+| Área | Preparación | Acción | Resultado verificable | Regresión obligatoria |
+| --- | --- | --- | --- | --- |
+| Agencia de facción | fijar recursos, objetivo y reloj; no aceptar la misión | avanzar tiempo estratégico | la facción actúa, consume recursos y genera noticia/misión transformada | guardar antes de expirar y cargar después |
+| Evolución Verde/FIA | estado próximo a transición con un detonante ausente | aplicar o negar detonante | no cambia prematuramente; cambia una vez al completar condiciones | sustitución de líder y actor regional |
+| Reloj personal | cooperación con señales acumuladas | provocar detonante de rivalidad/ruptura | escena, conducta, misión y mando cambian coherentemente | participante muerto usa sustituto funcional |
+| Consecuencia diferida | registrar arma, promesa, herido o evidencia | alcanzar condición posterior | reaparece el mismo objeto/deuda/hecho con procedencia | carga, rama alternativa y expiración |
+| Escalada | comparar dos actos consecutivos | ejecutar conjunto representativo | aumentan al menos dos ejes y existe recuperación tras pico | dificultad no borra coste moral/político |
+| Revelación | evidencia incompleta y actores con accesos distintos | autenticar y distribuir selectivamente | cada actor conoce/reacciona solo a lo recibido | metaconocimiento y fuente contaminada |
+| Progresión | capacidad formal sin confianza o información | intentar ordenar | obediencia, alternativa y explicación responden a ejes separados | ascenso no concede acceso indebido |
+| Preparación de final | construir y bloquear una familia | cruzar no retorno | advertencia reconoce viabilidad; validador elige resultado coherente | perfiles dorados de las 14 familias |
+| Diálogo | decisión con cuatro perspectivas | interrumpir o perder participante | función reaparece por fallback sin duplicarse | subtítulos, guardado y callback único |
+
+### Trazabilidad mínima de evidencia
+
+Cada caso futuro registra `testId`, versión, fixture, estado inicial, acción, resultado esperado/real, `missionId` o evento causal, variables modificadas, captura/RPT si aplica y defecto relacionado. Las pruebas documentales pueden comprobar contratos y enlaces; solo Arma 3 puede aportar evidencia funcional, de rendimiento o 3DEN.
 
 ## Contenido consolidado
 
@@ -3693,7 +3868,7 @@ Ejemplo:
 
 ```text id="as0rhj"
 Objetivo:
-Validar convoy Katalaki–Neochori.
+Validar convoy Panochori–Neri.
 
 No evaluar:
 Narrativa completa de Argos.
@@ -3724,8 +3899,8 @@ El vertical slice Azul del Acto I no se aprobará hasta cumplir:
 1. Inicio estable.
 2. Nueve sectores registrados.
 3. Desembarco funcional.
-4. Captura de Katalaki.
-5. Administración de Neochori.
+4. Consolidación de Panochori.
+5. Administración de Neri.
 6. Convoy persistente.
 7. Contraataque Verde.
 8. Virtualización y reintegración.
@@ -4933,6 +5108,8 @@ M2 — Campaña persistente mínima
 <a id="src-master-implementation-and-production-plan--27-fase-3-mundo-estratégico-mínimo"></a>
 ### 27. Fase 3 — Mundo estratégico mínimo
 
+> **Estado de ejecución:** configuración, estado, grafo, propietario, persistencia y diagnóstico RPT implementados y probados. Las tareas de 3DEN y la UI visual permanecen abiertas; por ello el hito M3 no está aprobado.
+
 <a id="src-master-implementation-and-production-plan--objetivo-3"></a>
 #### Objetivo
 
@@ -4941,8 +5118,8 @@ Crear el grafo básico del vertical slice.
 <a id="src-master-implementation-and-production-plan--sectores"></a>
 #### Sectores
 
-1. Katalaki.
-2. Neochori.
+1. Neri–Panochori.
+2. primer enlace del corredor occidental.
 3. Stavros–Whiskey.
 4. Lakka.
 5. AAC.
@@ -4950,6 +5127,8 @@ Crear el grafo básico del vertical slice.
 7. Xirolimni–Zaros.
 8. Airport West.
 9. Airport Terminal.
+
+`DEC-009` confirma `ALT_W_AGIOS_DIONYSIOS` como el punto 2 y enlace interior principal M3. Neochori conserva sus funciones civiles/logísticas y una ruta alternativa; la validación física restante (radios, límites, convoy/IA) no se infiere de esta decisión.
 
 <a id="src-master-implementation-and-production-plan--entregables-3"></a>
 #### Entregables
@@ -5276,9 +5455,9 @@ Crear existencias, rutas y convoyes.
 ### 44. Primer flujo logístico
 
 ```text
-Katalaki
+Panochori
 → convoy
-→ Neochori
+→ Neri
 → descarga
 → nueva autonomía
 ```
@@ -5398,8 +5577,8 @@ Implementar el ciclo de misión.
 #### Principales
 
 * desembarco;
-* captura de Katalaki;
-* contacto con Neochori;
+* consolidación de Panochori;
+* contacto con Neri;
 * primer convoy;
 * defensa.
 
@@ -5706,7 +5885,7 @@ M14 — Historia integrada en sistemas
 El vertical slice debe incluir:
 
 1. Nueva campaña Azul.
-2. Desembarco en Katalaki.
+2. Desembarco en Panochori.
 3. Captura.
 4. Neochori.
 5. Municipio.
@@ -6609,7 +6788,7 @@ LOG-014
 EPIC-LOGISTICS
 
 Título:
-Crear convoy estratégico Katalaki–Neochori
+Crear convoy estratégico Panochori–Neri
 
 Prioridad:
 P1
@@ -7195,9 +7374,9 @@ Durante V1:
 Una primera versión interna útil puede limitarse a:
 
 * Azul;
-* Katalaki;
-* Neochori;
-* Stavros;
+* Panochori;
+* Neri;
+* corredor occidental;
 * convoy;
 * captura;
 * guardado;
@@ -7473,32 +7652,32 @@ Islas Fracturadas será técnicamente exitosa cuando:
 <a id="src-master-implementation-and-production-plan--bloque-b-core"></a>
 #### Bloque B — Core
 
-* [ ] Logger.
-* [ ] Error service.
-* [ ] IDs.
-* [ ] Bootstrap.
-* [ ] Config loader.
-* [ ] Estado.
-* [ ] Event bus.
-* [ ] Scheduler.
-* [ ] Transacciones.
-* [ ] Test runner.
+* [x] Logger.
+* [x] Error service.
+* [x] IDs.
+* [x] Bootstrap.
+* [x] Config loader.
+* [x] Estado.
+* [x] Event bus.
+* [x] Scheduler.
+* [x] Transacciones.
+* [x] Test runner.
 
 <a id="src-master-implementation-and-production-plan--bloque-c-persistencia"></a>
 #### Bloque C — Persistencia
 
-* [ ] Storage adapter.
-* [ ] Save envelope.
-* [ ] Snapshot A/B.
-* [ ] Validación.
-* [ ] Migración inicial.
+* [x] Storage adapter.
+* [x] Save envelope.
+* [x] Snapshot A/B.
+* [x] Validación.
+* [x] Migración inicial.
 
 <a id="src-master-implementation-and-production-plan--bloque-d-vertical-slice-3den"></a>
 #### Bloque D — Vertical slice 3DEN
 
 * [ ] Capas.
-* [ ] Katalaki.
-* [ ] Neochori.
+* [ ] Neri–Panochori.
+* [ ] primer enlace del corredor occidental.
 * [ ] Stavros.
 * [ ] Rutas.
 * [ ] Anclajes.
@@ -7522,8 +7701,8 @@ Islas Fracturadas será técnicamente exitosa cuando:
 9. Crear test runner.
 10. Crear primer save.
 11. Cargar save.
-12. Registrar Katalaki.
-13. Mostrar Katalaki en diagnóstico.
+12. Registrar `ALT_W_NERI_PANOCHORI`.
+13. Mostrar Neri–Panochori en diagnóstico.
 14. Cambiar propietario por command.
 15. Guardar.
 16. Cargar y confirmar.
@@ -7551,7 +7730,7 @@ Después de la secuencia anterior:
 2. Materializar una escuadra Verde.
 3. Ejecutar combate.
 4. Registrar bajas.
-5. Capturar Katalaki.
+5. Consolidar Panochori.
 6. Reintegrar.
 7. Guardar.
 8. Cargar.
@@ -7564,8 +7743,8 @@ Este escenario debe aprobarse antes de crear el convoy.
 <a id="src-master-implementation-and-production-plan--158-segundo-escenario-jugable-técnico"></a>
 ### 158. Segundo escenario jugable técnico
 
-1. Crear stock en Katalaki.
-2. Crear demanda en Neochori.
+1. Crear stock en Panochori.
+2. Crear demanda en Neri.
 3. Reservar carga.
 4. Crear convoy.
 5. Materializarlo.
