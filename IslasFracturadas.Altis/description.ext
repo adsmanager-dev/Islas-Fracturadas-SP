@@ -4,6 +4,7 @@ onLoadMission = "Grafo estratégico mínimo pendiente de validación 3DEN";
 missionGroup = "IF_MAIN_CAMPAIGN";
 
 #include "cfg\CfgFunctions.hpp"
+#include "cfg\CfgMusic.hpp"
 #include "config\sectors.hpp"
 
 class Params

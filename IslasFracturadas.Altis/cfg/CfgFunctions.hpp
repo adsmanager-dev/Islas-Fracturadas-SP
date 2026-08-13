@@ -17,6 +17,12 @@ class CfgFunctions
             class log {};
         };
 
+        class Presentation
+        {
+            file = "core\presentation";
+            class musicPlayIntro {};
+        };
+
         class Runtime
         {
             file = "core\runtime";

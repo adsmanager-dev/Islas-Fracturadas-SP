@@ -5,13 +5,16 @@
 private _validIdsResult = [["ALT_W_NERI_PANOCHORI"]] call IF_fnc_validateIds;
 private _invalidIdsResult = [["", "DUPLICATE", "DUPLICATE"]] call IF_fnc_validateIds;
 private _sectorConfig = missionConfigFile >> "IF_Sectors" >> "ALT_W_NERI_PANOCHORI";
+private _introMusicConfig = missionConfigFile >> "CfgMusic" >> "IF_Voces_Partidas_La_Isla_Hablara";
 
 private _checks = [
     ["function.log", !(isNil { IF_fnc_log })],
     ["function.validateIds", !(isNil { IF_fnc_validateIds })],
+    ["function.musicPlayIntro", !(isNil { IF_fnc_musicPlayIntro })],
     ["bootstrap.preInit", missionNamespace getVariable ["IF_bootstrapPreInitComplete", false]],
     ["bootstrap.postInit", missionNamespace getVariable ["IF_bootstrapPostInitComplete", false]],
     ["config.sectorClass", isClass _sectorConfig],
+    ["config.introMusic", isClass _introMusicConfig],
     ["ids.validAccepted", _validIdsResult # 0],
     ["ids.invalidRejected", !(_invalidIdsResult # 0) && {count (_invalidIdsResult # 1) >= 2}]
 ];
