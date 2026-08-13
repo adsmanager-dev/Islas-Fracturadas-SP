@@ -5,6 +5,7 @@ import path from "node:path";
 export const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 export const MAX_MASK_BYTES = 4 * 1024 * 1024;
 export const MAX_SVG_BYTES = 5 * 1024 * 1024;
+export const MAX_AUDIO_BYTES = 300 * 1024 * 1024;
 
 const INPUT_ROOTS = ["art", "asset/reference", "production/media/drafts", "production/media/approved", "IslasFracturadas.Altis"];
 export const MAX_SQF_BYTES = 1 * 1024 * 1024;
@@ -55,7 +56,7 @@ export function safeOutputStem(value: string): string {
   if (!/^[a-z0-9][a-z0-9._-]{0,63}$/i.test(value) || value === "." || value === "..") {
     throw new Error("output_name debe contener 1-64 caracteres alfanuméricos, punto, guion o guion bajo.");
   }
-  return value.replace(/\.(png|jpe?g|webp)$/i, "");
+  return value.replace(/\.(png|jpe?g|webp|svg|mp3|wav|flac|ogg|json)$/i, "");
 }
 
 export function sha256(data: Uint8Array | string): string {
@@ -67,12 +68,14 @@ export class MediaWorkspace {
   readonly draftsRoot: string;
   readonly manifestsRoot: string;
   readonly auditRoot: string;
+  readonly audioTestRoot: string;
 
   private constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
     this.draftsRoot = path.join(projectRoot, "production", "media", "drafts");
     this.manifestsRoot = path.join(projectRoot, "production", "media", "manifests");
     this.auditRoot = path.join(projectRoot, "production", "media", "audit");
+    this.audioTestRoot = path.join(this.draftsRoot, "audio-test");
   }
 
   static async open(projectRoot: string): Promise<MediaWorkspace> {
@@ -136,9 +139,14 @@ export class MediaWorkspace {
     return path.join(realDrafts, `${safeOutputStem(outputName)}.${extension}`);
   }
 
-  async writeNewFile(target: string, data: Uint8Array): Promise<void> {
-    if (data.byteLength === 0 || data.byteLength > MAX_IMAGE_BYTES) {
-      throw new Error(`La salida debe contener entre 1 y ${MAX_IMAGE_BYTES} bytes.`);
+  async audioTestPath(outputName: string, suffix: ".json" | ".png" | ".ogg" | "_quality.json" | "_silences.json" | "_waveform.png" | ".manifest.json"): Promise<string> {
+    const realAudioRoot = await this.ensureStorageDirectory(this.audioTestRoot);
+    return path.join(realAudioRoot, `${safeOutputStem(outputName)}${suffix}`);
+  }
+
+  async writeNewFile(target: string, data: Uint8Array, maxBytes = MAX_IMAGE_BYTES): Promise<void> {
+    if (data.byteLength === 0 || data.byteLength > maxBytes) {
+      throw new Error(`La salida debe contener entre 1 y ${maxBytes} bytes.`);
     }
     await writeFile(target, data, { flag: "wx" });
   }

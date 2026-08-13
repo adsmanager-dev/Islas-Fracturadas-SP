@@ -1,8 +1,8 @@
 # IF Media MCP
 
 Servidor local compartido por Codex y Claude para generar, editar, registrar y preparar assets
-visuales, y para probar SQF y leer RPT sin abrir Arma 3, sin escribir borradores dentro de la
-misión.
+visuales; inspeccionar, analizar y convertir audio; y probar SQF o leer RPT sin abrir Arma 3.
+Los derivados no aprobados se mantienen fuera de la misión.
 
 ## Estado actual
 
@@ -16,6 +16,8 @@ misión.
 - Prueba de SQF sin Arma 3 (`arma_test`): ejecuta un `.sqf` de `IslasFracturadas.Altis/` con `sqfvm` (github.com/SQFvm/runtime, `IF_SQFVM`). Solo lectura del script; nunca sustituye la prueba real en Arma 3/3DEN.
 - Lectura de RPT (`arma_read_rpt`): lee el `.rpt` más reciente (carpeta de perfil de Arma 3 o `IF_ARMA3_RPT_DIR`) y extrae líneas con `error`/`warning`. Solo lectura; no modifica ni genera nada.
 - `hemtt.exe`, `resvg.exe`, `vtracer.exe` y `sqfvm.exe` se detectan automáticamente si existen en `tools/if-media-mcp/bin/` (ignorado por Git) — cada agente/máquina los coloca ahí una vez, sin tocar PATH ni variables globales. `IF_HEMTT`/`IF_RESVG`/`IF_VTRACER`/`IF_SQFVM` siguen disponibles para apuntar a otra ruta.
+- Audio base: `media_probe`, `audio_analyze_quality`, `audio_detect_silence`, `audio_render_waveform`, `audio_convert_arma_ogg` y `audio_validate_runtime` aceptan **MP3 como fuente inicial** además de WAV/FLAC/OGG. Usan `ffmpeg.exe` y `ffprobe.exe` detectados en `tools/if-media-mcp/bin/`, o `IF_FFMPEG`/`IF_FFPROBE`, o PATH, en ese orden. Ninguna herramienta expone una línea de comandos arbitraria.
+- Todas las salidas de audio de esta fase se confinan a `production/media/drafts/audio-test/`. La conversión crea un OGG candidato y un manifiesto técnico con hashes, duraciones, codec, canales, sample rate, perfil y versión de FFmpeg; además elimina tags para evitar spoilers accidentales. `audio_validate_runtime` no permite declarar `PROBADO`: todavía se requiere `CfgMusic`/`playMusic`, escucha y RPT en Arma 3.
 - **`arma_lint` no está implementado todavía**: `hemtt check` exige un `.hemtt/project.toml` con `name`/`prefix` y una estructura de addon (`addons/<prefix>_<nombre>/`), que `IslasFracturadas.Altis/` no tiene por ser una carpeta de misión, no de addon. Añadirlo implicaría reestructurar la fuente de la misión, algo que `AGENTS.md` reserva a petición explícita — no se ha hecho a medias ni de forma silenciosa.
 - Grafo de llamadas SQF (`arma_graph_calls`): construye `CfgFunctions` (vía `armaclass`; deraprifica primero con HEMTT si el archivo está binarizado) y tokeniza cada `.sqf` con un tokenizador propio (`scripts/sqf_graph.py`, distingue strings/comentarios de código real) para listar qué función llama a cuál. Devuelve solo datos (JSON en `production/media/drafts/`), sin renderizar nada visual. Las llamadas dinámicas (a variables o macros, no resolubles estáticamente) se listan aparte en `dynamic_calls`, nunca se ocultan ni se inventan como resueltas — verificado contra el código real del proyecto (246 aristas, coinciden línea por línea con lectura manual) y contra `AI_REFERENCES/A3-Antistasi` como prueba de estrés con estilo de código distinto. También acepta `--mission-sqm` para incluir llamadas hechas desde campos `init` reales de entidades (nunca `CustomAttributes/*/expression`, que es boilerplate del propio editor 3DEN). Requiere `tools/if-media-mcp/.venv` con `armaclass` instalado (`python -m venv .venv && .venv/Scripts/pip install armaclass`) o `IF_GRAPH_PYTHON` apuntando a un intérprete que ya lo tenga.
 - Inspección de `mission.sqm` (`arma_sqm_inspect`): lee la misión (deraprifica con HEMTT si está binarizada) y devuelve un resumen — entidades por tipo/bando, entidades con nombre de variable (buscables por `name_filter`, p. ej. `IF_BLUE_FOB`) y con `init`. **Solo lectura**, verificado contra `mission.sqm` real de Islas Fracturadas y contra `AI_REFERENCES/A3-Antistasi` (1561 entidades reales, conteos correctos).
@@ -46,6 +48,7 @@ El proyecto usa `IF_MEDIA_REMOTE_MODE=disabled`: `media_generate` y `media_edit`
 
 ```text
 production/media/drafts/       borradores ignorados por Git
+production/media/drafts/audio-test/ análisis y OGG candidatos; nunca runtime final
 production/media/manifests/    procedencia versionable
 art/                           fuentes editables
 art/export/                    PNG regenerable ignorado

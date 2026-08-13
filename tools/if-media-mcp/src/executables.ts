@@ -109,6 +109,22 @@ export async function findSqfvm(): Promise<string | null> {
   return await locateOnPath("sqfvm.exe") ?? await locateOnPath("sqfvm");
 }
 
+export async function findFfmpeg(): Promise<string | null> {
+  const fromEnv = await fileExists(process.env.IF_FFMPEG);
+  if (fromEnv) return fromEnv;
+  const vendored = await fileExists(path.join(packageBinDir(), "ffmpeg.exe"));
+  if (vendored) return vendored;
+  return await locateOnPath("ffmpeg.exe") ?? await locateOnPath("ffmpeg");
+}
+
+export async function findFfprobe(): Promise<string | null> {
+  const fromEnv = await fileExists(process.env.IF_FFPROBE);
+  if (fromEnv) return fromEnv;
+  const vendored = await fileExists(path.join(packageBinDir(), "ffprobe.exe"));
+  if (vendored) return vendored;
+  return await locateOnPath("ffprobe.exe") ?? await locateOnPath("ffprobe");
+}
+
 export async function findD2(): Promise<string | null> {
   const fromEnv = await fileExists(process.env.IF_D2);
   if (fromEnv) return fromEnv;

@@ -5,6 +5,8 @@ import { McpServer } from "@modelcontextprotocol/server";
 import OpenAI, { toFile } from "openai";
 import * as z from "zod/v4";
 import {
+  findFfmpeg,
+  findFfprobe,
   findGraphPython,
   findHemtt,
   findImageToPaa,
@@ -19,6 +21,7 @@ import {
   runSqfTest,
   vectorizeWithVtracer
 } from "./executables.js";
+import { AUDIO_PROFILES, AudioService } from "./audio.js";
 import {
   manifestFor,
   MAX_IMAGE_BYTES,
@@ -164,9 +167,11 @@ class ApiRateLimiter {
 export class MediaService {
   readonly workspace: MediaWorkspace;
   private readonly limiter = new ApiRateLimiter();
+  private readonly audio: AudioService;
 
   constructor(workspace: MediaWorkspace) {
     this.workspace = workspace;
+    this.audio = new AudioService(workspace);
   }
 
   private async persistOutput(target: string, data: Buffer, manifest: AssetManifest): Promise<string> {
@@ -180,14 +185,16 @@ export class MediaService {
   }
 
   async status(): Promise<Record<string, unknown>> {
-    const [rasterizer, imageToPaa, hemtt, resvg, vtracer, sqfvm, powerShell] = await Promise.all([
+    const [rasterizer, imageToPaa, hemtt, resvg, vtracer, sqfvm, powerShell, ffmpeg, ffprobe] = await Promise.all([
       findRasterizer(),
       findImageToPaa(),
       findHemtt(),
       findResvg(),
       findVtracer(),
       findSqfvm(),
-      findPowerShell()
+      findPowerShell(),
+      findFfmpeg(),
+      findFfprobe()
     ]);
     const blockers: string[] = [];
     const configuredModel = process.env.IF_MEDIA_OPENAI_MODEL || "gpt-image-2";
@@ -202,6 +209,9 @@ export class MediaService {
     if (!resvg) blockers.push("resvg no encontrado: media_render_preview no disponible hasta instalar resvg (github.com/linebender/resvg) o definir IF_RESVG.");
     if (!vtracer) blockers.push("VTracer no encontrado: media_vectorize_raster no disponible hasta instalar VTracer (github.com/visioncortex/vtracer) o definir IF_VTRACER.");
     if (!sqfvm) blockers.push("SQF-VM no encontrado: arma_test no disponible hasta instalar SQF-VM (github.com/SQFvm/runtime) o definir IF_SQFVM.");
+    const audioBlockers: string[] = [];
+    if (!ffmpeg) audioBlockers.push("ffmpeg no encontrado: añade ffmpeg.exe a tools/if-media-mcp/bin/ o define IF_FFMPEG.");
+    if (!ffprobe) audioBlockers.push("ffprobe no encontrado: añade ffprobe.exe a tools/if-media-mcp/bin/ o define IF_FFPROBE.");
     return {
       project_root: this.workspace.projectRoot,
       drafts_root: this.workspace.relative(this.workspace.draftsRoot),
@@ -220,8 +230,45 @@ export class MediaService {
       vtracer,
       sqfvm,
       powershell: powerShell,
+      ffmpeg,
+      ffprobe,
+      audio_test_root: this.workspace.relative(this.workspace.audioTestRoot),
+      audio_blockers: audioBlockers,
       blockers
     };
+  }
+
+  async probeMedia(input: { input_path: string }) {
+    const probe = await this.audio.probe(input.input_path);
+    await this.workspace.appendAudit("media_probe", "ok", { source_sha256: probe.sha256 });
+    return textResult(probe as unknown as Record<string, unknown>);
+  }
+
+  async analyzeAudioQuality(input: { input_path: string; output_name: string }) {
+    return textResult(await this.audio.analyzeQuality(input));
+  }
+
+  async detectAudioSilence(input: { input_path: string; output_name: string; noise_db: number; min_duration: number }) {
+    return textResult(await this.audio.detectSilence(input));
+  }
+
+  async renderAudioWaveform(input: { input_path: string; output_name: string; width: number; height: number; color: string }) {
+    return textResult(await this.audio.renderWaveform(input));
+  }
+
+  async convertAudioArmaOgg(input: {
+    input_path: string;
+    output_name: string;
+    profile: typeof AUDIO_PROFILES[number];
+    normalize: boolean;
+    start?: number | undefined;
+    duration?: number | undefined;
+  }) {
+    return textResult(await this.audio.convertArmaOgg(input));
+  }
+
+  async validateAudioRuntime(input: { input_path: string; source_path?: string | undefined }) {
+    return textResult(await this.audio.validateRuntime(input));
   }
 
   async generate(input: {
@@ -909,11 +956,91 @@ export function createMediaServer(service: MediaService): McpServer {
   const server = new McpServer({ name: "if-media", version: "0.1.0" }, { capabilities: { tools: {} } });
 
   server.registerTool("media_status", {
-    title: "Estado del entorno visual",
-    description: "Comprueba proveedor, modelo, rasterizador, ImageToPAA y rutas sin exponer secretos.",
+    title: "Estado del entorno multimedia",
+    description: "Comprueba proveedor, modelo, herramientas visuales, FFmpeg/ffprobe y rutas sin exponer secretos.",
     inputSchema: z.object({}),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
   }, async () => textResult(await service.status()));
+
+  server.registerTool("media_probe", {
+    title: "Inspeccionar un archivo de audio",
+    description: "Inspecciona MP3/WAV/FLAC/OGG con ffprobe sin modificarlo: hash, tamaño, contenedor, streams, duración, bitrate, sample rate, canales y tags.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260)
+    }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.probeMedia(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("audio_analyze_quality", {
+    title: "Analizar loudness y nivel de un audio",
+    description: "Mide EBU R128, true peak y volumen mediante FFmpeg; escribe únicamente un JSON en production/media/drafts/audio-test. No altera el original.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260),
+      output_name: z.string().min(1).max(68)
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.analyzeAudioQuality(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("audio_detect_silence", {
+    title: "Detectar silencios de un audio",
+    description: "Detecta intervalos por umbral y duración estructurados; escribe únicamente un JSON en production/media/drafts/audio-test.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260),
+      output_name: z.string().min(1).max(68),
+      noise_db: z.number().min(-80).max(-10).default(-45),
+      min_duration: z.number().min(0.05).max(30).default(0.35)
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.detectAudioSilence(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("audio_render_waveform", {
+    title: "Renderizar waveform de un audio",
+    description: "Renderiza una representación temporal PNG con parámetros estructurados y la guarda únicamente en production/media/drafts/audio-test.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260),
+      output_name: z.string().min(1).max(68),
+      width: z.number().int().min(320).max(4096).default(1600),
+      height: z.number().int().min(128).max(2048).default(480),
+      color: z.string().regex(/^[0-9A-Fa-f]{6}$/).default("8FA5B8")
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.renderAudioWaveform(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("audio_convert_arma_ogg", {
+    title: "Crear candidato OGG para Arma 3",
+    description: "Convierte MP3/WAV/FLAC/OGG a Vorbis/OGG mediante perfiles cerrados, elimina metadatos y escribe el candidato más su manifiesto solo en production/media/drafts/audio-test. No toca runtime.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260),
+      output_name: z.string().min(1).max(68),
+      profile: z.enum(AUDIO_PROFILES).default("music_high"),
+      normalize: z.boolean().default(false),
+      start: z.number().min(0).max(86_400).optional(),
+      duration: z.number().min(0.1).max(86_400).optional()
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.convertAudioArmaOgg(input); } catch (error) { return errorResult(error); }
+  });
+
+  server.registerTool("audio_validate_runtime", {
+    title: "Validar técnicamente un candidato OGG",
+    description: "Comprueba contenedor, Vorbis, canales, sample rate, metadatos y decodificación completa; puede comparar duración con el MP3 fuente. No sustituye CfgMusic/playMusic ni prueba en Arma 3.",
+    inputSchema: z.object({
+      input_path: z.string().min(1).max(260),
+      source_path: z.string().min(1).max(260).optional()
+    }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+  }, async (input) => {
+    try { return await service.validateAudioRuntime(input); } catch (error) { return errorResult(error); }
+  });
 
   server.registerTool("media_generate", {
     title: "Generar borrador visual",
